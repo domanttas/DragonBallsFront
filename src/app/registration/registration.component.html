@@ -1,4 +1,3 @@
-
 <div class="example-container">
   <mat-form-field>
     <input matInput placeholder="Enter your email" [formControl]="email" required>
@@ -11,17 +10,21 @@
   </mat-form-field>
   <br>
   <mat-form-field>
-    <input matInput placeholder="Re-enter your password" [type]="!hide ? 'password' : 'text'" [formControl]="passwordConfirm" required>
+    <input matInput placeholder="Re-enter your password" [type]="!hide ? 'password' : 'text'"
+           [formControl]="passwordConfirm" required>
     <mat-error>{{getPasswordMatchErrorMessage()}}</mat-error>
     <mat-icon matSuffix (click)="hide = !hide">{{!hide ? 'visibility_off' : 'visibility'}}</mat-icon>
   </mat-form-field>
   <br>
   <mat-form-field>
-  <input matInput placeholder="Enter your password"  [type]="!hide1 ? 'password' : 'text'"[formControl]="password" required>
+    <input matInput placeholder="Enter your password" [type]="!hide1 ? 'password' : 'text'" [formControl]="password"
+           required>
     <mat-error *ngIf="password.invalid">{{getPasswordMatchErrorMessage()}}</mat-error>
     <mat-icon matSuffix (click)="hide1 = !hide1">{{!hide1 ? 'visibility_off' : 'visibility'}}</mat-icon>
-</mat-form-field>
+    <mat-error *ngIf="isSuccessful === false">{{errorMessage}}</mat-error>
+  </mat-form-field>
   <br>
   <button mat-raised-button class="sign-up-button" (click)="signUp()">Sign up</button>
+  <br>
 </div>
 

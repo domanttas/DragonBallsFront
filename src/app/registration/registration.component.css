@@ -4,13 +4,18 @@
 }
 
 .example-container > * {
-  width: 35%;
+  width: 30%;
   top: 150px;
 }
+
 input.example-right-align::-webkit-outer-spin-button,
 input.example-right-align::-webkit-inner-spin-button {
   display: none;
 }
 .sign-up-button {
   width: 50px !important;
+}
+
+.mat-raised-button {
+  min-width: 90px;
 }

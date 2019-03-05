@@ -17,6 +17,9 @@ export class RegistrationComponent implements OnInit {
 
   person: Person;
 
+  isSuccessful: boolean;
+  errorMessage: string;
+
   constructor(private service: UserService) {
   }
 
@@ -50,27 +53,29 @@ export class RegistrationComponent implements OnInit {
       return 'Passwords must match';
     }
 
-}
+  }
 
   signUp() {
     this.person = {
-      username : this.username.value(),
-      email : this.email.value(),
-      password : this.password.value()
+      username: this.username.value,
+      email: this.email.value,
+      passwordHash: this.password.value
     };
 
     this.service.createUser(this.person).subscribe(
       response => {
         console.log(response);
+
+        // TODO: Route to home page
       },
       error => {
-        console.log(error.getFailureMessage);
+        // console.log(error.error.message);
+        this.isSuccessful = false;
+        this.errorMessage = error.error.message;
       },
       () => {
         console.log('done');
       }
     );
   }
-
-
 }

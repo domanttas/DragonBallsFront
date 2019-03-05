@@ -11,6 +11,7 @@ import { HomeComponent } from './home/home.component';
 import { RegistrationComponent } from './registration/registration.component';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {MatFormFieldModule, MatIconModule, MatInputModule} from '@angular/material';
+import {HttpClientModule} from '@angular/common/http';
 @NgModule({
   declarations: [
     AppComponent,
@@ -28,7 +29,8 @@ import {MatFormFieldModule, MatIconModule, MatInputModule} from '@angular/materi
     FlexLayoutModule,
     MatFormFieldModule,
     MatInputModule,
-    MatIconModule
+    MatIconModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]

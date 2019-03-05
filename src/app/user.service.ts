@@ -9,7 +9,7 @@ export class UserService {
 
   constructor(private http: HttpClient) { }
 
-  createUser(person: Person) {
-    return this.http.post(`http://localhost:8080/api/user`);
+  createUser(user: Person) {
+    return this.http.post(`http://localhost:8080/api/user`, user);
   }
 }
