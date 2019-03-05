@@ -1,0 +1,16 @@
+.example-container {
+  display: block;
+  text-align: center;
+}
+
+.example-container > * {
+  width: 35%;
+  top: 150px;
+}
+input.example-right-align::-webkit-outer-spin-button,
+input.example-right-align::-webkit-inner-spin-button {
+  display: none;
+}
+.sign-up-button {
+  width: 50px !important;
+}
