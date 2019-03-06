@@ -1,18 +1,30 @@
-<section fxLayout="column wrap">
-  <div fxFlexAlign="center">
-    <p>Welcome to the Material Angular OwnerAccount Application</p>
+<mat-toolbar color="primary">
+  <div class="logo">
+    <a class="navbar-item" href="">
+      <img src="assets/img/logo.png">
+    </a>
   </div>
-
-  <p>In this application we are going to work with:</p>
-  <mat-tab-group>
-    <mat-tab label="Material Components">
-      <p>We are going to use different material components to create nice looking angular app.</p>
-    </mat-tab>
-    <mat-tab label="Consume .NET Core Web API">
-      <p>We will consume our .NET Core application. Basically, we will create complete CRUD client app.</p>
-    </mat-tab>
-    <mat-tab label="Fully responsive navigation menu">
-      <p>By using material components, we are going to create fully responsive navigation menu, with its side-bar as well.</p>
-    </mat-tab>
-  </mat-tab-group>
-</section>
+  <div>
+    <a href="">Home</a>
+    <a href="">Deeds</a>
+    <a href="">Blog</a>
+  </div>
+  <span class="fill-remaining-space"></span>
+  <div>
+    <a href="">Log In</a>
+    <a class="get-started" href="">Get Started</a>
+  </div>
+</mat-toolbar>
+<div class="container">
+  <section id="description">
+    <div>
+      <p class="about-good-deeds">Description about good summer deeds.</p>
+    </div>
+    <div>
+      <button class="learn-more" (click)="scrollToStatistics()">Learn more</button>
+    </div>
+  </section>
+  <section #statistics id="statistics">
+    <div></div>
+  </section>
+</div>
