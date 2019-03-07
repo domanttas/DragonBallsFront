@@ -1,4 +1,5 @@
 import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
+import {UserService} from '../user.service';
 
 @Component({
   selector: 'app-home',
@@ -7,10 +8,15 @@ import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 })
 export class HomeComponent implements OnInit {
 
+  message = 'Bla bla'
+
   @ViewChild('statistics') MyProp: ElementRef;
-  constructor() { }
+  constructor(private user: UserService) { }
 
   ngOnInit() {
+    this.user.getConfirmationData().subscribe(data => {
+      this.message = data.message;
+    });
   }
 
   scrollToStatistics() {

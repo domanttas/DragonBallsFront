@@ -12,7 +12,7 @@
   <span class="fill-remaining-space"></span>
   <div>
     <a routerLink="/login">Log In</a>
-    <a class="get-started" href="">Get Started</a>
+    <a class="get-started" routerLink="/registration">Get Started</a>
   </div>
 </mat-toolbar>
 <div class="container">
@@ -25,6 +25,8 @@
     </div>
   </section>
   <section #statistics id="statistics">
-    <div></div>
+    <div>
+      <p>{{message}}</p>
+    </div>
   </section>
 </div>
