@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {FormControl, Validators} from '@angular/forms';
-import {Person} from '../models/person';
+import {User} from '../models/user';
 import {UserService} from '../user.service';
 
 @Component({
@@ -15,10 +15,7 @@ export class RegistrationComponent implements OnInit {
   password = new FormControl('', [Validators.required, Validators.minLength(7), Validators.maxLength(12)]);
   passwordConfirm = new FormControl('', [Validators.required, Validators.minLength(7), Validators.maxLength(12)]);
   isPasswordMatching: boolean;
-  person: Person;
-
-  isSuccessful: boolean;
-  errorMessage: string;
+  person: User;
 
   constructor(private service: UserService) {
   }
@@ -69,9 +66,9 @@ export class RegistrationComponent implements OnInit {
         // TODO: Route to home page
       },
       error => {
-        // console.log(error.error.message);
-        this.isSuccessful = false;
-        this.errorMessage = error.error.message;
+        // TODO: error displaying
+
+        console.log(error.error.message);
       },
       () => {
         console.log('done');

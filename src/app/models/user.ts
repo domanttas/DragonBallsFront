@@ -1,6 +1,6 @@
-export interface Person {
+export interface User {
   id?: number;
   username: string;
-  email: string;
+  email?: string;
   passwordHash: string;
 }

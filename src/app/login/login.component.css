@@ -34,6 +34,10 @@ input.example-right-align::-webkit-inner-spin-button {
   box-shadow: inset 0 0 0 1px #3899ec;
 }
 
+.backend-error-message {
+  width: 50px;
+}
+
 .mat-raised-button {
   min-width: 90px;
 }

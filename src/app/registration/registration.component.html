@@ -28,7 +28,6 @@
            required>
     <mat-error *ngIf="password.invalid">{{getPasswordMatchErrorMessage()}}</mat-error>
     <mat-icon matSuffix (click)="hide1 = !hide1">{{!hide1 ? 'visibility_off' : 'visibility'}}</mat-icon>
-    <mat-error *ngIf="isSuccessful === false">{{errorMessage}}</mat-error>
   </mat-form-field>
   <br>
   <button mat-raised-button class="sign-up-button" (click)="signUp()">Sign up</button>
