@@ -3,6 +3,7 @@ import {AuthService} from '../auth.service';
 import {Router} from '@angular/router';
 import {FormControl, Validators} from '@angular/forms';
 import {User} from '../models/user';
+import {AuthGuard} from '../auth.guard';
 
 @Component({
   selector: 'app-login',
@@ -18,11 +19,16 @@ export class LoginComponent implements OnInit {
 
   authToken: any;
 
-  constructor(private Auth: AuthService,
-              private router: Router) {
+  constructor(private authService: AuthService,
+              private router: Router,
+              private authGuard: AuthGuard) {
   }
 
   ngOnInit() {
+    if (this.authGuard.canActivate()) {
+      // TODO: implement message that informs user of their logged in status
+      this.router.navigate(['home']);
+    }
   }
 
   loginUser() {
@@ -38,12 +44,14 @@ export class LoginComponent implements OnInit {
       passwordHash: fetchedPassword
     };
 
-    this.Auth.getUserDetails(this.user).subscribe(
+    this.authService.getUserDetails(this.user).subscribe(
       response => {
-        // TODO: handle routing
         this.authToken = response.token;
         console.log(this.authToken);
         localStorage.setItem('token', this.authToken);
+
+        this.authService.setLoggedIn(true);
+
         this.router.navigate(['home']);
       },
       error => {

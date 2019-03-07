@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
-import {HttpClient} from '@angular/common/http';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {User} from './models/user';
+import {Observable} from 'rxjs';
 
 interface MyData {
   message: string;
@@ -26,7 +27,13 @@ export class UserService {
     return this.http.get<MyData>('');
   }
 
-  isLoggedIn() {
-    return this.http.get<IsLoggedIn>('');
+  isLoggedIn(): Observable<any> {
+    const headers = new HttpHeaders();
+    headers.append('Authorization', 'Bearer ' + localStorage.getItem('token'));
+
+    return this.http.get(`http://localhost:8080/api/user/refresh`, {
+      // tslint:disable-next-line:object-literal-shorthand
+      headers: headers
+    });
   }
 }
