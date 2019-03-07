@@ -2,17 +2,21 @@ a {
   color: #459fed;
   text-decoration: none;
 }
+
 .title1 {
   display: block;
   text-align: center !important;
   font-size: 35px;
 }
+
 .title1 > * {
   top: 150px;
 }
+
 .title2 {
   font-size: 20px;
 }
+
 .example-container {
   display: block;
   text-align: center;
@@ -27,6 +31,7 @@ input.example-right-align::-webkit-outer-spin-button,
 input.example-right-align::-webkit-inner-spin-button {
   display: none;
 }
+
 .sign-up-button {
   width: 50px !important;
   color: #3899ec;

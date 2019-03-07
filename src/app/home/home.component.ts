@@ -8,7 +8,9 @@ import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 export class HomeComponent implements OnInit {
 
   @ViewChild('statistics') MyProp: ElementRef;
-  constructor() { }
+
+  constructor() {
+  }
 
   ngOnInit() {
   }
