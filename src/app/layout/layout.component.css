@@ -5,3 +5,47 @@
 .flex-wrapper{
   height: 100%;
 }
+mat-toolbar {
+  position: fixed;
+  top: 0;
+}
+
+.img
+{
+  width: auto;
+  height: auto;
+  float: left;
+
+}
+
+.fill-remaining-space {
+  flex: 1 1 auto;
+}
+
+mat-toolbar a {
+  display: inline-block;
+  padding: 5px 20px;
+  margin: 0 10px;
+  color: white;
+  font-size: 18px;
+  text-decoration: none;
+}
+
+mat-toolbar a:hover {
+  color: #00bcd4;
+}
+.mat-toolbar.mat-primary {
+   background: black;
+   color: #fff;
+ }
+
+.get-started {
+  background: #CFD8DC;
+  color: black !important;
+  border: none;
+  border-radius: 6px;
+}
+
+.get-started:hover {
+  background: #B0BEC5;
+}

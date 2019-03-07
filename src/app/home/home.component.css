@@ -1,58 +1,10 @@
-mat-toolbar {
-  position: fixed;
-  top: 0;
-}
-
-.logo img
-{
-  width: 100px;
-  height: auto;
-  float: left;
-}
-
-.fill-remaining-space {
-  /* This fills the remaining space, by using flexbox.
-     Every toolbar row uses a flexbox row layout. */
-  flex: 1 1 auto;
-}
-
-mat-toolbar a {
-  display: inline-block;
-  padding: 5px 20px;
-  margin: 0 10px;
-  /*color: #4dd0e1;*/
-  color: black;
-  font-family: "Poppins", italic;
-  font-size: 18px;
-  text-decoration: none;
-}
-
-mat-toolbar a:hover {
-  color: #00bcd4;
-}
-
-.mat-toolbar.mat-primary {
-  background: white;
-  color: #fff;
-}
-
-.get-started {
-  background: #8bc34a;
-  color: white !important;
-  border: none;
-  border-radius: 6px;
-}
-
-.get-started:hover {
-  background: #7cb342;
-}
-
 #description
 {
-  background-image: linear-gradient(rgba(0,0,0,0.6),rgba(0,0,0,0.4)), url("/assets/img/home-page-background1.jpeg");
+  background-image: linear-gradient(rgba(0,0,0,0),rgba(0,0,0,0)), url("/assets/img/bgtest.jpg");
   height: 90vh;
   background-size: cover;
   background-position: center;
+  padding-top: 71px;
   justify-content: space-between;
   flex-direction: column;
   display: flex;
@@ -62,18 +14,16 @@ mat-toolbar a:hover {
   margin-top: 50px;
   color: white;
   text-align: center;
-  font-family: "Merriweather", cursive;
   font-size: 18px;
   padding-top: 40px;
 }
 
 .learn-more {
-  color: white;
+  color: black;
   border: none;
   padding: 15px;
-  font-family: "Poppins", italic;
   font-size: 18px;
-  background-color: #8bc34a;
+  background-color: #CFD8DC;
   border-radius: 6px;
   margin-top: 25px;
   margin-left: 700px;
@@ -83,12 +33,12 @@ mat-toolbar a:hover {
 }
 
 .learn-more:hover {
-  background: #7cb342;
+  background: #B0BEC5;
 }
 
 #statistics
 {
-  background-image: linear-gradient(pink, blue);
+  background: white;
   height: 100vh;
   background-size: cover;
   background-position: center;

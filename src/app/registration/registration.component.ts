@@ -13,8 +13,8 @@ export class RegistrationComponent implements OnInit {
   email = new FormControl('', [Validators.required, Validators.email]);
   username = new FormControl('', [Validators.required, Validators.minLength(5)]);
   password = new FormControl('', [Validators.required, Validators.minLength(7), Validators.maxLength(12)]);
-  passwordConfirm = new FormControl('', [Validators.required]);
-
+  passwordConfirm = new FormControl('', [Validators.required, Validators.minLength(7), Validators.maxLength(12)]);
+  isPasswordMatching: boolean;
   person: Person;
 
   isSuccessful: boolean;
@@ -46,14 +46,14 @@ export class RegistrationComponent implements OnInit {
   }
 
   getPasswordMatchErrorMessage() {
-    if (this.passwordConfirm.hasError('required')) {
-      return 'You must enter a value';
-    }
-    if (this.passwordConfirm.value !== this.password.value) {
-      return 'Passwords must match';
-    }
+        if (this.passwordConfirm.hasError('required')) {
+          return 'You must enter a value';
+      }
+        if (this.passwordConfirm.value !== this.password.value) {
+          return 'Passwords must match';
+        }
 
-  }
+      }
 
   signUp() {
     this.person = {

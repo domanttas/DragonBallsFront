@@ -8,10 +8,11 @@ a {
   font-size: 35px;
 }
 .title1 > * {
-  top: 150px;
+  padding-top: 100px
 }
 .title2 {
   font-size: 20px;
+  padding-top: 0px !important;
 }
 .example-container {
   display: block;

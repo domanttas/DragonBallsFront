@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {AuthService} from '../auth.service';
+import {FormControl, Validators} from '@angular/forms';
 
 @Component({
   selector: 'app-login',
@@ -7,6 +8,8 @@ import {AuthService} from '../auth.service';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
+  username = new FormControl();
+  password = new FormControl();
 
   constructor(private Auth: AuthService) { }
 
@@ -20,6 +23,6 @@ export class LoginComponent implements OnInit {
     const password = target.querySelector('#password').value;
     console.log(username, password);
 
-    this.Auth.getUserDetails(username, password);
+    // this.Auth.getUserDetails(username, password);
   }
 }

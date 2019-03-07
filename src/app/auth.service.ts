@@ -9,6 +9,6 @@ export class AuthService {
   constructor() { }
 
   getUserDetails() {
-    //post these details to APIi server return user info if correct
+    // post these details to APIi server return user info if correct
   }
 }

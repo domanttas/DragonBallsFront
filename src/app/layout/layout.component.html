@@ -2,4 +2,21 @@
   <div fxFlex="100%" fxFlex.lt-md="100%" class="flex-wrapper">
     <ng-content></ng-content>
   </div>
+  <mat-toolbar color="primary">
+    <div class="logo">
+      <a class="navbar-item" href="">
+        <img src="assets/img/logo3.png">
+      </a>
+    </div>
+    <div>
+      <a href="">Home</a>
+      <a href="">Deeds</a>
+      <a href="">Blog</a>
+    </div>
+    <span class="fill-remaining-space"></span>
+    <div>
+      <a routerLink="/login">Log In</a>
+      <a class="get-started" routerLink="/registration">Get Started</a>
+    </div>
+  </mat-toolbar>
 </div>
