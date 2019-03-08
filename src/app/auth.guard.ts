@@ -4,6 +4,7 @@ import {Observable} from 'rxjs';
 import {AuthService} from './auth.service';
 import {UserService} from './user.service';
 import {map} from 'rxjs/operators';
+import {resolve} from 'q';
 
 @Injectable({
   providedIn: 'root'
@@ -45,13 +46,14 @@ export class AuthGuard implements CanActivate {
     return this.auth.isLoggedIn;*/
   }
 
-  isUserTokenValid(): any {
-    if (this.auth.getIsLoggedIn()) {
-      return true;
-    }
+  isUserTokenValid(): Promise<boolean> {
+    // if (this.auth.getIsLoggedIn()) {
+    //   return true;
+    // }
+    /*
     this.user.isLoggedIn().subscribe(
       response => {
-        this.auth.setLoggedIn(true);
+        // this.auth.setLoggedIn(true);
         this.authToken = response.token;
 
         localStorage.removeItem('token');
@@ -63,12 +65,26 @@ export class AuthGuard implements CanActivate {
       error => {
         console.log(error.error.message);
         localStorage.removeItem('token');
-        this.auth.setLoggedIn(false);
+        // this.auth.setLoggedIn(false);
         return false;
-      },
-      () => {
-        console.log('refresh completed');
       }
     );
+    */
+    return this.user.isLoggedIn().toPromise().then(
+      res => {
+        this.authToken = res.token;
+
+        localStorage.removeItem('token');
+        localStorage.setItem('token', this.authToken);
+
+        console.log(this.authToken);
+        return true;
+      },
+      error => {
+        console.log(error.error.message);
+        return false;
+      }
+    );
+    // return this.auth.getIsLoggedIn();
   }
 }

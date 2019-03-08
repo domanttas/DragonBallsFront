@@ -28,8 +28,12 @@ export class UserService {
   }
 
   isLoggedIn(): Observable<any> {
-    const headers = new HttpHeaders();
-    headers.append('Authorization', 'Bearer ' + localStorage.getItem('token'));
+    const headers = new HttpHeaders({
+      Authorization: 'Bearer ' + localStorage.getItem('token')
+    });
+    // headers.append('Authorization', 'Bearer ' + localStorage.getItem('token'));
+    console.log(headers.has('Authorization'));
+    console.log(headers.get('Authorization'));
 
     return this.http.get(`http://localhost:8080/api/user/refresh`, {
       // tslint:disable-next-line:object-literal-shorthand
