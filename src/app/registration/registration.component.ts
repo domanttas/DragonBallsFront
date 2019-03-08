@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {FormControl, Validators} from '@angular/forms';
 import {User} from '../models/user';
 import {UserService} from '../user.service';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-registration',
@@ -14,10 +15,9 @@ export class RegistrationComponent implements OnInit {
   username = new FormControl('', [Validators.required, Validators.minLength(5)]);
   password = new FormControl('', [Validators.required, Validators.minLength(7), Validators.maxLength(12)]);
   passwordConfirm = new FormControl('', [Validators.required, Validators.minLength(7), Validators.maxLength(12)]);
-  isPasswordMatching: boolean;
   person: User;
 
-  constructor(private service: UserService) {
+  constructor(private service: UserService, private router: Router) {
   }
 
   ngOnInit() {
@@ -62,12 +62,10 @@ export class RegistrationComponent implements OnInit {
     this.service.createUser(this.person).subscribe(
       response => {
         console.log(response);
-
-        // TODO: Route to home page
+        this.router.navigate(['home']);
       },
       error => {
         // TODO: error displaying
-
         console.log(error.error.message);
       },
       () => {
