@@ -18,58 +18,7 @@ export class AuthGuard implements CanActivate {
               private user: UserService) {
   }
 
-  // If 200 - we get new refreshed token and user is logged in routing to home page, if 400 - user needs to be redirected to log in page
-  canActivate(): Observable<boolean> | boolean {
-    // if (this.auth.getIsLoggedIn()) {
-    //   return true;
-    // }
-    return this.user.isLoggedIn().pipe(map(res => {
-      if (res.status) {
-        console.log(res.token);
-        this.auth.setLoggedIn(true);
-        this.authToken = res.token;
-
-        localStorage.removeItem('token');
-        localStorage.setItem('token', this.authToken);
-
-        console.log(this.authToken);
-        return true;
-      } else {
-        return false;
-      }
-    }));
-
-    /*    if (!this.auth.isLoggedIn) {
-      // we might be logged in
-      this.router.navigate(['login']);
-    }
-    return this.auth.isLoggedIn;*/
-  }
-
   isUserTokenValid(): Promise<boolean> {
-    // if (this.auth.getIsLoggedIn()) {
-    //   return true;
-    // }
-    /*
-    this.user.isLoggedIn().subscribe(
-      response => {
-        // this.auth.setLoggedIn(true);
-        this.authToken = response.token;
-
-        localStorage.removeItem('token');
-        localStorage.setItem('token', this.authToken);
-
-        console.log(this.authToken);
-        return true;
-      },
-      error => {
-        console.log(error.error.message);
-        localStorage.removeItem('token');
-        // this.auth.setLoggedIn(false);
-        return false;
-      }
-    );
-    */
     return this.user.isLoggedIn().toPromise().then(
       res => {
         this.authToken = res.token;
@@ -85,6 +34,20 @@ export class AuthGuard implements CanActivate {
         return false;
       }
     );
-    // return this.auth.getIsLoggedIn();
+  }
+
+  canActivate(
+    route: ActivatedRouteSnapshot,
+    state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
+
+    return this.user.isLoggedIn().toPromise().then(
+      res => {
+        this.router.navigate(['home']);
+        return false;
+      },
+      error => {
+        return true;
+      }
+    );
   }
 }

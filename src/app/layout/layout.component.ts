@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
+import {AuthGuard} from '../auth.guard';
 
 @Component({
   selector: 'app-layout',
@@ -7,9 +8,21 @@ import { Component, OnInit } from '@angular/core';
 })
 export class LayoutComponent implements OnInit {
 
-  constructor() { }
+  isUserLoggedIn: boolean;
 
-  ngOnInit() {
+  constructor(private authGuard: AuthGuard) {
   }
 
+  ngOnInit() {
+    this.authGuard.isUserTokenValid()
+      .then(result => {
+        if (result) {
+          this.isUserLoggedIn = true;
+          console.log(this.isUserLoggedIn);
+        } else {
+          this.isUserLoggedIn = false;
+          console.log(this.isUserLoggedIn);
+        }
+      });
+  }
 }

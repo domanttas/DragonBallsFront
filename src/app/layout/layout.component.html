@@ -15,7 +15,7 @@
     </div>
     <span class="fill-remaining-space"></span>
     <div>
-      <a routerLink="/login">Log In</a>
+      <a *ngIf="!isUserLoggedIn" routerLink="/login">Log In</a>
       <a class="get-started" routerLink="/registration">Get Started</a>
     </div>
   </mat-toolbar>

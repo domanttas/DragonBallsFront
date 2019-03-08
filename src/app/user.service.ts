@@ -31,7 +31,6 @@ export class UserService {
     const headers = new HttpHeaders({
       Authorization: 'Bearer ' + localStorage.getItem('token')
     });
-    // headers.append('Authorization', 'Bearer ' + localStorage.getItem('token'));
     console.log(headers.has('Authorization'));
     console.log(headers.get('Authorization'));
 

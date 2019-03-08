@@ -4,7 +4,6 @@ import {Router} from '@angular/router';
 import {FormControl, Validators} from '@angular/forms';
 import {User} from '../models/user';
 import {AuthGuard} from '../auth.guard';
-import {MatDialog, MatDialogRef} from '@angular/material';
 
 @Component({
   selector: 'app-login',
@@ -28,30 +27,15 @@ export class LoginComponent implements OnInit {
   ngOnInit() {
     /*
     this.authGuard.isUserTokenValid()
-    .then(result => {
-        if(result) {
-        route}
-      })
-
-     */
-    /*
-    if (this.authGuard.isUserTokenValid()) {
-      // TODO: implement message that informs user of their logged in status
-      console.log('asdsdsafsdf');
-      this.router.navigate(['home']);
-    }
-    */
-    this.authGuard.isUserTokenValid()
       .then(result => {
         if (result) {
           this.router.navigate(['home']);
         }
       });
+      */
   }
 
   loginUser() {
-    // event.preventDefault();
-    // const target = event.target;
     const fetchedUsername = this.username.value;
     const fetchedPassword = this.password.value;
 
@@ -82,14 +66,3 @@ export class LoginComponent implements OnInit {
     );
   }
 }
-
-/*
-data => {
-      if (data.success) {
-        this.router.navigate(['home']);
-        this.Auth.setLoggedIn(true);
-      } else {
-        window.alert(data.message);
-      }
-    }
- */
