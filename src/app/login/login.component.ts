@@ -25,7 +25,7 @@ export class LoginComponent implements OnInit {
   }
 
   ngOnInit() {
-    if (this.authGuard.canActivate()) {
+    if (this.authGuard.isUserTokenValid()) {
       // TODO: implement message that informs user of their logged in status
       this.router.navigate(['home']);
     }

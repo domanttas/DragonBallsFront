@@ -14,9 +14,9 @@ export class HomeComponent implements OnInit {
   constructor(private user: UserService) { }
 
   ngOnInit() {
-    this.user.getConfirmationData().subscribe(data => {
-      this.message = data.message;
-    });
+    // this.user.getConfirmationData().subscribe(data => {
+    //   this.message = data.message;
+    // });
   }
 
   scrollToStatistics() {

@@ -44,4 +44,31 @@ export class AuthGuard implements CanActivate {
     }
     return this.auth.isLoggedIn;*/
   }
+
+  isUserTokenValid(): any {
+    if (this.auth.getIsLoggedIn()) {
+      return true;
+    }
+    this.user.isLoggedIn().subscribe(
+      response => {
+        this.auth.setLoggedIn(true);
+        this.authToken = response.token;
+
+        localStorage.removeItem('token');
+        localStorage.setItem('token', this.authToken);
+
+        console.log(this.authToken);
+        return true;
+      },
+      error => {
+        console.log(error.error.message);
+        localStorage.removeItem('token');
+        this.auth.setLoggedIn(false);
+        return false;
+      },
+      () => {
+        console.log('refresh completed');
+      }
+    );
+  }
 }
