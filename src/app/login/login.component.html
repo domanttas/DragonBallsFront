@@ -1,6 +1,6 @@
 <div class="title1">
   <h2>Log in</h2>
-  <p class="title2">New to "Good summer deeds? <a routerLink="/registration">Sign up</a></p>
+  <p class="title2">New to Good summer deeds? <a routerLink="/registration">Sign up</a></p>
 </div>
 <div class="example">
   <mat-form-field>
@@ -8,7 +8,7 @@
   </mat-form-field>
   <br>
   <mat-form-field>
-    <input matInput placeholder="Enter your password" [type]="!hide2 ? 'password' : 'text'" [formControl]="password">
+    <input matInput placeholder="Enter your password" [type]="!hide2 ? 'password' : 'text'" [formControl]="password" required>
     <mat-icon matSuffix (click)="hide2 = !hide2">{{!hide2 ? 'visibility_off' : 'visibility'}}</mat-icon>
   </mat-form-field>
   <br>
