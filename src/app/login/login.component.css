@@ -1,0 +1,42 @@
+::ng-deep :root {
+  --link-to-sign-up-page-text-color: #459fed;
+  --btn-to-log-in-color: #3899ec;
+}
+
+a {
+   color: var(--link-to-sign-up-page-text-color);
+   text-decoration: none;
+ }
+
+.container--for-page-description {
+  display: block;
+  text-align: center;
+  font-size: 2.2rem;
+}
+
+.header--for-log-in-page {
+  padding-top: 6.25rem;
+}
+
+.paragraph--to-question-about-acc {
+  font-size: 1.25rem;
+}
+
+.col-center {
+  float: none;
+  margin: 0 auto;
+}
+
+.mat-form-field {
+  width: 100%;
+}
+
+.button--to-log-in {
+  width: 3.125rem;
+  color: var(--btn-to-log-in-color);
+  box-shadow: inset 0 0 0 0.0625rem var(--btn-to-log-in-color);
+}
+
+.mat-raised-button {
+  min-width: 5.625rem;
+}

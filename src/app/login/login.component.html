@@ -1,0 +1,20 @@
+<div class="container--for-page-description">
+  <h2 class="header--for-log-in-page">Log in</h2>
+  <p class="paragraph--to-question-about-acc">New to "Good summer deeds? <a routerLink="/registration">Sign up</a></p>
+</div>
+<div class="row">
+  <div class="col-md-4 offset-md-4">
+    <mat-form-field>
+    <input matInput placeholder="Enter your username" [formControl]="username" required>
+    </mat-form-field>
+    <br>
+    <mat-form-field>
+      <input matInput placeholder="Enter your password" [type]="!hide2 ? 'password' : 'text'" [formControl]="password">
+      <mat-icon matSuffix (click)="hide2 = !hide2">{{!hide2 ? 'visibility_off' : 'visibility'}}</mat-icon>
+    </mat-form-field>
+    <br>
+    <div class="row">
+      <button mat-raised-button class="button--to-log-in col-md-2 col-center" (click)="LogIn()">Log in</button>
+    </div>
+  </div>
+</div>

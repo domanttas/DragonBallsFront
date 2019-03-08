@@ -1,7 +1,8 @@
-import {Component, OnInit} from '@angular/core';
-import {FormControl, Validators} from '@angular/forms';
-import {Person} from '../models/person';
-import {UserService} from '../user.service';
+import { Component, OnInit } from '@angular/core';
+import { FormControl, Validators } from '@angular/forms';
+import { User } from '../models/user';
+import { UserService } from '../user.service';
+import { Validator } from 'codelyzer/walkerFactory/walkerFn';
 
 @Component({
   selector: 'app-registration',
@@ -13,9 +14,8 @@ export class RegistrationComponent implements OnInit {
   email = new FormControl('', [Validators.required, Validators.email]);
   username = new FormControl('', [Validators.required, Validators.minLength(5)]);
   password = new FormControl('', [Validators.required, Validators.minLength(7), Validators.maxLength(12)]);
-  passwordConfirm = new FormControl('', [Validators.required]);
-
-  person: Person;
+  passwordConfirm = new FormControl('', [Validators.required, Validators.email]);
+  person: User;
 
   isSuccessful: boolean;
   errorMessage: string;
@@ -46,14 +46,11 @@ export class RegistrationComponent implements OnInit {
   }
 
   getPasswordMatchErrorMessage() {
-    if (this.passwordConfirm.hasError('required')) {
-      return 'You must enter a value';
-    }
-    if (this.passwordConfirm.value !== this.password.value) {
-      return 'Passwords must match';
-    }
+        if (this.passwordConfirm.value !== this.password.value) {
+          return 'Passwords must match';
+        }
 
-  }
+      }
 
   signUp() {
     this.person = {
