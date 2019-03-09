@@ -68,6 +68,7 @@ export class RegistrationComponent implements OnInit {
       response => {
         console.log(response);
         this.router.navigate(['home']);
+        this.dialog.openDialog('Registration successful!');
       },
       error => {
         this.dialog.openDialog(this.errorCheck.checkForError(error.error.message));
