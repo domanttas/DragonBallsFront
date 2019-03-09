@@ -1,5 +1,4 @@
-import {Component, Inject, Input, OnInit} from '@angular/core';
-import {FormBuilder, FormGroup} from '@angular/forms';
+import {Component, Inject, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
 
 @Component({
@@ -11,8 +10,7 @@ export class ErrorDialogComponent implements OnInit {
 
   description: string;
 
-  constructor(private fb: FormBuilder,
-              private dialogRef: MatDialogRef<ErrorDialogComponent>,
+  constructor(private dialogRef: MatDialogRef<ErrorDialogComponent>,
               @Inject(MAT_DIALOG_DATA) data) {
     this.description = data.description;
   }
@@ -22,5 +20,4 @@ export class ErrorDialogComponent implements OnInit {
   close() {
     this.dialogRef.close();
   }
-
 }

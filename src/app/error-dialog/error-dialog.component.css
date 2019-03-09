@@ -2,3 +2,7 @@
   float: none;
   margin: 0 auto;
 }
+
+.mat-dialog-title {
+  color: red;
+}

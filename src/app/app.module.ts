@@ -14,6 +14,8 @@ import {MatFormFieldModule, MatIconModule, MatInputModule} from '@angular/materi
 import {HttpClientModule} from '@angular/common/http';
 import { LoginComponent } from './login/login.component';
 import { ErrorDialogComponent } from './error-dialog/error-dialog.component';
+import { DialogComponent } from './dialog/dialog.component';
+import { ErrorCheckComponent } from './error-check/error-check.component';
 
 @NgModule({
   declarations: [
@@ -23,7 +25,9 @@ import { ErrorDialogComponent } from './error-dialog/error-dialog.component';
     RegistrationComponent,
     HomeComponent,
     LoginComponent,
-    ErrorDialogComponent
+    ErrorDialogComponent,
+    DialogComponent,
+    ErrorCheckComponent
   ],
   imports: [
     BrowserModule,
@@ -38,7 +42,7 @@ import { ErrorDialogComponent } from './error-dialog/error-dialog.component';
     MatIconModule,
     HttpClientModule,
   ],
-  providers: [],
+  providers: [DialogComponent, ErrorCheckComponent],
   bootstrap: [AppComponent],
   entryComponents: [ErrorDialogComponent]
 })

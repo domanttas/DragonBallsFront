@@ -4,8 +4,8 @@ import {Router} from '@angular/router';
 import {FormControl, Validators} from '@angular/forms';
 import {User} from '../models/user';
 import {AuthGuard} from '../auth.guard';
-import {MatDialog, MatDialogConfig} from '@angular/material';
-import {ErrorDialogComponent} from '../error-dialog/error-dialog.component';
+import {DialogComponent} from '../dialog/dialog.component';
+import {ErrorCheckComponent} from '../error-check/error-check.component';
 
 @Component({
   selector: 'app-login',
@@ -25,19 +25,11 @@ export class LoginComponent implements OnInit {
   constructor(private authService: AuthService,
               private router: Router,
               private authGuard: AuthGuard,
-              public dialog: MatDialog) {
+              private dialog: DialogComponent,
+              private errorCheck: ErrorCheckComponent) {
   }
 
-  ngOnInit() {
-    /*
-    this.authGuard.isUserTokenValid()
-      .then(result => {
-        if (result) {
-          this.router.navigate(['home']);
-        }
-      });
-      */
-  }
+  ngOnInit() { }
 
   loginUser() {
     const fetchedUsername = this.username.value;
@@ -61,8 +53,7 @@ export class LoginComponent implements OnInit {
         this.router.navigate(['home']);
       },
       error => {
-        // TODO: error displaying
-        this.openDialog();
+        this.dialog.openDialog(this.errorCheck.checkForError(error.error.message));
         console.log(error.error.message);
       },
       () => {
@@ -70,18 +61,4 @@ export class LoginComponent implements OnInit {
       }
     );
   }
-
-   openDialog(): void {
-     const dialogConfig = new MatDialogConfig();
-
-     dialogConfig.disableClose = true;
-     dialogConfig.autoFocus = true;
-
-     dialogConfig.data = {
-       description: 'Incorrect username or password!'
-     };
-
-     this.dialog.open(ErrorDialogComponent, dialogConfig);
-
-   }
 }
