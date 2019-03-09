@@ -18,7 +18,7 @@ export class ErrorCheckComponent implements OnInit {
       'User with this username already exists',
       'User with this email already exists'];
     for (let i = 0; i < ErrorMessages.length; i++) {
-      if (error === i) {
+      if (error === ErrorMessages[i]) {
         return error;
       }
     }

@@ -54,6 +54,10 @@ export class RegistrationComponent implements OnInit {
       }
 
   signUp() {
+    if (!this.username.valid || !this.password.valid || !this.email.valid) {
+      return;
+    }
+
     this.person = {
       username: this.username.value,
       email: this.email.value,
