@@ -39,7 +39,7 @@ export class UserService {
       headers: headers
     });
   }
-  getUserByToken(): any {
+  getUserByToken(): Observable<any> {
     const headers = new HttpHeaders({
       Authorization: 'Bearer ' + localStorage.getItem('token')
     });

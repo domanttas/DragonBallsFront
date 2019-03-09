@@ -33,11 +33,20 @@ export class LayoutComponent implements OnInit {
       });
   }
   getUserByToken() {
+    /*
     this.userService.getUserByToken()
       .then(result => {
        if (result) {
          this.user = result;
        }
       });
+      */
+    this.userService.getUserByToken().toPromise().then(
+      result => {
+        if (result) {
+          this.user = result;
+        }
+      }
+    );
   }
 }
