@@ -39,4 +39,16 @@ export class UserService {
       headers: headers
     });
   }
+  getUserByToken(): any {
+    const headers = new HttpHeaders({
+      Authorization: 'Bearer ' + localStorage.getItem('token')
+    });
+    console.log(headers.has('Authorization'));
+    console.log(headers.get('Authorization'));
+
+    return this.http.get(`http://localhost:8080/api/user`, {
+      // tslint:disable-next-line:object-literal-shorthand
+      headers: headers
+    });
+  }
 }
