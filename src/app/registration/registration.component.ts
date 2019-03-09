@@ -3,6 +3,8 @@ import {FormControl, Validators} from '@angular/forms';
 import {User} from '../models/user';
 import {UserService} from '../user.service';
 import {Router} from '@angular/router';
+import {DialogComponent} from '../dialog/dialog.component';
+import {ErrorCheckComponent} from '../error-check/error-check.component';
 
 @Component({
   selector: 'app-registration',
@@ -17,7 +19,10 @@ export class RegistrationComponent implements OnInit {
   passwordConfirm = new FormControl('', [Validators.required, Validators.email]);
   person: User;
 
-  constructor(private service: UserService, private router: Router) {
+  constructor(private service: UserService,
+              private router: Router,
+              private dialog: DialogComponent,
+              private errorCheck: ErrorCheckComponent) {
   }
 
   ngOnInit() {
@@ -61,7 +66,7 @@ export class RegistrationComponent implements OnInit {
         this.router.navigate(['home']);
       },
       error => {
-        // TODO: error displaying
+        this.dialog.openDialog(this.errorCheck.checkForError(error.error.message));
         console.log(error.error.message);
       },
       () => {
