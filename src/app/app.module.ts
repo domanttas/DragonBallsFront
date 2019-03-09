@@ -13,7 +13,6 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule, MatIconModule, MatInputModule } from '@angular/material';
 import { HttpClientModule } from '@angular/common/http';
 import { LoginComponent } from './login/login.component';
-import { ErrorDialogComponent } from './error-dialog/error-dialog.component';
 
 @NgModule({
   declarations: [
@@ -22,8 +21,7 @@ import { ErrorDialogComponent } from './error-dialog/error-dialog.component';
     HomeComponent,
     RegistrationComponent,
     HomeComponent,
-    LoginComponent,
-    ErrorDialogComponent
+    LoginComponent
   ],
   imports: [
     BrowserModule,
@@ -39,7 +37,6 @@ import { ErrorDialogComponent } from './error-dialog/error-dialog.component';
     HttpClientModule,
   ],
   providers: [],
-  bootstrap: [AppComponent],
-  entryComponents: [ErrorDialogComponent]
+  bootstrap: [AppComponent]
 })
 export class AppModule { }

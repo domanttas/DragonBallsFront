@@ -1,48 +1,42 @@
+::ng-deep :root {
+  --link-to-sign-up-page-text-color: #459fed;
+  --btn-to-log-in-color: #3899ec;
+}
+
 a {
-  color: #459fed;
-  text-decoration: none;
-}
+   color: var(--link-to-sign-up-page-text-color);
+   text-decoration: none;
+ }
 
-.title1 {
-  display: block;
-  text-align: center !important;
-  font-size: 35px;
-}
-
-.title1 > * {
-  padding-top: 100px;
-}
-
-.title2 {
-  font-size: 20px;
-  padding-top: 0px !important;
-}
-
-.example {
+.container--for-page-description {
   display: block;
   text-align: center;
+  font-size: 2.2rem;
 }
 
-.example > * {
-  width: 30%;
-  top: 0px;
+.header--for-log-in-page {
+  padding-top: 6.25rem;
 }
 
-input.example-right-align::-webkit-outer-spin-button,
-input.example-right-align::-webkit-inner-spin-button {
-  display: none;
+.paragraph--to-question-about-acc {
+  font-size: 1.25rem;
 }
 
-.Log-in-button {
-  width: 50px !important;
-  color: #3899ec;
-  box-shadow: inset 0 0 0 1px #3899ec;
+.col-center {
+  float: none;
+  margin: 0 auto;
 }
 
-.backend-error-message {
-  width: 50px;
+.mat-form-field {
+  width: 100%;
+}
+
+.button--to-log-in {
+  width: 3.125rem;
+  color: var(--btn-to-log-in-color);
+  box-shadow: inset 0 0 0 0.0625rem var(--btn-to-log-in-color);
 }
 
 .mat-raised-button {
-  min-width: 90px;
+  min-width: 5.625rem;
 }

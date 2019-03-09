@@ -1,8 +1,8 @@
-import {Component, OnInit} from '@angular/core';
-import {FormControl, Validators} from '@angular/forms';
-import {User} from '../models/user';
-import {UserService} from '../user.service';
-import {Router} from '@angular/router';
+import { Component, OnInit } from '@angular/core';
+import { FormControl, Validators } from '@angular/forms';
+import { User } from '../models/user';
+import { UserService } from '../user.service';
+import { Validator } from 'codelyzer/walkerFactory/walkerFn';
 
 @Component({
   selector: 'app-registration',
@@ -17,7 +17,10 @@ export class RegistrationComponent implements OnInit {
   passwordConfirm = new FormControl('', [Validators.required, Validators.email]);
   person: User;
 
-  constructor(private service: UserService, private router: Router) {
+  isSuccessful: boolean;
+  errorMessage: string;
+
+  constructor(private service: UserService) {
   }
 
   ngOnInit() {
@@ -46,6 +49,7 @@ export class RegistrationComponent implements OnInit {
         if (this.passwordConfirm.value !== this.password.value) {
           return 'Passwords must match';
         }
+
       }
 
   signUp() {
@@ -58,11 +62,13 @@ export class RegistrationComponent implements OnInit {
     this.service.createUser(this.person).subscribe(
       response => {
         console.log(response);
-        this.router.navigate(['home']);
+
+        // TODO: Route to home page
       },
       error => {
-        // TODO: error displaying
-        console.log(error.error.message);
+        // console.log(error.error.message);
+        this.isSuccessful = false;
+        this.errorMessage = error.error.message;
       },
       () => {
         console.log('done');
