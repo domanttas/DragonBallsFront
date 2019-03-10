@@ -1,40 +1,41 @@
 ::ng-deep :root {
-  --link-to-log-in-page-text-color: #459fed;
-  --btn-to-sign-up-color: #3899ec;
+  --link--log-in-page--text-color: #459fed;
+  --sign-up-btn-color: #3899ec;
+  --reg-font-size-const: 1.125rem;
 }
 
 a {
-  color: var(--link-to-log-in-page-text-color);
+  color: var(--link--log-in-page--text-color);
   text-decoration: none;
 }
 
-.container--for-page-description {
+.registration-page--container {
   display: block;
   text-align: center;
   font-size: 2.2rem;
 }
 
-.header--for-registration-page {
+.registration-page--header--title {
   padding-top: 6.25rem;
 }
 
-.paragraph--to-question-about-acc {
-  font-size: 1.25rem;
+.registration-page--header--log-in-paragraph {
+  font-size: var(--reg-font-size-const);
 }
 
 .col-center {
   float: none;
-  margin: 0 0;
+  margin: 0 auto;
 }
 
 .mat-form-field {
   width: 100%;
 }
 
-.button--to-sign-up {
+.registration-page--sign-up--btn {
   width: 3.125rem;
-  color: var(--btn-to-sign-up-color);
-  box-shadow: inset 0 0 0 0.0625rem var(--btn-to-sign-up-color);
+  color: var(--sign-up-btn-color);
+  box-shadow: inset 0 0 0 0.0625rem var(--sign-up-btn-color);
 }
 
 .mat-raised-button {

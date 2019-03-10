@@ -1,14 +1,12 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-
-interface MyData {
-  success: boolean;
-  message: string;
-}
+import {User} from './models/user';
+import {Observable} from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
+
 export class AuthService {
 
   private loggedInStatus = false;
@@ -19,15 +17,7 @@ export class AuthService {
     this.loggedInStatus = value;
   }
 
-  get isLoggedIn() {
-    return this.loggedInStatus;
-  }
-
-  getUserDetails(username, password) {
-    // post these details to APIi server return user info if correct
-    return this.http.post<MyData>('', {
-      username,
-      password
-    });
+  getUserDetails(user: User): Observable<any> {
+    return this.http.post(`http://localhost:8080/api/user/auth`, user);
   }
 }

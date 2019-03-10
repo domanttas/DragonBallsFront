@@ -1,11 +1,11 @@
-<div class="container--for-page-description">
-  <h2 class="header--for-log-in-page">Log in</h2>
-  <p class="paragraph--to-question-about-acc">New to "Good summer deeds? <a routerLink="/registration">Sign up</a></p>
+<div class="log-in-page--container">
+  <h2 class="log-in-page--header--title">Log in</h2>
+  <p class="log-in-page--header--registration-paragraph">New to Good summer deeds? <a routerLink="/registration">Sign up</a></p>
 </div>
 <div class="row">
   <div class="col-md-4 offset-md-4">
     <mat-form-field>
-    <input matInput placeholder="Enter your username" [formControl]="username" required>
+    <input matInput placeholder="Enter your username" [formControl]="username">
     </mat-form-field>
     <br>
     <mat-form-field>
@@ -14,7 +14,7 @@
     </mat-form-field>
     <br>
     <div class="row">
-      <button mat-raised-button class="button--to-log-in col-md-2 col-center" (click)="LogIn()">Log in</button>
+      <button mat-raised-button class="log-in-page--log-in--btn col-md-2 col-center" (click)="loginUser()">Log in</button>
     </div>
   </div>
 </div>
