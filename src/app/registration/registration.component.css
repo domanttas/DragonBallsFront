@@ -1,40 +1,43 @@
+::ng-deep :root {
+  --link--log-in-page--text-color: #459fed;
+  --sign-up-btn-color: #3899ec;
+  --reg-font-size-const: 1.125rem;
+}
+
 a {
-  color: #459fed;
+  color: var(--link--log-in-page--text-color);
   text-decoration: none;
 }
-.title1 {
-  display: block;
-  text-align: center !important;
-  font-size: 35px;
-}
-.title1 > * {
-  padding-top: 100px
-}
-.title2 {
-  font-size: 20px;
-  padding-top: 0px !important;
-}
-.example-container {
+
+.registration-page--container {
   display: block;
   text-align: center;
+  font-size: 2.2rem;
 }
 
-.example-container > * {
-  width: 30%;
-  top: 0px;
+.registration-page--header--title {
+  padding-top: 6.25rem;
 }
 
-input.example-right-align::-webkit-outer-spin-button,
-input.example-right-align::-webkit-inner-spin-button {
-  display: none;
+.registration-page--header--log-in-paragraph {
+  font-size: var(--reg-font-size-const);
 }
-.sign-up-button {
-  width: 50px !important;
-  color: #3899ec;
-  box-shadow: inset 0 0 0 1px #3899ec;
+
+.col-center {
+  float: none;
+  margin: 0 auto;
+}
+
+.mat-form-field {
+  width: 100%;
+}
+
+.registration-page--sign-up--btn {
+  width: 3.125rem;
+  color: var(--sign-up-btn-color);
+  box-shadow: inset 0 0 0 0.0625rem var(--sign-up-btn-color);
 }
 
 .mat-raised-button {
-  min-width: 90px;
+  min-width: 5.625rem;
 }
-

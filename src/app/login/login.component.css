@@ -1,43 +1,43 @@
+::ng-deep :root {
+  --link--sign-up-page--text-color: #459fed;
+  --log-in-btn-color: #3899ec;
+  --reg-font-size-const: 1.125rem;
+}
+
 a {
-  color: #459fed;
-  text-decoration: none;
-}
-.title1 {
-  display: block;
-  text-align: center !important;
-  font-size: 35px;
-}
-.title1 > * {
-  padding-top: 100px;
-}
-.title2 {
-  font-size: 20px;
-  padding-top: 0px !important;
-}
-.example {
+   color: var(--link--sign-up-page--text-color);
+   text-decoration: none;
+ }
+
+.log-in-page--container {
   display: block;
   text-align: center;
+  font-size: 2.2rem;
 }
 
-.example> * {
-  width: 30%;
-  top: 0px;
+.log-in-page--header--title {
+  padding-top: 6.25rem;
 }
 
-input.example-right-align::-webkit-outer-spin-button,
-input.example-right-align::-webkit-inner-spin-button {
-  display: none;
-}
-.Log-in-button {
-  width: 50px !important;
-  color: #3899ec;
-  box-shadow: inset 0 0 0 1px #3899ec;
+.log-in-page--header--registration-paragraph {
+  font-size: var(--reg-font-size-const);
 }
 
-.backend-error-message {
-  width: 50px;
+.col-center {
+  float: none;
+  margin: 0 auto;
+}
+
+.mat-form-field {
+  width: 100%;
+}
+
+.log-in-page--log-in--btn {
+  width: 3.125rem;
+  color: var(--log-in-btn-color);
+  box-shadow: inset 0 0 0 0.0625rem var(--log-in-btn-color);
 }
 
 .mat-raised-button {
-  min-width: 90px;
+  min-width: 5.625rem;
 }

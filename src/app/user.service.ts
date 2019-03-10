@@ -3,15 +3,6 @@ import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {User} from './models/user';
 import {Observable} from 'rxjs';
 
-interface MyData {
-  message: string;
-  success: boolean;
-}
-
-interface IsLoggedIn {
-  status: boolean;
-}
-
 @Injectable({
   providedIn: 'root'
 })
@@ -21,10 +12,6 @@ export class UserService {
 
   createUser(user: User) {
     return this.http.post(`http://localhost:8080/api/user`, user);
-  }
-
-  getConfirmationData() {
-    return this.http.get<MyData>('');
   }
 
   isLoggedIn(): Observable<any> {
@@ -39,6 +26,7 @@ export class UserService {
       headers: headers
     });
   }
+
   getUserByToken(): Observable<any> {
     const headers = new HttpHeaders({
       Authorization: 'Bearer ' + localStorage.getItem('token')

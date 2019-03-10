@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {AuthService} from '../auth.service';
 import {Router} from '@angular/router';
 import {FormControl, Validators} from '@angular/forms';
@@ -20,7 +20,6 @@ export class LoginComponent implements OnInit {
   user: User;
 
   authToken: any;
-  @Input() description: string;
 
   constructor(private authService: AuthService,
               private router: Router,
