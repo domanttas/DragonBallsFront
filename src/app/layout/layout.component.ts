@@ -19,6 +19,7 @@ export class LayoutComponent implements OnInit {
   ngOnInit() {
     this.isUserTokenValid();
     this.getUserByToken();
+    // this.loggedIn = this.authservice.loggedin;
   }
   isUserTokenValid() {
     this.authGuard.isUserTokenValid()

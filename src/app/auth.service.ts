@@ -18,6 +18,6 @@ export class AuthService {
   }
 
   getUserDetails(user: User): Observable<any> {
-    return this.http.post(`http://localhost:8080/api/user/auth`, user);
+    return this.http.post(`https://limitless-eyrie-83209.herokuapp.com/api/user/auth`, user);
   }
 }

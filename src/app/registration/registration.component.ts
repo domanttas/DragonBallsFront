@@ -50,6 +50,8 @@ export class RegistrationComponent implements OnInit {
   getPasswordMatchErrorMessage() {
         if (this.passwordConfirm.value !== this.password.value) {
           return 'Passwords must match';
+        } else {
+          return '';
         }
       }
 

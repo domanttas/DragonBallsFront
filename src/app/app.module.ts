@@ -16,6 +16,7 @@ import { LoginComponent } from './login/login.component';
 import { ErrorDialogComponent } from './error-dialog/error-dialog.component';
 import { DialogComponent } from './dialog/dialog.component';
 import { ErrorCheckComponent } from './error-check/error-check.component';
+import { GoodDeedRegistrationComponent } from './good-deed-registration/good-deed-registration.component';
 
 @NgModule({
   declarations: [
@@ -27,7 +28,8 @@ import { ErrorCheckComponent } from './error-check/error-check.component';
     LoginComponent,
     ErrorDialogComponent,
     DialogComponent,
-    ErrorCheckComponent
+    ErrorCheckComponent,
+    GoodDeedRegistrationComponent
   ],
   imports: [
     BrowserModule,
@@ -40,10 +42,10 @@ import { ErrorCheckComponent } from './error-check/error-check.component';
     MatFormFieldModule,
     MatInputModule,
     MatIconModule,
-    HttpClientModule,
+    HttpClientModule
   ],
   providers: [DialogComponent, ErrorCheckComponent],
   bootstrap: [AppComponent],
-  entryComponents: [ErrorDialogComponent]
+  entryComponents: [ErrorDialogComponent, GoodDeedRegistrationComponent]
 })
 export class AppModule { }

@@ -11,7 +11,7 @@ export class UserService {
   constructor(private http: HttpClient) { }
 
   createUser(user: User) {
-    return this.http.post(`http://localhost:8080/api/user`, user);
+    return this.http.post(`https://limitless-eyrie-83209.herokuapp.com/api/user`, user);
   }
 
   isLoggedIn(): Observable<any> {
@@ -21,7 +21,7 @@ export class UserService {
     console.log(headers.has('Authorization'));
     console.log(headers.get('Authorization'));
 
-    return this.http.get(`http://localhost:8080/api/user/refresh`, {
+    return this.http.get(`https://limitless-eyrie-83209.herokuapp.com/api/user/refresh`, {
       // tslint:disable-next-line:object-literal-shorthand
       headers: headers
     });
@@ -34,7 +34,7 @@ export class UserService {
     console.log(headers.has('Authorization'));
     console.log(headers.get('Authorization'));
 
-    return this.http.get(`http://localhost:8080/api/user`, {
+    return this.http.get(`https://limitless-eyrie-83209.herokuapp.com/api/user`, {
       // tslint:disable-next-line:object-literal-shorthand
       headers: headers
     });

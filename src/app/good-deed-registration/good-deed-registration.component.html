@@ -1,0 +1,74 @@
+<div class="col">
+    <h2 mat-dialog-title class="deed-registration-dialog--header--title col-center">Register a good deed!</h2>
+    <mat-dialog-content >
+      <mat-form-field class="col">
+        <input matInput placeholder="Name *" [formControl]="name">
+        <mat-error *ngIf="name.invalid">{{getNameErrorMessage()}}</mat-error>
+      </mat-form-field>
+      <br>
+      <mat-form-field class="col">
+        <mat-label>Description *</mat-label>
+        <textarea matInput
+                  cdkTextareaAutosize
+                  cdkAutosizeMinRows="2"
+                  cdkAutosizeMaxRows="5" [formControl]="description"></textarea>
+        <mat-error *ngIf="description.invalid">{{getDescriptionErrorMessage()}}</mat-error>
+      </mat-form-field>
+      <br>
+      <mat-form-field class="col-md-6">
+        <mat-select placeholder="Category" required [formControl]="selectedCategory">
+          <mat-option matInput *ngFor="let cat of categories" [value]="cat.value">
+            {{cat.viewValue}}
+          </mat-option>
+        </mat-select>
+        <mat-error *ngIf="selectedCategory.hasError('required')">{{getDropdownErrorMessage()}}</mat-error>
+      </mat-form-field>
+      <mat-form-field class="col-md-6">
+        <input matInput placeholder="Location *" [formControl]="location">
+        <mat-error *ngIf="location.invalid">{{getLocationErrorMessage()}}</mat-error>
+      </mat-form-field>
+      <br>
+      <h2 mat-dialog-title class="col">Contact information:</h2>
+      <mat-form-field class="col-md-4">
+        <input matInput placeholder="Name *" [formControl]="contactName">
+        <mat-error *ngIf="contactName.invalid">{{getContactNameErrorMessage()}}</mat-error>
+      </mat-form-field>
+      <mat-form-field class="col-md-4">
+        <input matInput placeholder="Email *" [formControl]="contactEmail">
+        <mat-error *ngIf="contactEmail.invalid">{{getContactEmailErrorMessage()}}</mat-error>
+      </mat-form-field>
+      <mat-form-field class="col-md-4">
+        <span matPrefix>+370 &nbsp;</span>
+        <input type="tel" matInput placeholder="Telephone *" [formControl]="contactTelephoneNo">
+        <mat-icon matSuffix>local_phone</mat-icon>
+        <mat-error *ngIf="contactTelephoneNo.invalid">{{getContactTelephoneNoErrorMessage()}}</mat-error>
+      </mat-form-field>
+      <br>
+      <mat-form-field class="col-md-6">
+        <mat-select placeholder="Participation" required [formControl]="selectedParticipationType">
+          <mat-option matInput *ngFor="let part of participationChoices" [value]="part.value">
+            {{part.viewValue}}
+          </mat-option>
+        </mat-select>
+        <mat-error *ngIf="selectedParticipationType.hasError('required')">{{getDropdownErrorMessage()}}</mat-error>
+      </mat-form-field>
+      <br>
+      <mat-checkbox class="col" *ngIf="selectedParticipationType.value === 'Participate as solo'" (click)="assignCaptainToggle($event)">Assign me as a captain</mat-checkbox>
+      <div [formGroup]="myForm" *ngIf="selectedParticipationType.value === 'Participate as team'">
+      <mat-form-field class="col-md-4" appearance="outline" *ngFor="let control of myForm.controls | keyvalue">
+        <mat-label>Username</mat-label>
+        <input matInput placeholder="Username" [formControlName]="control.key" [formControl]="addedUser">
+        <mat-icon matSuffix (click)="removeControl(control)">sentiment_very_satisfied</mat-icon>
+        <mat-hint>Enter your teammate username</mat-hint>
+      </mat-form-field>
+      </div>
+      <button mat-stroked-button *ngIf="selectedParticipationType.value === 'Participate as team'" (click)="addControl()">Add one more</button>
+      <br *ngIf="selectedParticipationType.value === 'Participate as team'">
+      <label class="col" *ngIf="selectedParticipationType.value === 'Participate as team'">You will be automatically assigned as a team captain</label>
+    </mat-dialog-content>
+    <mat-dialog-actions>
+      <button class="mat-raised-button" (click)="close()">Close</button>
+      <button mat-raised-button class="deed-registration-dialog--register--btn col-center"(click)="save()">Register</button>
+    </mat-dialog-actions>
+</div>
+
