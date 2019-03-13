@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {AuthGuard} from '../auth.guard';
 import {User} from '../models/user';
 import {UserService} from '../user.service';
+import {AuthService} from '../auth.service';
 
 @Component({
   selector: 'app-layout',
@@ -13,16 +14,16 @@ export class LayoutComponent implements OnInit {
   isUserLoggedIn: boolean;
   user: User;
 
-  constructor(private authGuard: AuthGuard, private userService: UserService) {
+  constructor(private userService: UserService, private authService: AuthService) {
   }
 
   ngOnInit() {
     this.isUserTokenValid();
     this.getUserByToken();
-    // this.loggedIn = this.authservice.loggedin;
   }
+
   isUserTokenValid() {
-    this.authGuard.isUserTokenValid()
+    this.authService.isUserTokenValid()
       .then(result => {
         if (result) {
           this.isUserLoggedIn = true;
@@ -33,6 +34,7 @@ export class LayoutComponent implements OnInit {
         }
       });
   }
+
   getUserByToken() {
     this.userService.getUserByToken().toPromise().then(
       result => {

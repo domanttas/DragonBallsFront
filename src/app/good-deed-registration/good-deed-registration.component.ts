@@ -1,10 +1,12 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
-import { Deed } from '../models/deed';
+import {Deed} from '../models/deed';
 import {DeedService} from '../deed.service';
 import {UserService} from '../user.service';
 import {el} from '@angular/platform-browser/testing/src/browser_util';
+import {DialogComponent} from '../dialog/dialog.component';
+import {ErrorCheckComponent} from '../error-check/error-check.component';
 
 export interface CategoryChoice {
   value: string;
@@ -36,6 +38,7 @@ export class GoodDeedRegistrationComponent implements OnInit {
   deed: Deed;
   username: string;
   isCaptain: boolean;
+  teamLeadId: number;
 
   categories: CategoryChoice[] = [
     {value: 'Help for animals', viewValue: 'Help for animals'},
@@ -52,11 +55,13 @@ export class GoodDeedRegistrationComponent implements OnInit {
 
   public myForm: FormGroup;
 
-  constructor( private deedService: DeedService,
-               private userService: UserService,
-               private formBuilder: FormBuilder,
-               private dialogRef: MatDialogRef<GoodDeedRegistrationComponent>,
-               @Inject(MAT_DIALOG_DATA) data) {
+  constructor(private deedService: DeedService,
+              private userService: UserService,
+              private formBuilder: FormBuilder,
+              private dialog: DialogComponent,
+              private errorCheck: ErrorCheckComponent,
+              private dialogRef: MatDialogRef<GoodDeedRegistrationComponent>,
+              @Inject(MAT_DIALOG_DATA) data) {
 
     this.myForm = formBuilder.group({
       user1: ['', Validators.required]
@@ -83,8 +88,8 @@ export class GoodDeedRegistrationComponent implements OnInit {
 
   getDescriptionErrorMessage() {
     return this.description.hasError('required') ? 'You must enter a value' :
-    this.description.hasError('maxlength') ? 'Maximum of 2000 characters are allowed' :
-      '';
+      this.description.hasError('maxlength') ? 'Maximum of 2000 characters are allowed' :
+        '';
   }
 
   getLocationErrorMessage() {
@@ -114,7 +119,7 @@ export class GoodDeedRegistrationComponent implements OnInit {
       this.contactTelephoneNo.hasError('minlength') ? 'You must enter exactly 8 digits' :
         this.contactTelephoneNo.hasError('maxlength') ? 'You must enter exactly 8 digits' :
           this.contactTelephoneNo.hasError('pattern') ? 'All characters must be digits' :
-          '';
+            '';
   }
 
   save() {
@@ -123,29 +128,37 @@ export class GoodDeedRegistrationComponent implements OnInit {
       console.log(this.name.value, this.description.value, this.selectedCategory.value, this.location.value, this.contactName.value,
         this.contactEmail.value, this.contactTelephoneNo.value, this.selectedParticipationType.value);
       this.deed = {
+        id: null,
+        name: this.name.value,
+        description: this.description.value,
+        location: this.location.value,
+        isClosed: true,
+        teamLeadId: null,
+        category: {
           id: null,
-          name: this.name.value,
-          description: this.description.value,
-          location: this.location.value,
-          isClosed: true,
-          teamLeadId: null,
-          category : {id: null,
-                      name: this.selectedCategory.value},
-          contact : {id: null,
-                    name: this.contactName.value,
-                    email: this.contactEmail.value,
-                    phoneNo: this.contactTelephoneNo.value},
-          participation: this.selectedParticipationType.value,
-          teamUsernames: this.getUsernamesFromDeed()
-        };
+          name: this.selectedCategory.value
+        },
+        contact: {
+          id: null,
+          name: this.contactName.value,
+          email: this.contactEmail.value,
+          phoneNo: this.contactTelephoneNo.value
+        },
+        participation: this.selectedParticipationType.value,
+        teamUsernames: this.getUsernamesFromDeed()
+      };
       this.deedService.createDeed(this.deed).subscribe(
         response => {
-        console.log(response); },
+          console.log(response);
+          this.close();
+          this.dialog.openDialog('Registration successful!');
+        },
         error => {
-          console.log(error.error.message); });
+          this.dialog.openDialog(this.errorCheck.checkForError(error.error.message));
+          console.log(error.error.message);
+        });
 
     } else {
-      // TODO: open dialog with error message
       return;
     }
   }
@@ -174,7 +187,7 @@ export class GoodDeedRegistrationComponent implements OnInit {
   getUsernamesFromDeed(): any {
     if (this.selectedParticipationType.value === 'Not interested') {
       return [];
-    } else if (this.selectedParticipationType.value === 'Participate as solo'){
+    } else if (this.selectedParticipationType.value === 'Participate as solo') {
       let tempUsername = [];
       tempUsername.push(this.getUserByToken());
       return tempUsername;
@@ -186,17 +199,17 @@ export class GoodDeedRegistrationComponent implements OnInit {
     }
   }
 
-/* Another way to get value from dropdown
-  selectCategory(event) {
-    const target = event.source.selected._element.nativeElement;
-    this.selectedCategory = target.innerText.trim();
-    // console.log(this.selectedCategory);
-    // if I will need whole object
-    /!*    const selectedData = {
-      value: event.value,
-      text: target.innerText.trim()
-    };*!/
-  }*/
+  /* Another way to get value from dropdown
+    selectCategory(event) {
+      const target = event.source.selected._element.nativeElement;
+      this.selectedCategory = target.innerText.trim();
+      // console.log(this.selectedCategory);
+      // if I will need whole object
+      /!*    const selectedData = {
+        value: event.value,
+        text: target.innerText.trim()
+      };*!/
+    }*/
 
   close() {
     this.dialogRef.close();
