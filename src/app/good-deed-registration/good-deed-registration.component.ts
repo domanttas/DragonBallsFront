@@ -1,12 +1,12 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
-import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
+import {FormBuilder, FormControl, Validators} from '@angular/forms';
 import {DeedRequest} from '../models/deed-request';
 import {DeedService} from '../deed.service';
 import {UserService} from '../user.service';
-import {el} from '@angular/platform-browser/testing/src/browser_util';
-import {DialogComponent} from '../dialog/dialog.component';
-import {ErrorCheckComponent} from '../error-check/error-check.component';
+import {Participation} from '../models/participation';
+import {computeStyle} from '@angular/animations/browser/src/util';
+import {User} from '../models/user';
 
 export interface CategoryChoice {
   value: string;
@@ -31,14 +31,21 @@ export class GoodDeedRegistrationComponent implements OnInit {
   contactName = new FormControl('', [Validators.required, Validators.maxLength(25)]);
   contactEmail = new FormControl('', [Validators.required, Validators.email]);
   contactTelephoneNo = new FormControl('', [Validators.required, Validators.minLength(8), Validators.maxLength(8),
-    Validators.pattern('[1-9]{8}')]);
+    Validators.pattern('[0-9]{8}')]);
   selectedCategory = new FormControl('');
   selectedParticipationType = new FormControl('');
-  addedUser = new FormControl('');
+
   deed: DeedRequest;
+
   username: string;
+
   isCaptain: boolean;
+
   teamLeadId: number;
+
+  usernameFormControl: FormControl;
+  usernameFormControlList: FormControl[];
+  usernamesFormControl: string[];
 
   categories: CategoryChoice[] = [
     {value: 'Help for animals', viewValue: 'Help for animals'},
@@ -48,36 +55,36 @@ export class GoodDeedRegistrationComponent implements OnInit {
     {value: 'Other', viewValue: 'Other'}
   ];
   participationChoices: ParticipationType[] = [
-    {value: 'Not interested', viewValue: 'Not interested'},
-    {value: 'Participate as solo', viewValue: 'Participate as solo'},
-    {value: 'Participate as team', viewValue: 'Participate as team'}
+    {value: '0', viewValue: 'Not interested'},
+    {value: '1', viewValue: 'Participate as solo'},
+    {value: '2', viewValue: 'Participate as team'}
   ];
-
-  public myForm: FormGroup;
 
   constructor(private deedService: DeedService,
               private userService: UserService,
               private formBuilder: FormBuilder,
-              private dialog: DialogComponent,
-              private errorCheck: ErrorCheckComponent,
               private dialogRef: MatDialogRef<GoodDeedRegistrationComponent>,
               @Inject(MAT_DIALOG_DATA) data) {
-
-    this.myForm = formBuilder.group({
-      user1: ['', Validators.required]
-    });
   }
 
   ngOnInit() {
+    this.usernameFormControl = new FormControl('', Validators.required);
+    this.usernamesFormControl = [];
+    this.usernameFormControlList = [];
+    this.usernameFormControlList.push(this.usernameFormControl);
+    this.getUserByToken();
   }
 
-  addControl() {
-    this.myForm.addControl(this.addedUser.value, new FormControl('', Validators.required));
-    console.log(this.myForm.getRawValue());
+  addNewUsername() {
+    this.usernamesFormControl.push(this.usernameFormControl.value.toString());
+    this.usernameFormControlList.forEach(form => form.disable());
+    this.usernameFormControl = new FormControl('', [Validators.required]);
+    this.usernameFormControlList.push(this.usernameFormControl);
   }
 
-  removeControl(control) {
-    this.myForm.removeControl(control.key);
+  deleteNewUsername(form: FormControl) {
+    this.usernameFormControlList = this.usernameFormControlList.filter(existingForm => existingForm.value !== form.value);
+    this.usernamesFormControl = this.usernamesFormControl.filter(existingUsername => existingUsername !== form.value);
   }
 
   getNameErrorMessage() {
@@ -125,36 +132,38 @@ export class GoodDeedRegistrationComponent implements OnInit {
   save() {
     if (this.selectedCategory.valid && this.selectedParticipationType.valid && this.name.valid && this.description.valid
       && this.location.valid && this.contactName.valid && this.contactEmail.valid && this.contactTelephoneNo.valid) {
-      console.log(this.name.value, this.description.value, this.selectedCategory.value, this.location.value, this.contactName.value,
-        this.contactEmail.value, this.contactTelephoneNo.value, this.selectedParticipationType.value);
+
       this.deed = {
-        id: null,
         name: this.name.value,
         description: this.description.value,
         location: this.location.value,
-        isClosed: true,
-        teamLeadId: null,
+        isClosed: null,
+        teamLeadId: this.teamLeadId,
         category: {
           id: null,
           name: this.selectedCategory.value
         },
         contact: {
-          id: null,
           name: this.contactName.value,
           email: this.contactEmail.value,
-          phoneNo: this.contactTelephoneNo.value
+          phone: '+370' + this.contactTelephoneNo.value
         },
-        participation: this.selectedParticipationType.value,
+        participation: this.parseSelectedParticipation(this.selectedParticipationType.value),
         teamUsernames: this.getUsernamesFromDeed()
       };
+
+      if (this.isCaptain) {
+        this.deed.teamLeadId = this.teamLeadId;
+      }
+
+      console.log(this.deed);
+
       this.deedService.createDeed(this.deed).subscribe(
         response => {
           console.log(response);
           this.close();
-          this.dialog.openDialog('Registration successful!');
         },
         error => {
-          this.dialog.openDialog(this.errorCheck.checkForError(error.error.message));
           console.log(error.error.message);
         });
 
@@ -164,13 +173,15 @@ export class GoodDeedRegistrationComponent implements OnInit {
   }
 
   getUserByToken() {
-    this.userService.getUserByToken().toPromise().then(
-      result => {
+    this.userService.getUserByToken().toPromise()
+      .then( result => {
         if (result) {
           this.username = result.username;
+          this.teamLeadId = result.id;
+        } else {
+          console.log(result);
         }
-      }
-    );
+      });
   }
 
   assignCaptainToggle(event) {
@@ -185,33 +196,41 @@ export class GoodDeedRegistrationComponent implements OnInit {
   }
 
   getUsernamesFromDeed(): any {
-    if (this.selectedParticipationType.value === 'Not interested') {
+    if (this.parseSelectedParticipation(this.selectedParticipationType.value) === Participation.NOT_INTERESTED.toString()) {
       return [];
-    } else if (this.selectedParticipationType.value === 'Participate as solo') {
+    } else if (this.parseSelectedParticipation(this.selectedParticipationType.value) === Participation.PARTICIPATE_AS_SOLO.toString()) {
       let tempUsername = [];
-      tempUsername.push(this.getUserByToken());
+      this.getUserByToken();
+      tempUsername.push(this.username);
+      console.log(tempUsername);
       return tempUsername;
-    } else if (this.selectedParticipationType.value === 'Participate as team') {
+    } else if (this.parseSelectedParticipation(this.selectedParticipationType.value) === Participation.PARTICIPATE_AS_TEAM.toString()) {
       let tempUsernames = [];
-      tempUsernames.push(this.getUserByToken());
-      // TODO: fetch usernames from modal
+
+      this.getUserByToken();
+
+      tempUsernames = this.usernamesFormControl;
+      console.log(tempUsernames);
+      tempUsernames.push(this.username);
+      console.log(tempUsernames);
+
       return tempUsernames;
     }
   }
 
-  /* Another way to get value from dropdown
-    selectCategory(event) {
-      const target = event.source.selected._element.nativeElement;
-      this.selectedCategory = target.innerText.trim();
-      // console.log(this.selectedCategory);
-      // if I will need whole object
-      /!*    const selectedData = {
-        value: event.value,
-        text: target.innerText.trim()
-      };*!/
-    }*/
-
   close() {
     this.dialogRef.close();
+  }
+
+  parseSelectedParticipation(participation: string): string {
+    console.log(participation);
+    console.log(Participation.PARTICIPATE_AS_SOLO.toString());
+    if (participation === Participation.NOT_INTERESTED.toString()) {
+      return Participation.NOT_INTERESTED.toString();
+    } else if (participation === Participation.PARTICIPATE_AS_SOLO.toString()) {
+      return Participation.PARTICIPATE_AS_SOLO.toString();
+    } else if (participation === Participation.PARTICIPATE_AS_TEAM.toString()) {
+      return Participation.PARTICIPATE_AS_TEAM.toString();
+    }
   }
 }

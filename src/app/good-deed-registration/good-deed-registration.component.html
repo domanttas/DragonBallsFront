@@ -39,7 +39,7 @@
       </mat-form-field>
       <mat-form-field class="col-md-4">
         <span matPrefix>+370 &nbsp;</span>
-        <input type="tel" matInput placeholder="Telephone *" [formControl]="contactTelephoneNo">
+        <input matInput [formControl]="contactTelephoneNo">
         <mat-icon matSuffix>local_phone</mat-icon>
         <mat-error *ngIf="contactTelephoneNo.invalid">{{getContactTelephoneNoErrorMessage()}}</mat-error>
       </mat-form-field>
@@ -53,18 +53,17 @@
         <mat-error *ngIf="selectedParticipationType.hasError('required')">{{getDropdownErrorMessage()}}</mat-error>
       </mat-form-field>
       <br>
-      <mat-checkbox class="col" *ngIf="selectedParticipationType.value === 'Participate as solo'" (click)="assignCaptainToggle($event)">Assign me as a captain</mat-checkbox>
-      <div [formGroup]="myForm" *ngIf="selectedParticipationType.value === 'Participate as team'">
-      <mat-form-field class="col-md-4" appearance="outline" *ngFor="let control of myForm.controls | keyvalue">
-        <mat-label>Username</mat-label>
-        <input matInput placeholder="Username" [formControlName]="control.key" [formControl]="addedUser">
-        <mat-icon matSuffix (click)="removeControl(control)">sentiment_very_satisfied</mat-icon>
-        <mat-hint>Enter your teammate username</mat-hint>
-      </mat-form-field>
+      <mat-checkbox class="col" *ngIf="selectedParticipationType.value === '1'" (click)="assignCaptainToggle($event)">Assign me as a captain</mat-checkbox>
+      <div *ngIf="selectedParticipationType.value === '2'">
+        <mat-form-field appearance="outline" *ngFor="let form of usernameFormControlList">
+          <input matInput placeholder="Username" [formControl]="form">
+          <mat-icon matSuffix (click)="deleteNewUsername(form)">delete</mat-icon>
+          <mat-hint>Team member username</mat-hint>
+        </mat-form-field>
       </div>
-      <button mat-stroked-button *ngIf="selectedParticipationType.value === 'Participate as team'" (click)="addControl()">Add one more</button>
+      <button mat-stroked-button *ngIf="selectedParticipationType.value === '2'" (click)="addNewUsername()">Add</button>
       <br *ngIf="selectedParticipationType.value === 'Participate as team'">
-      <label class="col" *ngIf="selectedParticipationType.value === 'Participate as team'">You will be automatically assigned as a team captain</label>
+      <label class="col" *ngIf="selectedParticipationType.value === '2'">You will be automatically assigned as a team captain</label>
     </mat-dialog-content>
     <mat-dialog-actions>
       <button class="mat-raised-button" (click)="close()">Close</button>
