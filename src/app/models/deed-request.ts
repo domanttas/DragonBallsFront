@@ -1,7 +1,7 @@
 import {Category} from './category';
 import {Contact} from './contact';
 
-export interface Deed {
+export interface DeedRequest {
   id?: number;
   name: string;
   description: string;

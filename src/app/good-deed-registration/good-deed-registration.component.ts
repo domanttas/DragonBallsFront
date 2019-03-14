@@ -1,7 +1,7 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
-import {Deed} from '../models/deed';
+import {DeedRequest} from '../models/deed-request';
 import {DeedService} from '../deed.service';
 import {UserService} from '../user.service';
 import {el} from '@angular/platform-browser/testing/src/browser_util';
@@ -35,7 +35,7 @@ export class GoodDeedRegistrationComponent implements OnInit {
   selectedCategory = new FormControl('');
   selectedParticipationType = new FormControl('');
   addedUser = new FormControl('');
-  deed: Deed;
+  deed: DeedRequest;
   username: string;
   isCaptain: boolean;
   teamLeadId: number;

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Deed } from './models/deed';
+import { DeedRequest } from './models/deed-request';
 import {HttpClient} from '@angular/common/http';
 import {User} from './models/user';
 
@@ -10,7 +10,7 @@ export class DeedService {
 
   constructor(private http: HttpClient) { }
 
-  createDeed(deed: Deed) {
+  createDeed(deed: DeedRequest) {
     return this.http.post(`https://limitless-eyrie-83209.herokuapp.com/api/deed`, deed);
   }
 
@@ -22,7 +22,7 @@ export class DeedService {
     return this.http.put(`https://limitless-eyrie-83209.herokuapp.com/api/deed/` + deedId, user);
   }
 
-  updateDeed(deed: Deed) {
+  updateDeed(deed: DeedRequest) {
     return this.http.put(`https://limitless-eyrie-83209.herokuapp.com/api/deed/update`, deed);
   }
 
