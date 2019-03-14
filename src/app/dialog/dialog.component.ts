@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {MatDialog, MatDialogConfig} from '@angular/material';
 import {ErrorDialogComponent} from '../error-dialog/error-dialog.component';
+import {TeamRegistrationComponent} from '../team-registration/team-registration.component';
 
 @Component({
   selector: 'app-dialog',
@@ -25,5 +26,14 @@ export class DialogComponent implements OnInit {
     };
 
     this.dialog.open(ErrorDialogComponent, dialogConfig);
+  }
+
+  openTeamDialog(): void {
+    const dialogConfig = new MatDialogConfig();
+
+    dialogConfig.disableClose = true;
+    dialogConfig.autoFocus = true;
+
+    this.dialog.open(TeamRegistrationComponent, dialogConfig);
   }
 }

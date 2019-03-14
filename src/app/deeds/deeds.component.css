@@ -1,0 +1,92 @@
+::ng-deep :root {
+  --landing-page-btn-bg-color: #CFD8DC;
+  --landing-page-btn-bg-hover-color: #B0BEC5;
+  --reg-font-size: 1.125rem;
+  --deeds-page--mat-divider-color: #3f51b5;
+}
+
+.mat-tab-group {
+  margin-bottom: 48px;
+  width: 75%;
+  visibility: inherit;
+  position: relative;
+  z-index: 0;
+
+}
+.container {
+  position: relative;
+  z-index: 1;
+}
+
+.tab-of-good-deeds {
+  display: flex;
+  margin-top: 2rem;
+  justify-content: center;
+}
+
+.add-deed-btn:hover {
+  background: var(--landing-page-btn-bg-hover-color);
+}
+
+.col-center {
+  float: none;
+  margin: 0 auto;
+}
+
+.deeds-page--add-deed--btn {
+  color: black;
+  border: none;
+  font-size: var(--reg-font-size-const);
+  background-color: var(--landing-page-btn-bg-color);
+  border-radius: 0.375rem;
+  display: flex;
+  margin-top: 5rem;
+  margin-left: 12rem;
+}
+
+.mat-expansion-panel-header-title {
+  flex-grow: 30;
+}
+
+.mat-divider {
+  margin-left: 0rem;
+  margin-right: 12rem;
+  border-color: var(--deeds-page--mat-divider-color);
+  border-top-width: 0.09rem;
+}
+
+.deeds-page--contact--header {
+  font-size: large;
+}
+
+.deeds-page--title--header {
+  font-size: large;
+}
+
+.deeds--page--deed--field {
+  margin-left: 2rem;
+}
+
+.deeds--page--deed--btn {
+  margin: 0.5rem;
+  min-width: 10rem;
+  display: flex;
+  flex-direction: column;
+  color: black;
+  border: none;
+  font-size: var(--reg-font-size-const);
+  background-color: var(--landing-page-btn-bg-color);
+  border-radius: 0.375rem;
+}
+
+.deeds--page--participate--btn-wrapper {
+  display: flex;
+  float: right;
+}
+
+.mat-tab-label-content {
+  font-size: large;
+}
+.mat-expansion-panel-header {
+  background-color: var(--landing-page-btn-bg-color);
+}

@@ -1,0 +1,88 @@
+<button mat-raised-button class="deeds-page--add-deed--btn" (click)="loginUser()">Register New Deed</button>
+<div class="tab-of-good-deeds">
+<mat-tab-group mat-align-tabs="center">
+    <mat-tab class="mat-tab-deeds" label="All good deeds">
+      <mat-accordion *ngFor="let deed of mockList" class="container">
+        <mat-expansion-panel>
+          <mat-expansion-panel-header>
+            <mat-panel-title class="deeds-page--title--header">
+              {{deed.name}}
+            </mat-panel-title>
+            <mat-panel-description>
+              <mat-icon *ngIf="deed.category.name === 'elderly'">supervised_user_circle</mat-icon>
+              <mat-icon *ngIf="deed.category.name === 'kids'">child_care</mat-icon>
+              <mat-icon *ngIf="deed.category.name === 'pets'">pets</mat-icon>
+              <mat-icon *ngIf="deed.category.name === 'environment'">nature_people</mat-icon>
+            </mat-panel-description>
+          </mat-expansion-panel-header>
+          <mat-list>
+            <mat-list-item class="deeds-page--contact--header">Description:</mat-list-item>
+            <mat-list-item class="deeds--page--deed--field">
+              {{deed.description}}
+            </mat-list-item>
+            <mat-divider></mat-divider>
+            <mat-list-item class="deeds-page--contact--header">Location:</mat-list-item>
+            <mat-list-item class="deeds--page--deed--field">
+              {{deed.location}}
+            </mat-list-item>
+            <mat-divider></mat-divider>
+            <mat-list-item class="deeds-page--contact--header">Contact information:</mat-list-item>
+            <mat-list-item class="deeds--page--deed--field">Name: {{deed.contact.name}}</mat-list-item>
+            <mat-list-item class="deeds--page--deed--field">Email: {{deed.contact.email}}</mat-list-item>
+            <mat-list-item class="deeds--page--deed--field">Phone number: {{deed.contact.phone}}</mat-list-item>
+
+            <mat-divider></mat-divider>
+            <mat-list-item class="deeds-page--contact--header">Participants:</mat-list-item>
+            <mat-list-item *ngFor="let user of deed.users" [ngStyle]="{'color': deed.teamLeadId === user.id ? 'red' : 'black'}" class="deeds--page--deed--field">
+              {{user.username}}
+            </mat-list-item>
+
+
+              <div class="deeds--page--participate--btn-wrapper">
+                <button mat-raised-button class="deeds--page--deed--btn" (click)="loginUser()">Participate as solo</button>
+                <button mat-raised-button class="deeds--page--deed--btn" (click)="openTeamRegistration()">Participate as team</button>
+              </div>
+          </mat-list>
+        </mat-expansion-panel>
+      </mat-accordion>
+    </mat-tab>
+  <mat-tab class="mat-tab-deeds" label="Active good deeds">
+    <mat-accordion *ngFor="let deed of mockList" class="container">
+      <mat-expansion-panel *ngIf="!deed.isClosed">
+        <mat-expansion-panel-header class="deeds-display-header">
+          <mat-panel-title class="deeds-page--title--header">
+            {{deed.name}}
+          </mat-panel-title>
+          <mat-panel-description flex-basis="0">
+            <mat-icon *ngIf="deed.category.name === 'elderly'">supervised_user_circle</mat-icon>
+            <mat-icon *ngIf="deed.category.name === 'kids'">child_care</mat-icon>
+            <mat-icon *ngIf="deed.category.name === 'pets'">pets</mat-icon>
+            <mat-icon *ngIf="deed.category.name === 'environment'">nature_people</mat-icon>
+          </mat-panel-description>
+        </mat-expansion-panel-header>
+        <mat-list>
+          <mat-list-item class="deeds-page--contact--header">Description:</mat-list-item>
+          <mat-list-item class="deeds--page--deed--field">
+            {{deed.description}}
+          </mat-list-item>
+          <mat-divider></mat-divider>
+          <mat-list-item class="deeds-page--contact--header">Location:</mat-list-item>
+          <mat-list-item class="deeds--page--deed--field">
+            {{deed.location}}
+          </mat-list-item>
+          <mat-divider></mat-divider>
+          <mat-list-item class="deeds-page--contact--header">Contact information:</mat-list-item>
+          <mat-list-item class="deeds--page--deed--field">Name: {{deed.contact.name}}</mat-list-item>
+          <mat-list-item class="deeds--page--deed--field">Email: {{deed.contact.email}}</mat-list-item>
+          <mat-list-item class="deeds--page--deed--field">Phone number: {{deed.contact.phone}}</mat-list-item>
+          <div class="deeds--page--participate--btn-wrapper">
+            <button mat-raised-button class="deeds--page--deed--btn" (click)="loginUser()">Participate as solo</button>
+            <button mat-raised-button class="deeds--page--deed--btn" (click)="loginUser()">Participate as team</button>
+          </div>
+        </mat-list>
+      </mat-expansion-panel>
+    </mat-accordion>
+  </mat-tab>
+  </mat-tab-group>
+</div>
+<!--description location contact info: name email phone-->
