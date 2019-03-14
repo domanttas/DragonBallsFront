@@ -1,0 +1,20 @@
+<div class="col">
+  <h2 mat-dialog-title>Register Team</h2>
+
+  <mat-dialog-content class="--deeds-page--team-registration-content">
+    <mat-form-field appearance="outline" *ngFor="let form of formControlList">
+      <input matInput placeholder="Username" [formControl]="form">
+      <mat-icon matSuffix (click)="deleteUsername(form)">delete</mat-icon>
+      <mat-hint>Team member username</mat-hint>
+    </mat-form-field>
+  </mat-dialog-content>
+
+  <mat-dialog-actions>
+    <button mat-raised-button (click)="addNewUsername()">
+      Add
+    </button>
+    <button mat-raised-button (click)="cancel()">
+      Cancel
+    </button>
+  </mat-dialog-actions>
+</div>
