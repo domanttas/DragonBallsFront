@@ -20,7 +20,7 @@ export class TeamRegistrationComponent implements OnInit {
   deed: any;
   user: any;
   users: User[];
-  userNameErrorMessage: string;
+  userNameErrorMessage: boolean;
 
   constructor(private dialogRef: MatDialogRef<TeamRegistrationComponent>,
               @Inject(MAT_DIALOG_DATA) data,
@@ -42,11 +42,11 @@ export class TeamRegistrationComponent implements OnInit {
   }
 
   addNewUsername() {
-    this.userNameErrorMessage = '';
-    for (let username of this.userNames) {
-      console.log(username === this.userName.value.toString());
-      if (username === this.userName.value.toString()) {
-        this.userNameErrorMessage = 'User already added';
+    this.userNameErrorMessage = false;
+    for (let user of (this.deed as Deed).users) {
+      console.log((user as User).username === this.userName.value.toString());
+      if ((user as User).username === this.userName.value.toString()) {
+        this.userNameErrorMessage = true;
         return;
       }
     }

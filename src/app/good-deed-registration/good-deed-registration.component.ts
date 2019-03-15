@@ -169,7 +169,7 @@ export class GoodDeedRegistrationComponent implements OnInit {
           this.isCaptain = false;
           this.teamLeadId = null;
           this.close();
-          this.router.navigate(['deeds']);
+          window.location.reload();
         },
         error => {
           this.usernameFormControlList = this.usernameFormControlList.filter(form => {
