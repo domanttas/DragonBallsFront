@@ -4,6 +4,7 @@ import {AuthService} from '../auth.service';
 import {DeedService} from '../deed.service';
 import {Deed} from '../models/deed';
 import {UserService} from '../user.service';
+import {User} from '../models/user';
 
 @Component({
   selector: 'app-deeds',
@@ -123,11 +124,18 @@ export class DeedsComponent implements OnInit {
     );
   }
 
+  isDeedClosed(deed: any) {
+    if (deed.closed) {
+      return true;
+    }
+    return false;
+  }
+
   openTeamRegistration(deed: Deed) {
     if (this.isLoggedIn) {
       this.dialog.openTeamDialog(deed);
     } else {
-      // TODO: display error
+      this.dialog.openDialog('Please log in!');
     }
   }
 
@@ -135,7 +143,7 @@ export class DeedsComponent implements OnInit {
     if (this.isLoggedIn) {
       this.dialog.openDeedRegistrationDialog();
     } else {
-      // TODO: display error
+      this.dialog.openDialog('Please log in!');
     }
   }
 
@@ -151,25 +159,37 @@ export class DeedsComponent implements OnInit {
   }
 
   registerSolo(deed: Deed) {
-    this.userService.getUserByToken().toPromise().then(
-      res => {
-        if (res) {
-          this.user = res;
-          this.deedService.addUserToDeed(this.user, deed.id).toPromise().then(
-            response => {
-              if (response) {
-                console.log(response);
+    if (this.isLoggedIn) {
+      this.userService.getUserByToken().toPromise().then(
+        res => {
+          if (res) {
+            this.user = res;
+            for (let user of deed.users) {
+              console.log(user);
+              if (this.user.username === (user as User).username) {
+                console.log(this.user.username);
+                this.dialog.openDialog('You are already registered to this deed');
+                return;
               }
-            },
-            error => {
-              console.log(error.error.message);
             }
-          );
+            this.deedService.addUserToDeed(this.user, deed.id).toPromise().then(
+              response => {
+                if (response) {
+                  console.log(response);
+                }
+              },
+              error => {
+                console.log(error.error.message);
+              }
+            );
+          }
+        },
+        error => {
+          console.log(error.error.message);
         }
-      },
-      error => {
-        console.log(error.error.message);
-      }
-    );
+      );
+    } else {
+      this.dialog.openDialog('Please log in!');
+    }
   }
 }

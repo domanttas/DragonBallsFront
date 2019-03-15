@@ -5,6 +5,7 @@ import {Deed} from '../models/deed';
 import {UserService} from '../user.service';
 import {DeedService} from '../deed.service';
 import {User} from '../models/user';
+import {error} from 'util';
 
 @Component({
   selector: 'app-team-registration',
@@ -19,6 +20,7 @@ export class TeamRegistrationComponent implements OnInit {
   deed: any;
   user: any;
   users: User[];
+  userNameErrorMessage: string;
 
   constructor(private dialogRef: MatDialogRef<TeamRegistrationComponent>,
               @Inject(MAT_DIALOG_DATA) data,
@@ -40,6 +42,14 @@ export class TeamRegistrationComponent implements OnInit {
   }
 
   addNewUsername() {
+    this.userNameErrorMessage = '';
+    for (let username of this.userNames) {
+      console.log(username === this.userName.value.toString());
+      if (username === this.userName.value.toString()) {
+        this.userNameErrorMessage = 'User already added';
+        return;
+      }
+    }
     this.userNames.push(this.userName.value.toString());
     console.log(this.userNames);
     this.formControlList.forEach(form => form.disable());
@@ -59,7 +69,14 @@ export class TeamRegistrationComponent implements OnInit {
           this.user = response;
           this.deedService.addUserToDeed(this.user, this.deed.id).toPromise().then(
             res => {
-              console.log(res);
+              this.deedService.deactivateDeed(this.deed.id).toPromise().then(
+                resp => {
+                  console.log(resp);
+                }, error => {
+                  console.log(error.error.message);
+                  return;
+                }
+              );
             },
             error => {
               console.log(error.error.message);
@@ -73,7 +90,7 @@ export class TeamRegistrationComponent implements OnInit {
         }
       );
     }
-
+    this.deed.isClosed = true;
     this.close();
   }
 

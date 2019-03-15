@@ -8,6 +8,7 @@ import {Participation} from '../models/participation';
 import {computeStyle} from '@angular/animations/browser/src/util';
 import {User} from '../models/user';
 import {Router} from '@angular/router';
+import {DialogComponent} from '../dialog/dialog.component';
 
 export interface CategoryChoice {
   value: string;
@@ -171,7 +172,18 @@ export class GoodDeedRegistrationComponent implements OnInit {
           this.router.navigate(['deeds']);
         },
         error => {
-          console.log(error.error.message);
+          this.usernameFormControlList = this.usernameFormControlList.filter(form => {
+            for (let username of error.error) {
+              if (username === form.value.toString()) {
+                return false;
+              }
+            }
+            return true;
+          } );
+/*          this.dialog.openDialog('Users with these usernames do not exist: ' + error.error.toString());*/
+          console.log(error.error);
+          console.log(this.usernameFormControlList);
+/*          this.dialog.openDialog(this.errorCheck.checkForError(error.error));*/
         });
 
     } else {
@@ -185,6 +197,7 @@ export class GoodDeedRegistrationComponent implements OnInit {
         if (result) {
           this.username = result.username;
           this.teamLeadId = result.id;
+          return this.teamLeadId;
         } else {
           console.log(result);
         }
@@ -199,7 +212,6 @@ export class GoodDeedRegistrationComponent implements OnInit {
       this.isCaptain = false;
       console.log(this.isCaptain);
     }
-
   }
 
   getUsernamesFromDeed(): any {
@@ -215,7 +227,7 @@ export class GoodDeedRegistrationComponent implements OnInit {
       let tempUsernames = [];
 
       this.getUserByToken();
-
+      this.isCaptain = true;
       tempUsernames = this.usernamesFormControl;
       console.log(tempUsernames);
       tempUsernames.push(this.username);

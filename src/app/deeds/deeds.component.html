@@ -62,11 +62,12 @@
               </div>
             </mat-list-item>
             <div class="deeds--page--participate--btn-wrapper">
-              <button mat-raised-button class="deeds--page--deed--btn" (click)="registerSolo(deed)" *ngIf="!deed.closed">Participate as solo
+              <button *ngIf="isDeedClosed(deed) === false" mat-raised-button class="deeds--page--deed--btn" (click)="registerSolo(deed)">Participate as solo
               </button>
-              <button mat-raised-button class="deeds--page--deed--btn" (click)="openTeamRegistration(deed)" *ngIf="!deed.closed">Participate as
+              <button *ngIf="isDeedClosed(deed) === false" mat-raised-button class="deeds--page--deed--btn" (click)="openTeamRegistration(deed)">Participate as
                 team
               </button>
+              <label *ngIf="isDeedClosed(deed) === true">Deed is closed for registration</label>
             </div>
           </mat-list>
         </mat-expansion-panel>
@@ -74,8 +75,8 @@
     </mat-tab>
     <mat-tab class="mat-tab-deeds" label="Active good deeds">
       <mat-accordion *ngFor="let deed of deeds" class="container">
-        <mat-expansion-panel *ngIf="!deed.closed">
-          <mat-expansion-panel-header class="deeds-display-header">
+        <mat-expansion-panel *ngIf="isDeedClosed(deed) === false">
+          <mat-expansion-panel-header>
             <mat-panel-title class="deeds-page--title--header">
               {{deed.name}}
             </mat-panel-title>
@@ -92,7 +93,7 @@
               <mat-icon>description</mat-icon>
               Description:
             </mat-list-item>
-            <mat-list-item class="deeds--page--deed--field">
+            <mat-list-item id="deeds--page--deed--field">
               {{deed.description}}
             </mat-list-item>
             <mat-divider></mat-divider>
@@ -118,17 +119,27 @@
               <mat-icon>people</mat-icon>
               Participants:
             </mat-list-item>
-            <mat-list-item class="deeds--page--deed--field" *ngIf="deed.teamLeadId !== null">Team lead:</mat-list-item>
+            <!--<mat-list-item class="deeds&#45;&#45;page&#45;&#45;deed&#45;&#45;field" *ngIf="deed.teamLeadId !== null">Team lead:</mat-list-item>-->
             <mat-list-item *ngFor="let user of deed.users"
-
                            class="deeds--page--deed--field">
               {{user.username}}
             </mat-list-item>
+            <mat-list-item class="deeds-page--contact--header" *ngIf="deed.teamLeadId !== null">
+              <mat-icon>stars</mat-icon>
+              Team lead: &nbsp;
+              <div *ngFor="let user of deed.users">
+                <div *ngIf="user.id === deed.teamLeadId" [ngStyle]="{'color' : deed.teamLeadId === user.id ? '#3f51b5' : 'black'}">
+                  {{user.username}}
+                </div>
+              </div>
+            </mat-list-item>
             <div class="deeds--page--participate--btn-wrapper">
-              <button mat-raised-button class="deeds--page--deed--btn" (click)="loginUser()">Participate as solo
+              <button *ngIf="isDeedClosed(deed) === false" mat-raised-button class="deeds--page--deed--btn" (click)="registerSolo(deed)">Participate as solo
               </button>
-              <button mat-raised-button class="deeds--page--deed--btn" (click)="openTeamRegistration()">Participate as team
+              <button *ngIf="isDeedClosed(deed) === false" mat-raised-button class="deeds--page--deed--btn" (click)="openTeamRegistration(deed)">Participate as
+                team
               </button>
+              <label *ngIf="isDeedClosed(deed) === true">Deed is closed for registration</label>
             </div>
           </mat-list>
         </mat-expansion-panel>
