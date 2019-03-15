@@ -38,7 +38,8 @@ export class LoginComponent implements OnInit {
 
     this.user = {
       username: fetchedUsername,
-      passwordHash: fetchedPassword
+      passwordHash: fetchedPassword,
+      teamLead: false
     };
 
     this.authService.getUserDetails(this.user).subscribe(

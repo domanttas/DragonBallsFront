@@ -53,6 +53,7 @@
   margin-right: 12rem;
   border-color: var(--deeds-page--mat-divider-color);
   border-top-width: 0.09rem;
+  margin-top: 1rem;
 }
 
 .deeds-page--contact--header {
@@ -63,8 +64,10 @@
   font-size: large;
 }
 
-.deeds--page--deed--field {
+#deeds--page--deed--field {
   margin-left: 2rem;
+  word-break: break-all;
+  width: 80%;
 }
 
 .deeds--page--deed--btn {
@@ -89,4 +92,8 @@
 }
 .mat-expansion-panel-header {
   background-color: var(--landing-page-btn-bg-color);
+}
+
+.deeds-page-title--status {
+  flex-grow: 15;
 }

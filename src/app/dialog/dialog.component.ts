@@ -38,11 +38,14 @@ export class DialogComponent implements OnInit {
     this.dialog.open(GoodDeedRegistrationComponent, dialogConfig);
   }
 
-  openTeamDialog(): void {
+  openTeamDialog(deed): void {
     const dialogConfig = new MatDialogConfig();
 
     dialogConfig.disableClose = true;
     dialogConfig.autoFocus = true;
+    dialogConfig.data = {
+      goodDeed: deed
+    };
 
     this.dialog.open(TeamRegistrationComponent, dialogConfig);
   }

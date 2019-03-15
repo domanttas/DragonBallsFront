@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {User} from './models/user';
 import {Observable} from 'rxjs';
@@ -8,10 +8,11 @@ import {Observable} from 'rxjs';
 })
 export class UserService {
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {
+  }
 
   createUser(user: User) {
-    return this.http.post(`https://limitless-eyrie-83209.herokuapp.com/api/user`, user);
+    return this.http.post(`https://limitless-eyrie-83209.herokuapp.com/api/user/create`, user);
   }
 
   getUserByToken(): Observable<any> {
@@ -26,4 +27,19 @@ export class UserService {
       headers: headers
     });
   }
+
+  getUserByUsername(username: string): Observable<any> {
+    return this.http.get(`https://limitless-eyrie-83209.herokuapp.com/api/user/` + username);
+  }
+
+  // getUserByUsernameWrapper(username: string): Promise<User> {
+  //   this.getUserByUsername(username).toPromise().then(
+  //     response => {
+  //       return response;
+  //     },
+  //     error => {
+  //       return null;
+  //     }
+  //   );
+  // }
 }

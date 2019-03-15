@@ -7,6 +7,7 @@ import {UserService} from '../user.service';
 import {Participation} from '../models/participation';
 import {computeStyle} from '@angular/animations/browser/src/util';
 import {User} from '../models/user';
+import {Router} from '@angular/router';
 
 export interface CategoryChoice {
   value: string;
@@ -63,6 +64,7 @@ export class GoodDeedRegistrationComponent implements OnInit {
   constructor(private deedService: DeedService,
               private userService: UserService,
               private formBuilder: FormBuilder,
+              private router: Router,
               private dialogRef: MatDialogRef<GoodDeedRegistrationComponent>,
               @Inject(MAT_DIALOG_DATA) data) {
   }
@@ -154,6 +156,8 @@ export class GoodDeedRegistrationComponent implements OnInit {
 
       if (this.isCaptain) {
         this.deed.teamLeadId = this.teamLeadId;
+      } else  {
+        this.deed.teamLeadId = null;
       }
 
       console.log(this.deed);
@@ -161,7 +165,10 @@ export class GoodDeedRegistrationComponent implements OnInit {
       this.deedService.createDeed(this.deed).subscribe(
         response => {
           console.log(response);
+          this.isCaptain = false;
+          this.teamLeadId = null;
           this.close();
+          this.router.navigate(['deeds']);
         },
         error => {
           console.log(error.error.message);

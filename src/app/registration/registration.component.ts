@@ -63,9 +63,24 @@ export class RegistrationComponent implements OnInit {
     this.person = {
       username: this.username.value,
       email: this.email.value,
-      passwordHash: this.password.value
+      passwordHash: this.password.value,
+      teamLead: false
     };
 
+    // this.service.createUser(this.person).subscribe(
+    //   response => {
+    //     console.log(response);
+    //     this.router.navigate(['home']);
+    //     this.dialog.openDialog('Registration successful!');
+    //   },
+    //   error => {
+    //     this.dialog.openDialog(this.errorCheck.checkForError(error.error.message));
+    //     console.log(error.error.message);
+    //   },
+    //   () => {
+    //     console.log('done');
+    //   }
+    // );
     this.service.createUser(this.person).subscribe(
       response => {
         console.log(response);

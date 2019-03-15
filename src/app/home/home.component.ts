@@ -20,8 +20,4 @@ export class HomeComponent implements OnInit {
   scrollToStatistics() {
     this.MyProp.nativeElement.scrollIntoView({behavior: 'smooth', block: 'start', alignToTop: true});
   }
-
-  registerGoodDeed() {
-    this.dialog.openDeedRegistrationDialog();
-  }
 }
