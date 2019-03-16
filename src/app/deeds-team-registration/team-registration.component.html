@@ -7,6 +7,7 @@
       <mat-icon matSuffix (click)="deleteUsername(form)">delete</mat-icon>
       <mat-hint>Team member username</mat-hint>
     </mat-form-field>
+    <label *ngIf="userNameErrorMessage">User already registered</label>
   </mat-dialog-content>
 
   <mat-dialog-actions>

@@ -35,7 +35,7 @@ export class DeedService {
     return this.http.get(`https://limitless-eyrie-83209.herokuapp.com/api/deed`);
   }
 
-  closeDeedById(deedId: number) {
-    return this.http.delete(`https://limitless-eyrie-83209.herokuapp.com/api/deed` + deedId);
+  deactivateDeed(deedId: number) {
+    return this.http.get(`https://limitless-eyrie-83209.herokuapp.com/api/deed/delete/` + deedId);
   }
 }

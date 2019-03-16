@@ -56,7 +56,7 @@ export class RegistrationComponent implements OnInit {
   }
 
   signUp() {
-    if (!this.username.valid || !this.password.valid || !this.email.valid) {
+    if (!this.username.valid || !this.password.valid || !this.email.valid || this.password.value !== this.passwordConfirm.value) {
       return;
     }
 

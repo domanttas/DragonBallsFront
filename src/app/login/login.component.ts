@@ -34,6 +34,11 @@ export class LoginComponent implements OnInit {
     const fetchedUsername = this.username.value;
     const fetchedPassword = this.password.value;
 
+    if (fetchedUsername === '' && fetchedPassword === '') {
+      this.dialog.openDialog('Input fields are empty, use your username and password to log in');
+      return;
+    }
+
     this.user = {
       username: fetchedUsername,
       passwordHash: fetchedPassword,
