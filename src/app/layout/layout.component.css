@@ -54,3 +54,27 @@ mat-toolbar a:hover {
 #link--to-sign-up:hover {
   background: var(--link-on-navbar-to-sign-up-hover-color);
 }
+
+.--layout--user-icon {
+  margin-top: 1.2rem;
+  margin-right: 0.5rem;
+  font-size: 2rem;
+}
+
+.--layout--username {
+  margin-right: 1rem;
+  color: white;
+}
+
+.layout-user {
+  display: flex;
+  flex-direction: row;
+}
+
+.get-started {
+  margin-right: 1rem;
+}
+
+.--layout--log-out {
+  margin-top: 0.9rem;
+}

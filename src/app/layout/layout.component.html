@@ -17,7 +17,11 @@
     <div>
       <a *ngIf="!isUserLoggedIn" routerLink="/login">Log In</a>
       <a *ngIf="!isUserLoggedIn" class = "get-started" routerLink="/registration">Get Started</a>
-      <p *ngIf="isUserLoggedIn">Welcome: {{user.username}}</p>
+      <div *ngIf="isUserLoggedIn" class="layout-user">
+        <mat-icon class="--layout--user-icon">person_outline</mat-icon>
+        <p class="--layout--username">{{user.username}}</p>
+        <a class="--layout--log-out">Log out</a>
+      </div>
     </div>
   </mat-toolbar>
 </div>
