@@ -34,8 +34,6 @@ export class LoginComponent implements OnInit {
     const fetchedUsername = this.username.value;
     const fetchedPassword = this.password.value;
 
-    console.log(fetchedUsername, fetchedPassword);
-
     this.user = {
       username: fetchedUsername,
       passwordHash: fetchedPassword,
@@ -45,7 +43,6 @@ export class LoginComponent implements OnInit {
     this.authService.getUserDetails(this.user).subscribe(
       response => {
         this.authToken = response.token;
-        console.log(this.authToken);
         localStorage.setItem('token', this.authToken);
 
         this.authService.setLoggedIn(true);
@@ -54,10 +51,6 @@ export class LoginComponent implements OnInit {
       },
       error => {
         this.dialog.openDialog(this.errorCheck.checkForError(error.error.message));
-        console.log(error.error.message);
-      },
-      () => {
-        console.log('authentication completed');
       }
     );
   }

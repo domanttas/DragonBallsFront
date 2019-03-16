@@ -48,12 +48,12 @@ export class RegistrationComponent implements OnInit {
   }
 
   getPasswordMatchErrorMessage() {
-        if (this.passwordConfirm.value !== this.password.value) {
-          return 'Passwords must match';
-        } else {
-          return '';
-        }
-      }
+    if (this.passwordConfirm.value !== this.password.value) {
+      return 'Passwords must match';
+    } else {
+      return '';
+    }
+  }
 
   signUp() {
     if (!this.username.valid || !this.password.valid || !this.email.valid) {
@@ -67,32 +67,13 @@ export class RegistrationComponent implements OnInit {
       teamLead: false
     };
 
-    // this.service.createUser(this.person).subscribe(
-    //   response => {
-    //     console.log(response);
-    //     this.router.navigate(['home']);
-    //     this.dialog.openDialog('Registration successful!');
-    //   },
-    //   error => {
-    //     this.dialog.openDialog(this.errorCheck.checkForError(error.error.message));
-    //     console.log(error.error.message);
-    //   },
-    //   () => {
-    //     console.log('done');
-    //   }
-    // );
     this.service.createUser(this.person).subscribe(
       response => {
-        console.log(response);
         this.router.navigate(['home']);
         this.dialog.openDialog('Registration successful!');
       },
       error => {
         this.dialog.openDialog(this.errorCheck.checkForError(error.error.message));
-        console.log(error.error.message);
-      },
-      () => {
-        console.log('done');
       }
     );
   }

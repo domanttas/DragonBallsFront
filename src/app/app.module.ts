@@ -18,7 +18,8 @@ import { ErrorCheckComponent } from './error-check/error-check.component';
 import { GoodDeedRegistrationComponent } from './good-deed-registration/good-deed-registration.component';
 import { DeedsComponent } from './deeds/deeds.component';
 import {MatExpansionModule} from '@angular/material/expansion';
-import { TeamRegistrationComponent } from './team-registration/team-registration.component';
+import { TeamRegistrationComponent } from './deeds-team-registration/team-registration.component';
+import {NgxSpinnerModule} from 'ngx-spinner';
 
 @NgModule({
   declarations: [
@@ -49,7 +50,8 @@ import { TeamRegistrationComponent } from './team-registration/team-registration
     MatIconModule,
     HttpClientModule,
     MatExpansionModule,
-    MatListModule
+    MatListModule,
+    NgxSpinnerModule
   ],
   providers: [DialogComponent, ErrorCheckComponent],
   bootstrap: [AppComponent],

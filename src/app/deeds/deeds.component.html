@@ -1,4 +1,5 @@
 <button mat-raised-button class="deeds-page--add-deed--btn" (click)="addNewDeed()">Register New Deed</button>
+<ngx-spinner type="square-jelly-box"></ngx-spinner>
 <div class="tab-of-good-deeds">
   <mat-tab-group mat-align-tabs="center">
     <mat-tab class="mat-tab-deeds" label="All good deeds">
@@ -47,7 +48,6 @@
               <mat-icon>people</mat-icon>
               Participants:
             </mat-list-item>
-            <!--<mat-list-item class="deeds&#45;&#45;page&#45;&#45;deed&#45;&#45;field" *ngIf="deed.teamLeadId !== null">Team lead:</mat-list-item>-->
             <mat-list-item *ngFor="let user of deed.users"
                            class="deeds--page--deed--field">
               {{user.username}}
@@ -56,15 +56,18 @@
               <mat-icon>stars</mat-icon>
               Team lead: &nbsp;
               <div *ngFor="let user of deed.users">
-                <div *ngIf="user.id === deed.teamLeadId" [ngStyle]="{'color' : deed.teamLeadId === user.id ? '#3f51b5' : 'black'}">
+                <div *ngIf="user.id === deed.teamLeadId"
+                     [ngStyle]="{'color' : deed.teamLeadId === user.id ? '#3f51b5' : 'black'}">
                   {{user.username}}
                 </div>
               </div>
             </mat-list-item>
             <div class="deeds--page--participate--btn-wrapper">
-              <button mat-raised-button class="deeds--page--deed--btn" (click)="registerSolo(deed)" *ngIf="!deed.closed">Participate as solo
+              <button mat-raised-button class="deeds--page--deed--btn" (click)="registerSolo(deed)"
+                      *ngIf="!deed.closed">Participate as solo
               </button>
-              <button mat-raised-button class="deeds--page--deed--btn" (click)="openTeamRegistration(deed)" *ngIf="!deed.closed">Participate as
+              <button mat-raised-button class="deeds--page--deed--btn" (click)="openTeamRegistration(deed)"
+                      *ngIf="!deed.closed">Participate as
                 team
               </button>
             </div>
@@ -125,9 +128,10 @@
               {{user.username}}
             </mat-list-item>
             <div class="deeds--page--participate--btn-wrapper">
-              <button mat-raised-button class="deeds--page--deed--btn" (click)="loginUser()">Participate as solo
+              <button mat-raised-button class="deeds--page--deed--btn" (click)="registerSolo(deed)">Participate as solo
               </button>
-              <button mat-raised-button class="deeds--page--deed--btn" (click)="openTeamRegistration()">Participate as team
+              <button mat-raised-button class="deeds--page--deed--btn" (click)="openTeamRegistration(deed)">Participate
+                as team
               </button>
             </div>
           </mat-list>

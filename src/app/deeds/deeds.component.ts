@@ -4,6 +4,8 @@ import {AuthService} from '../auth.service';
 import {DeedService} from '../deed.service';
 import {Deed} from '../models/deed';
 import {UserService} from '../user.service';
+import {NgxSpinnerService} from 'ngx-spinner';
+import {User} from '../models/user';
 
 @Component({
   selector: 'app-deeds',
@@ -11,7 +13,6 @@ import {UserService} from '../user.service';
   styleUrls: ['./deeds.component.css']
 })
 export class DeedsComponent implements OnInit {
-  mockList = [];
   isLoggedIn: boolean;
   deeds: any;
   user: any;
@@ -19,106 +20,24 @@ export class DeedsComponent implements OnInit {
   constructor(private dialog: DialogComponent,
               private authService: AuthService,
               private deedService: DeedService,
-              private userService: UserService) {
+              private userService: UserService,
+              private spinner: NgxSpinnerService) {
   }
 
   ngOnInit() {
     this.isUserLoggedIn();
     this.getAllDeeds();
-    // this.mockList.push({
-    //   name: 'ergg',
-    //   category: {
-    //     name: 'kids'
-    //   },
-    //   teamLeadId: 2,
-    //   location: 'freerf',
-    //   description: 'regejjjj',
-    //   isClosed: false,
-    //   contact: {
-    //     name: 'labas',
-    //     email: 'sdvksv@sv',
-    //     phone: '+37067398566'
-    //   },
-    //   participation: 'team',
-    //   users: [{
-    //     id: 2,
-    //     username: 'testusername',
-    //     email: 'sfsdfdsfds',
-    //     passwordHash: 'sadfsfdvfdvwvrvwevwv'
-    //   },
-    //     {
-    //       id: 1,
-    //       username: 'testusername',
-    //       email: 'sfsdfdsfds',
-    //       passwordHash: 'sadfsfdvfdvwvrvwevwv'
-    //     }]
-    // });
-    // this.mockList.push({
-    //   name: 't0000t',
-    //   category: {
-    //     name: 'kids'
-    //   },
-    //   teamLeadId: 2,
-    //   location: 'freerf',
-    //   description: 'rege',
-    //   isClosed: true,
-    //   contact: {
-    //     name: 'labas',
-    //     email: 'sdvksv@sv',
-    //     phone: '+37067398566'
-    //   },
-    //   participation: 'solo',
-    //   users: [{
-    //     id: 2,
-    //     username: 'testusername',
-    //     email: 'sfsdfdsfds',
-    //     passwordHash: 'sadfsfdvfdvwvrvwevwv'
-    //   }]
-    // });
-    // this.mockList.push({
-    //   name: 'trg11111rgt',
-    //   category: {
-    //     name: 'kids'
-    //   },
-    //   teamLeadId: null,
-    //   location: 'freerf',
-    //   description: 'rege',
-    //   isClosed: false,
-    //   contact: {
-    //     name: 'labas',
-    //     email: 'sdvksv@sv',
-    //     phone: '+37067398566'
-    //   },
-    //   participation: 'solo',
-    //   users: [{
-    //     id: 2,
-    //     username: 'testusername',
-    //     email: 'sfsdfdsfds',
-    //     passwordHash: 'sadfsfdvfdvwvrvwevwv'
-    //   }]
-    // });
-  }
-
-  sortUsersArray(deed) {
-    let teamLead = deed.users.filter(user => user.id === deed.teamLeadId);
-    deed.users = deed.users.filter(user => user.id !== deed.teamLeadId);
-    deed.users.unshift(teamLead);
-    return deed;
   }
 
   getAllDeeds() {
+    this.spinner.show();
     this.deedService.getAllDeeds().subscribe(
       response => {
-        console.log(response);
         this.deeds = response;
-        // this.deeds = this.deeds.forEach(deed => deed = this.sortUsersArray(deed));
-        // for (let deed of this.deeds) {
-        //   deed = this.sortUsersArray(deed);
-        // }
-        console.log(this.deeds);
+        this.hideSpinner();
       },
       error => {
-        // TODO: display error
+        this.spinner.hide();
       }
     );
   }
@@ -127,7 +46,7 @@ export class DeedsComponent implements OnInit {
     if (this.isLoggedIn) {
       this.dialog.openTeamDialog(deed);
     } else {
-      // TODO: display error
+      this.dialog.openDialog('Please log in!');
     }
   }
 
@@ -135,7 +54,7 @@ export class DeedsComponent implements OnInit {
     if (this.isLoggedIn) {
       this.dialog.openDeedRegistrationDialog();
     } else {
-      // TODO: display error
+      this.dialog.openDialog('Please log in!');
     }
   }
 
@@ -151,25 +70,43 @@ export class DeedsComponent implements OnInit {
   }
 
   registerSolo(deed: Deed) {
+    if (!this.isLoggedIn) {
+      this.dialog.openDialog('Please log in!');
+      return;
+    }
+    this.spinner.show();
     this.userService.getUserByToken().toPromise().then(
       res => {
         if (res) {
           this.user = res;
+          for (let user of deed.users) {
+            if ((user as User).username === this.user.username) {
+              this.hideSpinner();
+              this.dialog.openDialog('You are already registered to this deed!');
+              return;
+            }
+          }
           this.deedService.addUserToDeed(this.user, deed.id).toPromise().then(
             response => {
               if (response) {
-                console.log(response);
               }
             },
             error => {
-              console.log(error.error.message);
+              this.dialog.openDialog(error.error.message);
             }
           );
         }
       },
       error => {
-        console.log(error.error.message);
+        this.dialog.openDialog(error.error.message);
       }
     );
+    this.hideSpinner();
+  }
+
+  hideSpinner() {
+    setTimeout(() => {
+      this.spinner.hide();
+    }, 500);
   }
 }

@@ -8,6 +8,7 @@ import {Participation} from '../models/participation';
 import {computeStyle} from '@angular/animations/browser/src/util';
 import {User} from '../models/user';
 import {Router} from '@angular/router';
+import {DialogComponent} from '../dialog/dialog.component';
 
 export interface CategoryChoice {
   value: string;
@@ -47,6 +48,9 @@ export class GoodDeedRegistrationComponent implements OnInit {
   usernameFormControl: FormControl;
   usernameFormControlList: FormControl[];
   usernamesFormControl: string[];
+
+  isErrorPresent: boolean;
+  errorMessage: string;
 
   categories: CategoryChoice[] = [
     {value: 'Help for animals', viewValue: 'Help for animals'},
@@ -156,24 +160,24 @@ export class GoodDeedRegistrationComponent implements OnInit {
 
       if (this.isCaptain) {
         this.deed.teamLeadId = this.teamLeadId;
-      } else  {
+      } else {
         this.deed.teamLeadId = null;
       }
 
-      console.log(this.deed);
-
       this.deedService.createDeed(this.deed).subscribe(
         response => {
-          console.log(response);
           this.isCaptain = false;
           this.teamLeadId = null;
           this.close();
           this.router.navigate(['deeds']);
         },
         error => {
-          console.log(error.error.message);
+          if (Participation.PARTICIPATE_AS_TEAM.toString() === this.parseSelectedParticipation(this.deed.participation)) {
+            this.setErrorMessage('Incorrect usernames: ' + this.parseErrorUsernames(error.error));
+          } else {
+            this.setErrorMessage(error.error.message);
+          }
         });
-
     } else {
       return;
     }
@@ -181,12 +185,10 @@ export class GoodDeedRegistrationComponent implements OnInit {
 
   getUserByToken() {
     this.userService.getUserByToken().toPromise()
-      .then( result => {
+      .then(result => {
         if (result) {
           this.username = result.username;
           this.teamLeadId = result.id;
-        } else {
-          console.log(result);
         }
       });
   }
@@ -194,12 +196,9 @@ export class GoodDeedRegistrationComponent implements OnInit {
   assignCaptainToggle(event) {
     if (!this.isCaptain) {
       this.isCaptain = true;
-      console.log(this.isCaptain);
     } else {
       this.isCaptain = false;
-      console.log(this.isCaptain);
     }
-
   }
 
   getUsernamesFromDeed(): any {
@@ -209,7 +208,6 @@ export class GoodDeedRegistrationComponent implements OnInit {
       let tempUsername = [];
       this.getUserByToken();
       tempUsername.push(this.username);
-      console.log(tempUsername);
       return tempUsername;
     } else if (this.parseSelectedParticipation(this.selectedParticipationType.value) === Participation.PARTICIPATE_AS_TEAM.toString()) {
       let tempUsernames = [];
@@ -217,11 +215,9 @@ export class GoodDeedRegistrationComponent implements OnInit {
       this.getUserByToken();
 
       tempUsernames = this.usernamesFormControl;
-      console.log(tempUsernames);
       tempUsernames.push(this.username);
-      console.log(tempUsernames);
 
-      return tempUsernames;
+      return Array.from(new Set(tempUsernames));
     }
   }
 
@@ -230,8 +226,6 @@ export class GoodDeedRegistrationComponent implements OnInit {
   }
 
   parseSelectedParticipation(participation: string): string {
-    console.log(participation);
-    console.log(Participation.PARTICIPATE_AS_SOLO.toString());
     if (participation === Participation.NOT_INTERESTED.toString()) {
       return Participation.NOT_INTERESTED.toString();
     } else if (participation === Participation.PARTICIPATE_AS_SOLO.toString()) {
@@ -239,5 +233,15 @@ export class GoodDeedRegistrationComponent implements OnInit {
     } else if (participation === Participation.PARTICIPATE_AS_TEAM.toString()) {
       return Participation.PARTICIPATE_AS_TEAM.toString();
     }
+  }
+
+  setErrorMessage(errorMessage: string) {
+    this.isErrorPresent = true;
+    this.errorMessage = errorMessage;
+
+  }
+
+  parseErrorUsernames(usernames) {
+    return usernames.join(', ');
   }
 }

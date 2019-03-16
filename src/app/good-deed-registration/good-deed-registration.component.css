@@ -35,3 +35,9 @@ mat-dialog-actions {
 .deed-registration-dialog--header--title {
   font-size: 2.2rem;
 }
+
+.deeds-registration-dialog-error-message {
+  color: deeppink;
+  display: flex;
+  float: bottom;
+}

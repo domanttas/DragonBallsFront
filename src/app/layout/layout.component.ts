@@ -1,5 +1,4 @@
 import {Component, OnInit} from '@angular/core';
-import {AuthGuard} from '../auth.guard';
 import {User} from '../models/user';
 import {UserService} from '../user.service';
 import {AuthService} from '../auth.service';
@@ -27,10 +26,8 @@ export class LayoutComponent implements OnInit {
       .then(result => {
         if (result) {
           this.isUserLoggedIn = true;
-          console.log(this.isUserLoggedIn);
         } else {
           this.isUserLoggedIn = false;
-          console.log(this.isUserLoggedIn);
         }
       });
   }

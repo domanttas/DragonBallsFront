@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {MatDialog, MatDialogConfig} from '@angular/material';
 import {ErrorDialogComponent} from '../error-dialog/error-dialog.component';
 import {GoodDeedRegistrationComponent} from '../good-deed-registration/good-deed-registration.component';
-import {TeamRegistrationComponent} from '../team-registration/team-registration.component';
+import {TeamRegistrationComponent} from '../deeds-team-registration/team-registration.component';
 
 @Component({
   selector: 'app-dialog',
