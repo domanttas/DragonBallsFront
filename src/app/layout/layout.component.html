@@ -20,7 +20,7 @@
       <div *ngIf="isUserLoggedIn" class="layout-user">
         <mat-icon class="--layout--user-icon">person_outline</mat-icon>
         <p class="--layout--username">{{user.username}}</p>
-        <a class="--layout--log-out">Log out</a>
+        <a class="--layout--log-out" routerLink="/home" (click)="logOut()">Log out</a>
       </div>
     </div>
   </mat-toolbar>
