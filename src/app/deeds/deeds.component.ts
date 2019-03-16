@@ -104,6 +104,13 @@ export class DeedsComponent implements OnInit {
     this.hideSpinner();
   }
 
+  // TODO: call this sort
+  sortDeeds() {
+    let lastDeed = this.deeds[this.deeds.length - 1];
+    this.deeds.unshift(lastDeed);
+    this.deeds.splice(this.deeds.length - 1, 1);
+  }
+
   hideSpinner() {
     setTimeout(() => {
       this.spinner.hide();

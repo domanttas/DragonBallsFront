@@ -3,6 +3,7 @@ import { DeedRequest } from './models/deed-request';
 import {HttpClient} from '@angular/common/http';
 import {User} from './models/user';
 import {Deed} from './models/deed';
+import {Observable} from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +12,7 @@ export class DeedService {
 
   constructor(private http: HttpClient) { }
 
-  createDeed(deed: DeedRequest) {
+  createDeed(deed: DeedRequest): Observable<any> {
     return this.http.post(`https://limitless-eyrie-83209.herokuapp.com/api/deed`, deed);
   }
 

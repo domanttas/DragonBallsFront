@@ -39,8 +39,7 @@
       </mat-form-field>
       <mat-form-field class="col-md-4">
         <span matPrefix>+370 &nbsp;</span>
-        <input matInput [formControl]="contactTelephoneNo">
-        <mat-icon matSuffix>local_phone</mat-icon>
+        <input matInput placeholder="Mobile phone *" [formControl]="contactTelephoneNo">
         <mat-error *ngIf="contactTelephoneNo.invalid">{{getContactTelephoneNoErrorMessage()}}</mat-error>
       </mat-form-field>
       <br>
@@ -57,9 +56,9 @@
       <div *ngIf="selectedParticipationType.value === '2'">
         <mat-form-field appearance="outline" *ngFor="let form of usernameFormControlList">
           <input matInput placeholder="Username" [formControl]="form">
-          <mat-icon matSuffix (click)="deleteNewUsername(form)">delete</mat-icon>
           <mat-hint>Team member username</mat-hint>
         </mat-form-field>
+        <mat-icon matSuffix (click)="deleteNewUsername(form)">delete</mat-icon>
       </div>
       <button mat-stroked-button *ngIf="selectedParticipationType.value === '2'" (click)="addNewUsername()">Add</button>
       <br *ngIf="selectedParticipationType.value === 'Participate as team'">

@@ -1,4 +1,4 @@
-import {Component, Inject, OnInit} from '@angular/core';
+import {Component, EventEmitter, Inject, OnInit, Output} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
 import {FormBuilder, FormControl, Validators} from '@angular/forms';
 import {DeedRequest} from '../models/deed-request';
@@ -8,7 +8,7 @@ import {Participation} from '../models/participation';
 import {computeStyle} from '@angular/animations/browser/src/util';
 import {User} from '../models/user';
 import {Router} from '@angular/router';
-import {DialogComponent} from '../dialog/dialog.component';
+import {NgxSpinnerService} from 'ngx-spinner';
 
 export interface CategoryChoice {
   value: string;
@@ -27,10 +27,10 @@ export interface ParticipationType {
 })
 export class GoodDeedRegistrationComponent implements OnInit {
 
-  name = new FormControl('', [Validators.required, Validators.maxLength(200)]);
-  description = new FormControl('', [Validators.required, Validators.maxLength(2000)]);
+  name = new FormControl('', [Validators.required, Validators.maxLength(75)]);
+  description = new FormControl('', [Validators.required, Validators.maxLength(1000)]);
   location = new FormControl('', [Validators.required, Validators.maxLength(50)]);
-  contactName = new FormControl('', [Validators.required, Validators.maxLength(25)]);
+  contactName = new FormControl('', [Validators.required, Validators.maxLength(40)]);
   contactEmail = new FormControl('', [Validators.required, Validators.email]);
   contactTelephoneNo = new FormControl('', [Validators.required, Validators.minLength(8), Validators.maxLength(8),
     Validators.pattern('[0-9]{8}')]);
@@ -69,6 +69,7 @@ export class GoodDeedRegistrationComponent implements OnInit {
               private userService: UserService,
               private formBuilder: FormBuilder,
               private router: Router,
+              private spinner: NgxSpinnerService,
               private dialogRef: MatDialogRef<GoodDeedRegistrationComponent>,
               @Inject(MAT_DIALOG_DATA) data) {
   }
@@ -95,13 +96,13 @@ export class GoodDeedRegistrationComponent implements OnInit {
 
   getNameErrorMessage() {
     return this.name.hasError('required') ? 'You must enter a value' :
-      this.name.hasError('maxlength') ? 'Maximum of 200 characters are allowed' :
+      this.name.hasError('maxlength') ? 'Maximum of 75 characters are allowed' :
         '';
   }
 
   getDescriptionErrorMessage() {
     return this.description.hasError('required') ? 'You must enter a value' :
-      this.description.hasError('maxlength') ? 'Maximum of 2000 characters are allowed' :
+      this.description.hasError('maxlength') ? 'Maximum of 1000 characters are allowed' :
         '';
   }
 
@@ -123,7 +124,7 @@ export class GoodDeedRegistrationComponent implements OnInit {
 
   getContactNameErrorMessage() {
     return this.contactName.hasError('required') ? 'You must enter a value' :
-      this.contactName.hasError('maxlength') ? 'Maximum of 50 characters are allowed' :
+      this.contactName.hasError('maxlength') ? 'Maximum of 40 characters are allowed' :
         '';
   }
 
@@ -164,18 +165,23 @@ export class GoodDeedRegistrationComponent implements OnInit {
         this.deed.teamLeadId = null;
       }
 
+      this.spinner.show();
+
       this.deedService.createDeed(this.deed).subscribe(
         response => {
           this.isCaptain = false;
           this.teamLeadId = null;
+          this.spinner.hide();
           this.close();
-          this.router.navigate(['deeds']);
+          window.location.reload();
         },
         error => {
           if (Participation.PARTICIPATE_AS_TEAM.toString() === this.parseSelectedParticipation(this.deed.participation)) {
             this.setErrorMessage('Incorrect usernames: ' + this.parseErrorUsernames(error.error));
+            this.spinner.hide();
           } else {
             this.setErrorMessage(error.error.message);
+            this.spinner.hide();
           }
         });
     } else {
@@ -213,6 +219,7 @@ export class GoodDeedRegistrationComponent implements OnInit {
       let tempUsernames = [];
 
       this.getUserByToken();
+      this.isCaptain = true;
 
       tempUsernames = this.usernamesFormControl;
       tempUsernames.push(this.username);

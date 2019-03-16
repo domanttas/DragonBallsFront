@@ -3,6 +3,7 @@ import {MatDialog, MatDialogConfig} from '@angular/material';
 import {ErrorDialogComponent} from '../error-dialog/error-dialog.component';
 import {GoodDeedRegistrationComponent} from '../good-deed-registration/good-deed-registration.component';
 import {TeamRegistrationComponent} from '../deeds-team-registration/team-registration.component';
+import {DeedService} from '../deed.service';
 
 @Component({
   selector: 'app-dialog',
@@ -11,7 +12,7 @@ import {TeamRegistrationComponent} from '../deeds-team-registration/team-registr
 })
 export class DialogComponent implements OnInit {
 
-  constructor(public dialog: MatDialog) { }
+  constructor(public dialog: MatDialog, private deedService: DeedService) { }
 
   ngOnInit() {
   }
@@ -29,14 +30,20 @@ export class DialogComponent implements OnInit {
     this.dialog.open(ErrorDialogComponent, dialogConfig);
   }
 
-  openDeedRegistrationDialog(): void {
+  openDeedRegistrationDialog(): any {
     const dialogConfig = new MatDialogConfig();
 
     dialogConfig.disableClose = true;
     dialogConfig.autoFocus = true;
 
-    this.dialog.open(GoodDeedRegistrationComponent, dialogConfig);
+    const dialogRef = this.dialog.open(GoodDeedRegistrationComponent, dialogConfig)
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed');
+    });
   }
+
+
 
   openTeamDialog(deed): void {
     const dialogConfig = new MatDialogConfig();
