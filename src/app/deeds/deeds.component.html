@@ -5,11 +5,15 @@
     <mat-tab class="mat-tab-deeds" label="All good deeds">
       <mat-accordion *ngFor="let deed of deeds" class="container">
         <mat-expansion-panel>
-          <mat-expansion-panel-header>
-            <mat-panel-title class="deeds-page--title--header">
+          <mat-expansion-panel-header class="deeds-page--title--header">
+            <mat-panel-title class="deeds-page--title--header--item">
               {{deed.name}}
             </mat-panel-title>
-            <mat-panel-description>
+            <mat-panel-description class="deeds-page--title--header--location">
+              <mat-icon>place</mat-icon>
+              {{deed.location}}
+            </mat-panel-description>
+            <mat-panel-description class="deeds-page--title--header--icon">
               <mat-icon *ngIf="deed.category.name === 'Help for elderly'">supervised_user_circle</mat-icon>
               <mat-icon *ngIf="deed.category.name === 'Help for kids'">child_care</mat-icon>
               <mat-icon *ngIf="deed.category.name === 'Help for animals'">pets</mat-icon>
