@@ -1,4 +1,4 @@
-import {Component, Inject, OnInit} from '@angular/core';
+import {Component, ElementRef, Inject, OnInit, ViewChild} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
 import {FormControl, Validators} from '@angular/forms';
 import {Deed} from '../models/deed';
@@ -22,6 +22,14 @@ export class TeamRegistrationComponent implements OnInit {
   users: User[];
   userNameErrorMessage: boolean;
 
+  userRegistrationErrorMessage: string;
+  isUserRegistrationErrorPresent: boolean;
+
+  currentUserUsername: string;
+  currentUserId: number;
+
+  @ViewChild('error') prop: ElementRef;
+
   constructor(private dialogRef: MatDialogRef<TeamRegistrationComponent>,
               @Inject(MAT_DIALOG_DATA) data,
               private userService: UserService,
@@ -35,6 +43,8 @@ export class TeamRegistrationComponent implements OnInit {
     this.formControlList = [];
     this.users = [];
     this.formControlList.push(this.userName);
+
+    this.getUserByToken();
   }
 
   cancel() {
@@ -44,14 +54,12 @@ export class TeamRegistrationComponent implements OnInit {
   addNewUsername() {
     this.userNameErrorMessage = false;
     for (let user of (this.deed as Deed).users) {
-      console.log((user as User).username === this.userName.value.toString());
       if ((user as User).username === this.userName.value.toString()) {
         this.userNameErrorMessage = true;
         return;
       }
     }
     this.userNames.push(this.userName.value.toString());
-    console.log(this.userNames);
     this.formControlList.forEach(form => form.disable());
     this.userName = new FormControl('', [Validators.required]);
     this.formControlList.push(this.userName);
@@ -62,39 +70,86 @@ export class TeamRegistrationComponent implements OnInit {
     this.userNames = this.userNames.filter(existingUsername => existingUsername !== form.value);
   }
 
-  registerTeam() {
+  async registerTeam() {
+    this.isUserRegistrationErrorPresent = false;
+
+    this.userNames.push(this.currentUserUsername);
+    this.userNames = Array.from(new Set(this.userNames));
+    console.log(this.userNames);
+
     for (let username of this.userNames) {
-      this.userService.getUserByUsername(username).toPromise().then(
-        response => {
-          this.user = response;
-          this.deedService.addUserToDeed(this.user, this.deed.id).toPromise().then(
-            res => {
-              this.deedService.deactivateDeed(this.deed.id).toPromise().then(
-                resp => {
-                  console.log(resp);
-                }, error => {
-                  console.log(error.error.message);
-                  return;
-                }
-              );
-            },
-            error => {
-              console.log(error.error.message);
-              return;
-            }
-          );
-        },
-        error => {
-          console.log(error.error.message);
-          return;
-        }
-      );
+      await this.getUserByUsername(username);
+
+      console.log(this.isUserRegistrationErrorPresent);
+      if (this.isUserRegistrationErrorPresent) {
+        break;
+      }
+      console.log('nesamone');
+
+      await this.addUserToDeed(this.user, this.deed.id);
+
+      if (this.isUserRegistrationErrorPresent) {
+        break;
+      }
+
+      await this.deactivateDeed(this.deed.id);
     }
-    this.deed.isClosed = true;
-    this.close();
+
+    if (!this.isUserRegistrationErrorPresent) {
+      this.close();
+    }
   }
 
   close() {
     this.dialogRef.close();
+  }
+
+  getUserByToken() {
+    this.userService.getUserByToken().toPromise()
+      .then(result => {
+        if (result) {
+          this.currentUserUsername = result.username;
+          this.currentUserId = result.id;
+        }
+      });
+  }
+
+  async getUserByUsername(username) {
+    await this.userService.getUserByUsername(username).toPromise().then(
+      response => {
+        this.user = response;
+        console.log(response);
+        console.log('sdfdsfdds');
+      },
+      userError => {
+        this.userRegistrationErrorMessage = username + ' - ' + userError.error.message;
+        this.isUserRegistrationErrorPresent = true;
+        this.prop.nativeElement.scrollIntoView({behavior: 'smooth', block: 'start', alignToTop: true});
+      }
+    );
+  }
+
+  async addUserToDeed(user, id) {
+    await this.deedService.addUserToDeed(user, id).toPromise().then(
+      response => {
+
+      },
+      deedError => {
+        this.userRegistrationErrorMessage = deedError.error.message;
+        this.isUserRegistrationErrorPresent = true;
+        this.prop.nativeElement.scrollIntoView({behavior: 'smooth', block: 'start', alignToTop: true});
+      }
+    );
+  }
+
+  async deactivateDeed(id) {
+    await this.deedService.deactivateDeed(id).toPromise().then(
+      response => {
+
+      },
+      deactivateError => {
+
+      }
+    );
   }
 }

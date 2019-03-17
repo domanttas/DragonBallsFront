@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, Inject, OnInit} from '@angular/core';
 import {DialogComponent} from '../dialog/dialog.component';
 import {AuthService} from '../auth.service';
 import {DeedService} from '../deed.service';
@@ -6,6 +6,7 @@ import {Deed} from '../models/deed';
 import {UserService} from '../user.service';
 import {NgxSpinnerService} from 'ngx-spinner';
 import {User} from '../models/user';
+import {MAT_DIALOG_DATA} from '@angular/material';
 
 @Component({
   selector: 'app-deeds',
@@ -21,7 +22,8 @@ export class DeedsComponent implements OnInit {
               private authService: AuthService,
               private deedService: DeedService,
               private userService: UserService,
-              private spinner: NgxSpinnerService) {
+              private spinner: NgxSpinnerService,
+              @Inject(MAT_DIALOG_DATA) data) {
   }
 
   ngOnInit() {
@@ -52,7 +54,7 @@ export class DeedsComponent implements OnInit {
 
   addNewDeed() {
     if (this.isLoggedIn) {
-      this.dialog.openDeedRegistrationDialog();
+      this.dialog.openDeedRegistrationDialog(this.deeds);
     } else {
       this.dialog.openDialog('Please log in!');
     }
@@ -90,7 +92,6 @@ export class DeedsComponent implements OnInit {
             response => {
               if (response) {
                 // TODO: update deeds, not refresh window
-                window.location.reload();
               }
             },
             error => {

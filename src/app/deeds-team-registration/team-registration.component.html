@@ -4,10 +4,13 @@
   <mat-dialog-content class="--deeds-page--team-registration-content">
     <mat-form-field appearance="outline" *ngFor="let form of formControlList">
       <input matInput placeholder="Username" [formControl]="form">
-      <mat-icon matSuffix (click)="deleteUsername(form)">delete</mat-icon>
+      <mat-icon matSuffix (click)="deleteUsername(form)">clear</mat-icon>
       <mat-hint>Team member username</mat-hint>
     </mat-form-field>
     <label *ngIf="userNameErrorMessage">User already registered</label>
+    <section #error>
+      <label class="col deeds-registration-dialog-error-message" *ngIf="isUserRegistrationErrorPresent">{{userRegistrationErrorMessage}}</label>
+    </section>
   </mat-dialog-content>
 
   <mat-dialog-actions>

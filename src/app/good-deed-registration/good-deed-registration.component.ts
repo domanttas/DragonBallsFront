@@ -172,8 +172,6 @@ export class GoodDeedRegistrationComponent implements OnInit {
           this.isCaptain = false;
           this.teamLeadId = null;
           this.close();
-          // TODO: update deeds, not refresh window
-          window.location.reload();
         },
         error => {
           if (Participation.PARTICIPATE_AS_TEAM.toString() === this.parseSelectedParticipation(this.deed.participation)) {
