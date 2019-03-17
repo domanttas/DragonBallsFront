@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {AuthService} from '../auth.service';
 import {Router} from '@angular/router';
-import {FormControl, Validators} from '@angular/forms';
+import {FormControl} from '@angular/forms';
 import {User} from '../models/user';
 import {AuthGuard} from '../auth.guard';
 import {DialogComponent} from '../dialog/dialog.component';

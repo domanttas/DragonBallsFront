@@ -14,7 +14,7 @@ import {ErrorCheckComponent} from '../error-check/error-check.component';
 
 export class RegistrationComponent implements OnInit {
   email = new FormControl('', [Validators.required, Validators.email]);
-  username = new FormControl('', [Validators.required, Validators.minLength(5)]);
+  username = new FormControl('', [Validators.required, Validators.minLength(5), Validators.maxLength(20)]);
   password = new FormControl('', [Validators.required, Validators.minLength(7), Validators.maxLength(12)]);
   passwordConfirm = new FormControl('', [Validators.required, Validators.email]);
   person: User;
@@ -37,6 +37,7 @@ export class RegistrationComponent implements OnInit {
   getUsernameErrorMessage() {
     return this.username.hasError('required') ? 'You must enter a value' :
       this.username.hasError('minlength') ? 'Min 5 characters' :
+        this.username.hasError('maxlength') ? 'Max 20 characters' :
         '';
   }
 

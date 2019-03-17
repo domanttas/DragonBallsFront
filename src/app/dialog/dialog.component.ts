@@ -14,7 +14,7 @@ import {ConfirmationDialogComponent} from '../confirmation-dialog/confirmation-d
 })
 export class DialogComponent implements OnInit {
 
-  constructor(public dialog: MatDialog, private deedService: DeedService) {
+  constructor(public dialog: MatDialog) {
   }
 
   ngOnInit() {

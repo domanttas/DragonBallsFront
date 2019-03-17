@@ -7,7 +7,6 @@ import {UserService} from '../user.service';
 import {NgxSpinnerService} from 'ngx-spinner';
 import {User} from '../models/user';
 import {MAT_DIALOG_DATA} from '@angular/material';
-import {Participation} from '../models/participation';
 
 @Component({
   selector: 'app-deeds',
@@ -79,7 +78,6 @@ export class DeedsComponent implements OnInit {
           );
         }
       );
-      console.log(this.deeds);
     } else {
       this.dialog.openDialog('Please log in!');
     }

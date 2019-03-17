@@ -19,8 +19,6 @@ export class UserService {
     const headers = new HttpHeaders({
       Authorization: 'Bearer ' + localStorage.getItem('token')
     });
-    console.log(headers.has('Authorization'));
-    console.log(headers.get('Authorization'));
 
     return this.http.get(`https://limitless-eyrie-83209.herokuapp.com/api/user`, {
       // tslint:disable-next-line:object-literal-shorthand

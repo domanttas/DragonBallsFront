@@ -2,7 +2,6 @@ import {Component, OnInit} from '@angular/core';
 import {User} from '../models/user';
 import {UserService} from '../user.service';
 import {AuthService} from '../auth.service';
-import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-layout',
@@ -14,7 +13,8 @@ export class LayoutComponent implements OnInit {
   isUserLoggedIn: boolean;
   user: User;
 
-  constructor(private userService: UserService, private authService: AuthService, private router: Router) {
+  constructor(private userService: UserService,
+              private authService: AuthService) {
   }
 
   ngOnInit() {

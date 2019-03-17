@@ -77,12 +77,10 @@ export class TeamRegistrationComponent implements OnInit {
 
     this.userNames.push(this.currentUserUsername);
     this.userNames = Array.from(new Set(this.userNames));
-    console.log(this.userNames);
 
     for (let username of this.userNames) {
       await this.getUserByUsername(username);
 
-      console.log(this.isUserRegistrationErrorPresent);
       if (this.isUserRegistrationErrorPresent) {
         break;
       }
@@ -121,8 +119,6 @@ export class TeamRegistrationComponent implements OnInit {
       response => {
         this.user = response;
         this.teamUsers.push(this.user);
-        console.log(response);
-        console.log('sdfdsfdds');
       },
       userError => {
         this.userRegistrationErrorMessage = username + ' - ' + userError.error.message;
@@ -148,10 +144,8 @@ export class TeamRegistrationComponent implements OnInit {
   async deactivateDeed(id) {
     await this.deedService.deactivateDeed(id).toPromise().then(
       response => {
-
       },
       deactivateError => {
-
       }
     );
   }
@@ -159,17 +153,18 @@ export class TeamRegistrationComponent implements OnInit {
   async updateDeed() {
     let deed = (this.deed as Deed);
     deed.teamLeadId = this.currentUserId;
+    deed.isClosed = true;
 
     for (let user of this.teamUsers) {
       (deed.users as User[]).push(user);
     }
 
+    (deed as any).closed = true;
+
     await this.deedService.updateDeed(deed).toPromise().then(
       response => {
-
       },
       deedUpdateError => {
-
       }
     );
   }

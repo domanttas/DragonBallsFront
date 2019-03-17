@@ -39,8 +39,7 @@
       </mat-form-field>
       <mat-form-field class="col-md-4">
         <span matPrefix>+370 &nbsp;</span>
-        <input matInput [formControl]="contactTelephoneNo">
-        <mat-icon matSuffix>local_phone</mat-icon>
+        <input matInput placeholder="Mobile phone *" [formControl]="contactTelephoneNo">
         <mat-error *ngIf="contactTelephoneNo.invalid">{{getContactTelephoneNoErrorMessage()}}</mat-error>
       </mat-form-field>
       <br>

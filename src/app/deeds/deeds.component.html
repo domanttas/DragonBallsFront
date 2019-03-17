@@ -74,6 +74,7 @@
                       *ngIf="!deed.closed && deed.participation !== 'PARTICIPATE_AS_SOLO'">Participate as
                 team
               </button>
+              <label *ngIf="deed.closed">Deed is closed for registration</label>
             </div>
           </mat-list>
         </mat-expansion-panel>
@@ -132,11 +133,14 @@
               {{user.username}}
             </mat-list-item>
             <div class="deeds--page--participate--btn-wrapper">
-              <button mat-raised-button class="deeds--page--deed--btn" (click)="registerSolo(deed)">Participate as solo
+              <button mat-raised-button class="deeds--page--deed--btn" (click)="registerSolo(deed)"
+                      *ngIf="!deed.closed">Participate as solo
               </button>
-              <button mat-raised-button class="deeds--page--deed--btn" (click)="openTeamRegistration(deed)">Participate
-                as team
+              <button mat-raised-button class="deeds--page--deed--btn" (click)="openTeamRegistration(deed)"
+                      *ngIf="!deed.closed && deed.participation !== 'PARTICIPATE_AS_SOLO'">Participate as
+                team
               </button>
+              <label *ngIf="deed.closed">Deed is closed for registration</label>
             </div>
           </mat-list>
         </mat-expansion-panel>
