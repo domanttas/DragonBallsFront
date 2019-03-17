@@ -45,7 +45,7 @@
 }
 
 .mat-expansion-panel-header-title {
-  flex-grow: 30;
+  margin-left: 6rem;
 }
 
 .mat-divider {
@@ -62,6 +62,30 @@
 
 .deeds-page--title--header {
   font-size: large;
+}
+
+.mat-expansion-panel-header-title {
+  flex-basis: 0;
+}
+
+.deeds-page--title--header--item {
+  flex-basis: 0;
+}
+
+.deeds-page--title--header--location {
+  flex-basis: 0;
+  max-width: 10rem;
+}
+
+.mat-expansion-panel-header-description, .mat-expansion-panel-header-title {
+  flex-basis: 0;
+  }
+
+.deeds-page--title--header--icon {
+  flex-basis: 0;
+  position: static;
+  justify-content: flex-end;
+  max-width: 4rem;
 }
 
 #deeds--page--deed--field {
@@ -95,5 +119,10 @@
 }
 
 .deeds-page-title--status {
-  flex-grow: 15;
+  width: 4rem;
 }
+
+.deeds-page--header {
+  flex-basis: 0;
+}
+

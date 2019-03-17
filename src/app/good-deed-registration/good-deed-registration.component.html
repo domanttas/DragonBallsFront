@@ -55,11 +55,13 @@
       <br>
       <mat-checkbox class="col" *ngIf="selectedParticipationType.value === '1'" (click)="assignCaptainToggle($event)">Assign me as a captain</mat-checkbox>
       <div *ngIf="selectedParticipationType.value === '2'">
-        <mat-form-field appearance="outline" *ngFor="let form of usernameFormControlList">
+        <span *ngFor="let form of usernameFormControlList">
+          <mat-form-field class="col-md-6" appearance="outline">
           <input matInput placeholder="Username" [formControl]="form">
-          <mat-icon matSuffix (click)="deleteNewUsername(form)">clear</mat-icon>
           <mat-hint>Team member username</mat-hint>
         </mat-form-field>
+        <mat-icon matSuffix (click)="deleteNewUsername(form)">clear</mat-icon>
+        </span>
       </div>
       <button mat-stroked-button *ngIf="selectedParticipationType.value === '2'" (click)="addNewUsername()">Add</button>
       <br *ngIf="selectedParticipationType.value === 'Participate as team'">
