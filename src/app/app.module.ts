@@ -20,6 +20,7 @@ import { DeedsComponent } from './deeds/deeds.component';
 import {MatExpansionModule} from '@angular/material/expansion';
 import { TeamRegistrationComponent } from './deeds-team-registration/team-registration.component';
 import {NgxSpinnerModule} from 'ngx-spinner';
+import { ConfirmationDialogComponent } from './confirmation-dialog/confirmation-dialog.component';
 
 @NgModule({
   declarations: [
@@ -35,7 +36,8 @@ import {NgxSpinnerModule} from 'ngx-spinner';
     DeedsComponent,
     TeamRegistrationComponent,
     ErrorCheckComponent,
-    GoodDeedRegistrationComponent
+    GoodDeedRegistrationComponent,
+    ConfirmationDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -55,6 +57,6 @@ import {NgxSpinnerModule} from 'ngx-spinner';
   ],
   providers: [DialogComponent, ErrorCheckComponent],
   bootstrap: [AppComponent],
-  entryComponents: [ErrorDialogComponent, TeamRegistrationComponent, GoodDeedRegistrationComponent]
+  entryComponents: [ErrorDialogComponent, TeamRegistrationComponent, GoodDeedRegistrationComponent, ConfirmationDialogComponent]
 })
 export class AppModule { }

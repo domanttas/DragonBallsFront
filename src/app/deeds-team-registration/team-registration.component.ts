@@ -86,7 +86,6 @@ export class TeamRegistrationComponent implements OnInit {
       if (this.isUserRegistrationErrorPresent) {
         break;
       }
-      console.log('nesamone');
 
       await this.addUserToDeed(this.user, this.deed.id);
 
@@ -165,7 +164,7 @@ export class TeamRegistrationComponent implements OnInit {
       (deed.users as User[]).push(user);
     }
 
-    await this.deedService.updateDeed(this.deed).toPromise().then(
+    await this.deedService.updateDeed(deed).toPromise().then(
       response => {
 
       },

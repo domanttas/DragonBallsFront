@@ -5,6 +5,7 @@ import {GoodDeedRegistrationComponent} from '../good-deed-registration/good-deed
 import {TeamRegistrationComponent} from '../deeds-team-registration/team-registration.component';
 import {DeedService} from '../deed.service';
 import {Observable} from 'rxjs';
+import {ConfirmationDialogComponent} from '../confirmation-dialog/confirmation-dialog.component';
 
 @Component({
   selector: 'app-dialog',
@@ -55,5 +56,18 @@ export class DialogComponent implements OnInit {
     };
 
     return this.dialog.open(TeamRegistrationComponent, dialogConfig);
+  }
+
+  openSoloRegisterConfirmationDialog(deed, user) {
+    const dialogConfig = new MatDialogConfig();
+
+    dialogConfig.disableClose = true;
+    dialogConfig.autoFocus = true;
+    dialogConfig.data = {
+      goodDeed: deed,
+      registeredUser: user
+    };
+
+    return this.dialog.open(ConfirmationDialogComponent, dialogConfig);
   }
 }

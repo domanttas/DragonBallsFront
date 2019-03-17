@@ -67,7 +67,7 @@
                       *ngIf="!deed.closed">Participate as solo
               </button>
               <button mat-raised-button class="deeds--page--deed--btn" (click)="openTeamRegistration(deed)"
-                      *ngIf="!deed.closed">Participate as
+                      *ngIf="!deed.closed && deed.participation !== 'PARTICIPATE_AS_SOLO'">Participate as
                 team
               </button>
             </div>

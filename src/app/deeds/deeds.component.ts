@@ -7,6 +7,7 @@ import {UserService} from '../user.service';
 import {NgxSpinnerService} from 'ngx-spinner';
 import {User} from '../models/user';
 import {MAT_DIALOG_DATA} from '@angular/material';
+import {Participation} from '../models/participation';
 
 @Component({
   selector: 'app-deeds',
@@ -102,7 +103,7 @@ export class DeedsComponent implements OnInit {
     }
     this.spinner.show();
     this.userService.getUserByToken().toPromise().then(
-      res => {
+      async res => {
         if (res) {
           this.user = res;
           for (let user of deed.users) {
@@ -112,21 +113,17 @@ export class DeedsComponent implements OnInit {
               return;
             }
           }
-          this.deedService.addUserToDeed(this.user, deed.id).toPromise().then(
-            response => {
-              if (response) {
-                this.spinner.show();
-                this.deedService.getAllDeeds().toPromise().then(
-                  result => {
-                    this.deeds = result;
-                    this.deeds = this.deeds.reverse();
-                    this.hideSpinner();
-                  }
-                );
-              }
-            },
-            error => {
-              this.dialog.openDialog(error.error.message);
+
+          const dialogRef = this.dialog.openSoloRegisterConfirmationDialog(deed, this.user);
+          dialogRef.afterClosed().subscribe(async result => {
+              this.spinner.show();
+              await this.deedService.getAllDeeds().toPromise().then(
+                response => {
+                  this.deeds = response;
+                  this.deeds = this.deeds.reverse();
+                  this.hideSpinner();
+                }
+              );
             }
           );
         }
