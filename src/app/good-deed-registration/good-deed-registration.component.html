@@ -64,7 +64,10 @@
       <button mat-stroked-button *ngIf="selectedParticipationType.value === '2'" (click)="addNewUsername()">Add</button>
       <br *ngIf="selectedParticipationType.value === 'Participate as team'">
       <label class="col" *ngIf="selectedParticipationType.value === '2'">You will be automatically assigned as a team captain</label>
-      <label class="col deeds-registration-dialog-error-message" *ngIf="isErrorPresent">{{errorMessage}}</label>
+      <section #error>
+        <label class="col deeds-registration-dialog-error-message" *ngIf="isErrorPresent">{{errorMessage}}</label>
+      </section>
+      <!--<label class="col deeds-registration-dialog-error-message" *ngIf="isErrorPresent">{{errorMessage}}</label>-->
     </mat-dialog-content>
     <mat-dialog-actions>
       <button class="mat-raised-button" (click)="close()">Close</button>

@@ -89,6 +89,8 @@ export class DeedsComponent implements OnInit {
           this.deedService.addUserToDeed(this.user, deed.id).toPromise().then(
             response => {
               if (response) {
+                // TODO: update deeds, not refresh window
+                window.location.reload();
               }
             },
             error => {

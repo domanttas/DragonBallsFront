@@ -37,7 +37,7 @@ mat-dialog-actions {
 }
 
 .deeds-registration-dialog-error-message {
-  color: deeppink;
+  color: red;
   display: flex;
   float: bottom;
 }

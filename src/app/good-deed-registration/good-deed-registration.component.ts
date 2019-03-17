@@ -1,4 +1,4 @@
-import {Component, Inject, OnInit} from '@angular/core';
+import {Component, ElementRef, Inject, OnInit, ViewChild} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
 import {FormBuilder, FormControl, Validators} from '@angular/forms';
 import {DeedRequest} from '../models/deed-request';
@@ -64,6 +64,9 @@ export class GoodDeedRegistrationComponent implements OnInit {
     {value: '1', viewValue: 'Participate as solo'},
     {value: '2', viewValue: 'Participate as team'}
   ];
+
+
+  @ViewChild('error') MyProp: ElementRef;
 
   constructor(private deedService: DeedService,
               private userService: UserService,
@@ -169,11 +172,13 @@ export class GoodDeedRegistrationComponent implements OnInit {
           this.isCaptain = false;
           this.teamLeadId = null;
           this.close();
-          this.router.navigate(['deeds']);
+          // TODO: update deeds, not refresh window
+          window.location.reload();
         },
         error => {
           if (Participation.PARTICIPATE_AS_TEAM.toString() === this.parseSelectedParticipation(this.deed.participation)) {
             this.setErrorMessage('Incorrect usernames: ' + this.parseErrorUsernames(error.error));
+            this.MyProp.nativeElement.scrollIntoView({behavior: 'smooth', block: 'start', alignToTop: true});
           } else {
             this.setErrorMessage(error.error.message);
           }
@@ -211,6 +216,8 @@ export class GoodDeedRegistrationComponent implements OnInit {
       return tempUsername;
     } else if (this.parseSelectedParticipation(this.selectedParticipationType.value) === Participation.PARTICIPATE_AS_TEAM.toString()) {
       let tempUsernames = [];
+
+      this.isCaptain = true;
 
       this.getUserByToken();
 
