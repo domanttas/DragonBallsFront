@@ -36,6 +36,7 @@ export class DeedsComponent implements OnInit {
     this.deedService.getAllDeeds().subscribe(
       response => {
         this.deeds = response;
+        this.deeds = this.deeds.reverse();
         this.hideSpinner();
       },
       error => {
@@ -46,7 +47,18 @@ export class DeedsComponent implements OnInit {
 
   openTeamRegistration(deed: Deed) {
     if (this.isLoggedIn) {
-      this.dialog.openTeamDialog(deed);
+      const dialogRef = this.dialog.openTeamDialog(deed);
+      dialogRef.afterClosed().subscribe(async result => {
+          this.spinner.show();
+          await this.deedService.getAllDeeds().toPromise().then(
+            response => {
+              this.deeds = response;
+              this.deeds = this.deeds.reverse();
+              this.hideSpinner();
+            }
+          );
+        }
+      );
     } else {
       this.dialog.openDialog('Please log in!');
     }
@@ -54,7 +66,19 @@ export class DeedsComponent implements OnInit {
 
   addNewDeed() {
     if (this.isLoggedIn) {
-      this.dialog.openDeedRegistrationDialog(this.deeds);
+      const dialogRef = this.dialog.openDeedRegistrationDialog(this.deeds);
+      dialogRef.afterClosed().subscribe(async result => {
+          this.spinner.show();
+          await this.deedService.getAllDeeds().toPromise().then(
+            response => {
+              this.deeds = response;
+              this.deeds = this.deeds.reverse();
+              this.hideSpinner();
+            }
+          );
+        }
+      );
+      console.log(this.deeds);
     } else {
       this.dialog.openDialog('Please log in!');
     }
@@ -91,7 +115,14 @@ export class DeedsComponent implements OnInit {
           this.deedService.addUserToDeed(this.user, deed.id).toPromise().then(
             response => {
               if (response) {
-                // TODO: update deeds, not refresh window
+                this.spinner.show();
+                this.deedService.getAllDeeds().toPromise().then(
+                  result => {
+                    this.deeds = result;
+                    this.deeds = this.deeds.reverse();
+                    this.hideSpinner();
+                  }
+                );
               }
             },
             error => {
