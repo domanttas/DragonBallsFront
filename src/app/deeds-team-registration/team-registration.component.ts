@@ -5,7 +5,6 @@ import {Deed} from '../models/deed';
 import {UserService} from '../user.service';
 import {DeedService} from '../deed.service';
 import {User} from '../models/user';
-import {error} from 'util';
 
 @Component({
   selector: 'app-team-registration',
@@ -28,6 +27,8 @@ export class TeamRegistrationComponent implements OnInit {
   currentUserUsername: string;
   currentUserId: number;
 
+  teamUsers: User[];
+
   @ViewChild('error') prop: ElementRef;
 
   constructor(private dialogRef: MatDialogRef<TeamRegistrationComponent>,
@@ -42,6 +43,7 @@ export class TeamRegistrationComponent implements OnInit {
     this.userNames = [];
     this.formControlList = [];
     this.users = [];
+    this.teamUsers = [];
     this.formControlList.push(this.userName);
 
     this.getUserByToken();
@@ -96,6 +98,7 @@ export class TeamRegistrationComponent implements OnInit {
     }
 
     if (!this.isUserRegistrationErrorPresent) {
+      await this.updateDeed();
       this.close();
     }
   }
@@ -118,6 +121,7 @@ export class TeamRegistrationComponent implements OnInit {
     await this.userService.getUserByUsername(username).toPromise().then(
       response => {
         this.user = response;
+        this.teamUsers.push(this.user);
         console.log(response);
         console.log('sdfdsfdds');
       },
@@ -148,6 +152,24 @@ export class TeamRegistrationComponent implements OnInit {
 
       },
       deactivateError => {
+
+      }
+    );
+  }
+
+  async updateDeed() {
+    let deed = (this.deed as Deed);
+    deed.teamLeadId = this.currentUserId;
+
+    for (let user of this.teamUsers) {
+      (deed.users as User[]).push(user);
+    }
+
+    await this.deedService.updateDeed(this.deed).toPromise().then(
+      response => {
+
+      },
+      deedUpdateError => {
 
       }
     );

@@ -4,6 +4,7 @@ import {ErrorDialogComponent} from '../error-dialog/error-dialog.component';
 import {GoodDeedRegistrationComponent} from '../good-deed-registration/good-deed-registration.component';
 import {TeamRegistrationComponent} from '../deeds-team-registration/team-registration.component';
 import {DeedService} from '../deed.service';
+import {Observable} from 'rxjs';
 
 @Component({
   selector: 'app-dialog',
@@ -31,7 +32,7 @@ export class DialogComponent implements OnInit {
     this.dialog.open(ErrorDialogComponent, dialogConfig);
   }
 
-  openDeedRegistrationDialog(deeds): void {
+  openDeedRegistrationDialog(deeds) {
     const dialogConfig = new MatDialogConfig();
 
     dialogConfig.disableClose = true;
@@ -41,15 +42,10 @@ export class DialogComponent implements OnInit {
       deedList: deeds
     };
 
-    const dialogRef = this.dialog.open(GoodDeedRegistrationComponent, dialogConfig);
-    dialogRef.afterClosed().subscribe(result => {
-        console.log('callback');
-        dialogConfig.data.deeds = this.deedService.getAllDeeds();
-      }
-    );
+    return this.dialog.open(GoodDeedRegistrationComponent, dialogConfig);
   }
 
-  openTeamDialog(deed): void {
+  openTeamDialog(deed) {
     const dialogConfig = new MatDialogConfig();
 
     dialogConfig.disableClose = true;
@@ -58,6 +54,6 @@ export class DialogComponent implements OnInit {
       goodDeed: deed
     };
 
-    this.dialog.open(TeamRegistrationComponent, dialogConfig);
+    return this.dialog.open(TeamRegistrationComponent, dialogConfig);
   }
 }
