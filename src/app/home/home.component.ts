@@ -1,7 +1,4 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { UserService } from '../user.service';
-import { LayoutComponent } from '../layout/layout.component';
-import {DialogComponent} from '../dialog/dialog.component';
 
 @Component({
   selector: 'app-home',
@@ -11,10 +8,9 @@ import {DialogComponent} from '../dialog/dialog.component';
 export class HomeComponent implements OnInit {
 
   @ViewChild('statistics') MyProp: ElementRef;
-  constructor(private user: UserService, private layout: LayoutComponent, private dialog: DialogComponent) { }
+  constructor() { }
 
   ngOnInit() {
-    this.layout.ngOnInit();
   }
 
   scrollToStatistics() {

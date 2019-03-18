@@ -1,16 +1,18 @@
-import {Component, OnInit} from '@angular/core';
+import {Injectable} from '@angular/core';
+import {MatDialog} from '@angular/material';
 
-@Component({
-  selector: 'app-error-check',
-  templateUrl: './error-check.component.html',
-  styleUrls: ['./error-check.component.css']
+@Injectable({
+  providedIn: 'root'
 })
-export class ErrorCheckComponent implements OnInit {
+export class DialogService {
 
-  constructor() {
-  }
+  constructor(public dialog: MatDialog) { }
 
-  ngOnInit() {
+  openDialog(component, dialogConfig) {
+    dialogConfig.disableClose = true;
+    dialogConfig.autoFocus = true;
+
+    return this.dialog.open(component, dialogConfig);
   }
 
   checkForError(error): string {

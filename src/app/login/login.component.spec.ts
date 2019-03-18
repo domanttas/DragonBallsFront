@@ -9,7 +9,7 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {HomeComponent} from '../home/home.component';
 import {DialogComponent} from '../dialog/dialog.component';
 import {RegistrationComponent} from '../registration/registration.component';
-import {LayoutComponent} from '../layout/layout.component';
+import {NavbarComponent} from '../navbar/navbar.component';
 import {ErrorCheckComponent} from '../error-check/error-check.component';
 
 describe('LoginComponent', () => {
@@ -29,7 +29,7 @@ describe('LoginComponent', () => {
         HomeComponent,
         LoginComponent,
         RegistrationComponent],
-      providers: [LayoutComponent,
+      providers: [NavbarComponent,
         DialogComponent,
       ErrorCheckComponent ]
     })

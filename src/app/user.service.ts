@@ -8,6 +8,11 @@ import {Observable} from 'rxjs';
 })
 export class UserService {
 
+  public user: User;
+  public loggedInStatus: boolean;
+
+  authToken: any;
+
   constructor(private http: HttpClient) {
   }
 
@@ -21,23 +26,58 @@ export class UserService {
     });
 
     return this.http.get(`https://limitless-eyrie-83209.herokuapp.com/api/user`, {
-      // tslint:disable-next-line:object-literal-shorthand
       headers: headers
     });
+  }
+
+  getUserDetails(): Promise<any> {
+    return this.getUserByToken().toPromise().then(
+      result => {
+        this.user = result;
+      }
+    );
   }
 
   getUserByUsername(username: string): Observable<any> {
     return this.http.get(`https://limitless-eyrie-83209.herokuapp.com/api/user/` + username);
   }
 
-  // getUserByUsernameWrapper(username: string): Promise<User> {
-  //   this.getUserByUsername(username).toPromise().then(
-  //     response => {
-  //       return response;
-  //     },
-  //     error => {
-  //       return null;
-  //     }
-  //   );
-  // }
+  authenticateUser(user: User): Promise<any> {
+    return this.http.post(`https://limitless-eyrie-83209.herokuapp.com/api/user/auth`, user).toPromise().then(
+      result => {
+        return result;
+      },
+      error => {
+        return Promise.reject(error);
+      }
+    );
+  }
+
+  refreshUserToken(): Observable<any> {
+    const headers = new HttpHeaders({
+      Authorization: 'Bearer ' + localStorage.getItem('token')
+    });
+
+    return this.http.get(`https://limitless-eyrie-83209.herokuapp.com/api/user/refresh`, {
+      headers: headers
+    });
+  }
+
+  isUserLoggedIn(): Promise<any> {
+    return this.refreshUserToken().toPromise().then(
+      res => {
+        this.authToken = res.token;
+
+        localStorage.removeItem('token');
+        localStorage.setItem('token', this.authToken);
+
+        this.loggedInStatus = true;
+      },
+      error => {
+        this.loggedInStatus = false;
+        this.user = undefined;
+        return Promise.reject();
+      }
+    );
+  }
 }

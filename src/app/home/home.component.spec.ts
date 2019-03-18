@@ -10,7 +10,7 @@ import {GoodDeedRegistrationComponent} from '../good-deed-registration/good-deed
 import {DialogComponent} from '../dialog/dialog.component';
 import {LoginComponent} from '../login/login.component';
 import {RegistrationComponent} from '../registration/registration.component';
-import {LayoutComponent} from '../layout/layout.component';
+import {NavbarComponent} from '../navbar/navbar.component';
 
 describe('HomeComponent', () => {
   let component: HomeComponent;
@@ -29,7 +29,7 @@ describe('HomeComponent', () => {
         HomeComponent,
         LoginComponent,
         RegistrationComponent],
-      providers: [LayoutComponent,
+      providers: [NavbarComponent,
       DialogComponent]
     })
     .compileComponents();

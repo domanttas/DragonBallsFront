@@ -3,8 +3,9 @@ import {FormControl, Validators} from '@angular/forms';
 import {User} from '../models/user';
 import {UserService} from '../user.service';
 import {Router} from '@angular/router';
-import {DialogComponent} from '../dialog/dialog.component';
-import {ErrorCheckComponent} from '../error-check/error-check.component';
+import {DialogService} from '../dialog.service';
+import {MatDialogConfig} from '@angular/material';
+import {ErrorDialogComponent} from '../error-dialog/error-dialog.component';
 
 @Component({
   selector: 'app-registration',
@@ -19,13 +20,15 @@ export class RegistrationComponent implements OnInit {
   passwordConfirm = new FormControl('', [Validators.required, Validators.email]);
   person: User;
 
+  dialogConfig: MatDialogConfig;
+
   constructor(private service: UserService,
               private router: Router,
-              private dialog: DialogComponent,
-              private errorCheck: ErrorCheckComponent) {
+              private dialogService: DialogService) {
   }
 
   ngOnInit() {
+    this.dialogConfig = new MatDialogConfig();
   }
 
   getEmailErrorMessage() {
@@ -71,10 +74,16 @@ export class RegistrationComponent implements OnInit {
     this.service.createUser(this.person).subscribe(
       response => {
         this.router.navigate(['home']);
-        this.dialog.openDialog('Registration successful!');
+        this.dialogConfig.data = {
+          description: 'Registration successful'
+        };
+        this.dialogService.openDialog(ErrorDialogComponent, this.dialogConfig);
       },
       error => {
-        this.dialog.openDialog(this.errorCheck.checkForError(error.error.message));
+        this.dialogConfig.data = {
+          description: this.dialogService.checkForError(error.error.message)
+        };
+        this.dialogService.openDialog(ErrorDialogComponent, this.dialogConfig);
       }
     );
   }
