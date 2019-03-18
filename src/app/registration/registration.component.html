@@ -1,35 +1,36 @@
-<div class="title1">
-  <h2>Sign Up</h2>
-  <p class="title2">Already have an account? <a href="/#/">Log in</a></p>
+<div class="registration-page--container">
+  <h2 class="registration-page--header--title">Sign Up</h2>
+  <p class="registration-page--header--log-in-paragraph">Already have an account? <a routerLink="/login">Log in</a></p>
+</div>
+<div class="row">
+  <div class="col-md-4 offset-md-4">
+    <mat-form-field>
+      <input matInput placeholder="Enter your email" [formControl]="email" required>
+      <mat-error *ngIf="email.invalid">{{getEmailErrorMessage()}}</mat-error>
+    </mat-form-field>
+    <br>
+    <mat-form-field>
+      <input matInput placeholder="Enter your username" [formControl]="username" required>
+      <mat-error *ngIf="username.invalid">{{getUsernameErrorMessage()}}</mat-error>
+    </mat-form-field>
+    <br>
+    <mat-form-field>
+      <input matInput placeholder="Enter your password" [type]="!hide ? 'password' : 'text'"
+             [formControl]="password" required>
+      <mat-icon matSuffix (click)="hide = !hide">{{!hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+      <mat-error *ngIf="password.invalid">{{getPasswordErrorMessage()}} </mat-error>
+    </mat-form-field>
+    <br>
+    <mat-form-field>
+      <input matInput placeholder="Re-enter your password" [type]="!hide1 ? 'password' : 'text'" [formControl]="passwordConfirm"
+             required>
+      <mat-error *ngIf="passwordConfirm.invalid">{{getPasswordMatchErrorMessage()}}</mat-error>
+      <mat-icon matSuffix (click)="hide1 = !hide1">{{!hide1 ? 'visibility_off' : 'visibility'}}</mat-icon>
+    </mat-form-field>
+    <br>
+    <div class="row">
+      <button mat-raised-button class="registration-page--sign-up--btn col-md-2 col-center" (click)="signUp()">Sign up</button>
+    </div>
   </div>
-<div class="example-container">
-  <mat-form-field>
-    <input matInput placeholder="Enter your email" [formControl]="email" required>
-    <mat-error *ngIf="email.invalid">{{getEmailErrorMessage()}}</mat-error>
-  </mat-form-field>
-  <br>
-  <mat-form-field>
-    <input matInput placeholder="Enter your username" [formControl]="username" required>
-    <mat-error *ngIf="username.invalid">{{getUsernameErrorMessage()}}</mat-error>
-  </mat-form-field>
-  <br>
-  <mat-form-field>
-    <input matInput placeholder="Re-enter your password" [type]="!hide ? 'password' : 'text'"
-           [formControl]="passwordConfirm" required>
-    <mat-error>{{getPasswordMatchErrorMessage()}}</mat-error>
-    <mat-icon matSuffix (click)="hide = !hide">{{!hide ? 'visibility_off' : 'visibility'}}</mat-icon>
-  </mat-form-field>
-  <br>
-  <mat-form-field>
-    <input matInput placeholder="Enter your password" [type]="!hide1 ? 'password' : 'text'" [formControl]="password"
-           required>
-    <mat-error *ngIf="password.invalid">{{getPasswordMatchErrorMessage()}}</mat-error>
-    <mat-icon matSuffix (click)="hide1 = !hide1">{{!hide1 ? 'visibility_off' : 'visibility'}}</mat-icon>
-    <mat-error *ngIf="isSuccessful === false">{{errorMessage}}</mat-error>
-  </mat-form-field>
-  <br>
-  <button mat-raised-button class="sign-up-button" (click)="signUp()">Sign up</button>
-
-  <br>
 </div>
 
