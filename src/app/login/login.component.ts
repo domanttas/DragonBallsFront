@@ -21,15 +21,12 @@ export class LoginComponent implements OnInit {
 
   authToken: any;
 
-  dialogConfig: MatDialogConfig;
-
   constructor(private userService: UserService,
               private dialogService: DialogService,
               private router: Router) {
   }
 
   ngOnInit() {
-    this.dialogConfig = new MatDialogConfig();
   }
 
   async loginUser() {
@@ -37,10 +34,8 @@ export class LoginComponent implements OnInit {
     const fetchedPassword = this.password.value;
 
     if (fetchedUsername === '' && fetchedPassword === '') {
-      this.dialogConfig.data = {
-        description: 'Input fields are empty, use your username and password to log in'
-      };
-      this.dialogService.openDialog(ErrorDialogComponent, this.dialogConfig);
+      this.dialogService.openDialog(ErrorDialogComponent,
+        {description: 'Input fields are empty, use your username and password to log in'});
       return;
     }
 
@@ -61,10 +56,8 @@ export class LoginComponent implements OnInit {
         this.router.navigate(['home']);
       },
       error => {
-        this.dialogConfig.data = {
-          description: this.dialogService.checkForError(error.error.message)
-        };
-        this.dialogService.openDialog(ErrorDialogComponent, this.dialogConfig);
+        this.dialogService.openDialog(ErrorDialogComponent,
+          {description: this.dialogService.checkForError(error.error.message)});
       }
     );
   }

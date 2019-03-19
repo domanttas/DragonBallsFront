@@ -20,15 +20,12 @@ export class RegistrationComponent implements OnInit {
   passwordConfirm = new FormControl('', [Validators.required, Validators.email]);
   person: User;
 
-  dialogConfig: MatDialogConfig;
-
   constructor(private service: UserService,
               private router: Router,
               private dialogService: DialogService) {
   }
 
   ngOnInit() {
-    this.dialogConfig = new MatDialogConfig();
   }
 
   getEmailErrorMessage() {
@@ -41,7 +38,7 @@ export class RegistrationComponent implements OnInit {
     return this.username.hasError('required') ? 'You must enter a value' :
       this.username.hasError('minlength') ? 'Min 5 characters' :
         this.username.hasError('maxlength') ? 'Max 20 characters' :
-        '';
+          '';
   }
 
   getPasswordErrorMessage() {
@@ -74,16 +71,12 @@ export class RegistrationComponent implements OnInit {
     this.service.createUser(this.person).subscribe(
       response => {
         this.router.navigate(['home']);
-        this.dialogConfig.data = {
-          description: 'Registration successful'
-        };
-        this.dialogService.openDialog(ErrorDialogComponent, this.dialogConfig);
+        this.dialogService.openDialog(ErrorDialogComponent,
+          {description: 'Registration successful'});
       },
       error => {
-        this.dialogConfig.data = {
-          description: this.dialogService.checkForError(error.error.message)
-        };
-        this.dialogService.openDialog(ErrorDialogComponent, this.dialogConfig);
+        this.dialogService.openDialog(ErrorDialogComponent,
+          {description: this.dialogService.checkForError(error.error.message)});
       }
     );
   }

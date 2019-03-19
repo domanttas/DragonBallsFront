@@ -1,18 +1,22 @@
 import {Injectable} from '@angular/core';
-import {MatDialog} from '@angular/material';
+import {MatDialog, MatDialogConfig} from '@angular/material';
 
 @Injectable({
   providedIn: 'root'
 })
 export class DialogService {
 
-  constructor(public dialog: MatDialog) { }
+  matDialogConfig: MatDialogConfig = new MatDialogConfig();
 
-  openDialog(component, dialogConfig) {
-    dialogConfig.disableClose = true;
-    dialogConfig.autoFocus = true;
+  constructor(public dialog: MatDialog) {
+  }
 
-    return this.dialog.open(component, dialogConfig);
+  openDialog(component, data) {
+    this.matDialogConfig.disableClose = true;
+    this.matDialogConfig.autoFocus = true;
+    this.matDialogConfig.data = data;
+
+    return this.dialog.open(component, this.matDialogConfig);
   }
 
   checkForError(error): string {

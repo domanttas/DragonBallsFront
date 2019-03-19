@@ -9,7 +9,7 @@ import {Observable} from 'rxjs';
 export class UserService {
 
   public user: User;
-  public loggedInStatus: boolean;
+  public isLoggedIn: boolean;
 
   authToken: any;
 
@@ -45,7 +45,8 @@ export class UserService {
   authenticateUser(user: User): Promise<any> {
     return this.http.post(`https://limitless-eyrie-83209.herokuapp.com/api/user/auth`, user).toPromise().then(
       result => {
-        return result;
+        // return result;
+        return Promise.resolve(result);
       },
       error => {
         return Promise.reject(error);
@@ -71,10 +72,10 @@ export class UserService {
         localStorage.removeItem('token');
         localStorage.setItem('token', this.authToken);
 
-        this.loggedInStatus = true;
+        this.isLoggedIn = true;
       },
       error => {
-        this.loggedInStatus = false;
+        this.isLoggedIn = false;
         this.user = undefined;
         return Promise.reject();
       }

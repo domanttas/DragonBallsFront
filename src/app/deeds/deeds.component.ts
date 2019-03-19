@@ -22,8 +22,6 @@ export class DeedsComponent implements OnInit {
   deeds: any;
   user: any;
 
-  dialogConfig: MatDialogConfig;
-
   constructor(private authService: AuthService,
               private deedService: DeedService,
               private dialogService: DialogService,
@@ -34,8 +32,6 @@ export class DeedsComponent implements OnInit {
 
   ngOnInit() {
     this.getAllDeeds();
-
-    this.dialogConfig = new MatDialogConfig();
   }
 
   getAllDeeds() {
@@ -53,11 +49,8 @@ export class DeedsComponent implements OnInit {
   }
 
   openTeamRegistration(deed: Deed) {
-    if (this.userService.loggedInStatus) {
-      this.dialogConfig.data = {
-        goodDeed: deed
-      };
-      const dialogRef = this.dialogService.openDialog(TeamRegistrationComponent, this.dialogConfig);
+    if (this.userService.isLoggedIn) {
+      const dialogRef = this.dialogService.openDialog(TeamRegistrationComponent, {goodDeed: deed});
       dialogRef.afterClosed().subscribe(async result => {
           this.spinner.show();
           await this.deedService.getAllDeeds().toPromise().then(
@@ -70,20 +63,13 @@ export class DeedsComponent implements OnInit {
         }
       );
     } else {
-      this.dialogConfig.data = {
-        description: 'Please log in!'
-      };
-
-      this.dialogService.openDialog(ErrorDialogComponent, this.dialogConfig);
+      this.dialogService.openDialog(ErrorDialogComponent, {description: 'Please log in!'});
     }
   }
 
   addNewDeed() {
-    if (this.userService.loggedInStatus) {
-      this.dialogConfig.data = {
-        deedList: this.deeds
-      };
-      const dialogRef = this.dialogService.openDialog(GoodDeedRegistrationComponent, this.dialogConfig);
+    if (this.userService.isLoggedIn) {
+      const dialogRef = this.dialogService.openDialog(GoodDeedRegistrationComponent, {deedList: this.deeds});
       dialogRef.afterClosed().subscribe(async result => {
           this.spinner.show();
           await this.deedService.getAllDeeds().toPromise().then(
@@ -96,21 +82,13 @@ export class DeedsComponent implements OnInit {
         }
       );
     } else {
-      this.dialogConfig.data = {
-        description: 'Please log in!'
-      };
-
-      this.dialogService.openDialog(ErrorDialogComponent, this.dialogConfig);
+      this.dialogService.openDialog(ErrorDialogComponent, {description: 'Please log in!'});
     }
   }
 
   registerSolo(deed: Deed) {
-    if (!this.userService.loggedInStatus) {
-      this.dialogConfig.data = {
-        description: 'Please log in!'
-      };
-
-      this.dialogService.openDialog(ErrorDialogComponent, this.dialogConfig);
+    if (!this.userService.isLoggedIn) {
+      this.dialogService.openDialog(ErrorDialogComponent, {description: 'Please log in!'});
 
       return;
     }
@@ -123,21 +101,13 @@ export class DeedsComponent implements OnInit {
             if ((user as User).username === this.user.username) {
               this.hideSpinner();
 
-              this.dialogConfig.data = {
-                description: 'You are already registered to this deed!'
-              };
-              this.dialogService.openDialog(ErrorDialogComponent, this.dialogConfig);
+              this.dialogService.openDialog(ErrorDialogComponent, {description: 'You are already registered to this deed!'});
 
               return;
             }
           }
 
-          this.dialogConfig.data = {
-            goodDeed: deed,
-            registeredUser: this.user
-          };
-          const dialogRef = this.dialogService.openDialog(ConfirmationDialogComponent, this.dialogConfig);
-
+          const dialogRef = this.dialogService.openDialog(ConfirmationDialogComponent, {goodDeed: deed, registeredUser: this.user});
           dialogRef.afterClosed().subscribe(async result => {
               this.spinner.show();
               await this.deedService.getAllDeeds().toPromise().then(
@@ -152,10 +122,7 @@ export class DeedsComponent implements OnInit {
         }
       },
       error => {
-        this.dialogConfig.data = {
-          description: error.error.message
-        };
-        this.dialogService.openDialog(ErrorDialogComponent, this.dialogConfig);
+        this.dialogService.openDialog(ErrorDialogComponent, {description: error.error.message});
       }
     );
     this.hideSpinner();

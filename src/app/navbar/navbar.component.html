@@ -15,8 +15,10 @@
     </div>
     <span class="fill-remaining-space"></span>
     <div>
-      <a *ngIf="!userService.user" routerLink="/login">Log In</a>
-      <a *ngIf="!userService.user" class = "get-started" routerLink="/registration">Get Started</a>
+      <div *ngIf="!userService.user">
+        <a routerLink="/login">Log In</a>
+        <a class = "get-started" routerLink="/registration">Get Started</a>
+      </div>
       <div *ngIf="userService.user" class="layout-user">
         <mat-icon class="--layout--user-icon">person_outline</mat-icon>
         <p class="--layout--username">{{userService.user.username}}</p>
