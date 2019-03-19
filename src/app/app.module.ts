@@ -6,19 +6,20 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { NavbarComponent } from './navbar/navbar.component';
-import { HomeComponent } from './home/home.component';
-import { RegistrationComponent } from './registration/registration.component';
+import { HomeComponent } from './pages/home/home.component';
+import { RegistrationComponent } from './pages/registration/registration.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {MatFormFieldModule, MatIconModule, MatInputModule, MatListModule} from '@angular/material';
 import { HttpClientModule } from '@angular/common/http';
-import { LoginComponent } from './login/login.component';
-import { ErrorDialogComponent } from './error-dialog/error-dialog.component';
-import { GoodDeedRegistrationComponent } from './good-deed-registration/good-deed-registration.component';
-import { DeedsComponent } from './deeds/deeds.component';
+import { LoginComponent } from './pages/login/login.component';
+import { ErrorDialogComponent } from './dialogs/error-dialog/error-dialog.component';
+import { GoodDeedRegistrationComponent } from './dialogs/good-deed-registration/good-deed-registration.component';
+import { DeedsComponent } from './pages/deeds/deeds.component';
 import {MatExpansionModule} from '@angular/material/expansion';
-import { TeamRegistrationComponent } from './deeds-team-registration/team-registration.component';
+import { TeamRegistrationComponent } from './dialogs/deeds-team-registration/team-registration.component';
 import {NgxSpinnerModule} from 'ngx-spinner';
-import { ConfirmationDialogComponent } from './confirmation-dialog/confirmation-dialog.component';
+import { ConfirmationDialogComponent } from './dialogs/confirmation-dialog/confirmation-dialog.component';
+import { DeedModelDisplayComponent } from './pages/deed-model-display/deed-model-display.component';
 
 @NgModule({
   declarations: [
@@ -32,7 +33,8 @@ import { ConfirmationDialogComponent } from './confirmation-dialog/confirmation-
     DeedsComponent,
     TeamRegistrationComponent,
     GoodDeedRegistrationComponent,
-    ConfirmationDialogComponent
+    ConfirmationDialogComponent,
+    DeedModelDisplayComponent
   ],
   imports: [
     BrowserModule,

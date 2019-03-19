@@ -1,11 +1,10 @@
 import {Component, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
 import {FormControl} from '@angular/forms';
-import {User} from '../models/user';
-import {UserService} from '../user.service';
-import {ErrorDialogComponent} from '../error-dialog/error-dialog.component';
-import {MatDialogConfig} from '@angular/material';
-import {DialogService} from '../dialog.service';
+import {User} from '../../models/user';
+import {UserService} from '../../services/user.service';
+import {ErrorDialogComponent} from '../../dialogs/error-dialog/error-dialog.component';
+import {DialogService} from '../../services/dialog.service';
 
 @Component({
   selector: 'app-login',

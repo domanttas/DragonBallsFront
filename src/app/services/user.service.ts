@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
-import {User} from './models/user';
+import {User} from '../models/user';
 import {Observable} from 'rxjs';
 
 @Injectable({
@@ -11,13 +11,15 @@ export class UserService {
   public user: User;
   public isLoggedIn: boolean;
 
+  private baseUri: string = `https://limitless-eyrie-83209.herokuapp.com/`;
+
   authToken: any;
 
   constructor(private http: HttpClient) {
   }
 
   createUser(user: User) {
-    return this.http.post(`https://limitless-eyrie-83209.herokuapp.com/api/user/create`, user);
+    return this.http.post(this.baseUri + `api/user/create`, user);
   }
 
   getUserByToken(): Observable<any> {
@@ -25,7 +27,7 @@ export class UserService {
       Authorization: 'Bearer ' + localStorage.getItem('token')
     });
 
-    return this.http.get(`https://limitless-eyrie-83209.herokuapp.com/api/user`, {
+    return this.http.get(this.baseUri + `api/user`, {
       headers: headers
     });
   }
@@ -39,13 +41,12 @@ export class UserService {
   }
 
   getUserByUsername(username: string): Observable<any> {
-    return this.http.get(`https://limitless-eyrie-83209.herokuapp.com/api/user/` + username);
+    return this.http.get(this.baseUri + `api/user/` + username);
   }
 
   authenticateUser(user: User): Promise<any> {
-    return this.http.post(`https://limitless-eyrie-83209.herokuapp.com/api/user/auth`, user).toPromise().then(
+    return this.http.post(this.baseUri + `api/user/auth`, user).toPromise().then(
       result => {
-        // return result;
         return Promise.resolve(result);
       },
       error => {
@@ -59,7 +60,7 @@ export class UserService {
       Authorization: 'Bearer ' + localStorage.getItem('token')
     });
 
-    return this.http.get(`https://limitless-eyrie-83209.herokuapp.com/api/user/refresh`, {
+    return this.http.get(this.baseUri + `api/user/refresh`, {
       headers: headers
     });
   }
@@ -73,6 +74,7 @@ export class UserService {
         localStorage.setItem('token', this.authToken);
 
         this.isLoggedIn = true;
+        return Promise.resolve();
       },
       error => {
         this.isLoggedIn = false;

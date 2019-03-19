@@ -1,16 +1,15 @@
 import {Component, Inject, OnInit} from '@angular/core';
-import {AuthService} from '../auth.service';
-import {DeedService} from '../deed.service';
-import {Deed} from '../models/deed';
-import {UserService} from '../user.service';
+import {DeedService} from '../../services/deed.service';
+import {Deed} from '../../models/deed';
+import {UserService} from '../../services/user.service';
 import {NgxSpinnerService} from 'ngx-spinner';
-import {User} from '../models/user';
+import {User} from '../../models/user';
 import {MAT_DIALOG_DATA, MatDialogConfig} from '@angular/material';
-import {DialogService} from '../dialog.service';
-import {ErrorDialogComponent} from '../error-dialog/error-dialog.component';
-import {GoodDeedRegistrationComponent} from '../good-deed-registration/good-deed-registration.component';
-import {TeamRegistrationComponent} from '../deeds-team-registration/team-registration.component';
-import {ConfirmationDialogComponent} from '../confirmation-dialog/confirmation-dialog.component';
+import {DialogService} from '../../services/dialog.service';
+import {ErrorDialogComponent} from '../../dialogs/error-dialog/error-dialog.component';
+import {GoodDeedRegistrationComponent} from '../../dialogs/good-deed-registration/good-deed-registration.component';
+import {TeamRegistrationComponent} from '../../dialogs/deeds-team-registration/team-registration.component';
+import {ConfirmationDialogComponent} from '../../dialogs/confirmation-dialog/confirmation-dialog.component';
 
 @Component({
   selector: 'app-deeds',
@@ -22,8 +21,7 @@ export class DeedsComponent implements OnInit {
   deeds: any;
   user: any;
 
-  constructor(private authService: AuthService,
-              private deedService: DeedService,
+  constructor(private deedService: DeedService,
               private dialogService: DialogService,
               private userService: UserService,
               private spinner: NgxSpinnerService,

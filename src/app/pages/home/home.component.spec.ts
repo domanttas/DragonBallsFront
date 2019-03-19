@@ -2,15 +2,15 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { HomeComponent } from './home.component';
 import {HttpClientModule} from '@angular/common/http';
-import {AppRoutingModule} from '../app-routing.module';
+import {AppRoutingModule} from '../../app-routing.module';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
-import {MaterialModule} from '../material/material.module';
+import {MaterialModule} from '../../material/material.module';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {GoodDeedRegistrationComponent} from '../good-deed-registration/good-deed-registration.component';
+import {GoodDeedRegistrationComponent} from '../../dialogs/good-deed-registration/good-deed-registration.component';
 import {DialogComponent} from '../dialog/dialog.component';
 import {LoginComponent} from '../login/login.component';
 import {RegistrationComponent} from '../registration/registration.component';
-import {NavbarComponent} from '../navbar/navbar.component';
+import {NavbarComponent} from '../../navbar/navbar.component';
 
 describe('HomeComponent', () => {
   let component: HomeComponent;

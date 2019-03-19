@@ -1,10 +1,10 @@
 import {Component, ElementRef, Inject, OnInit, ViewChild} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
 import {FormBuilder, FormControl, Validators} from '@angular/forms';
-import {DeedRequest} from '../models/deed-request';
-import {DeedService} from '../deed.service';
-import {UserService} from '../user.service';
-import {Participation} from '../models/participation';
+import {DeedRequest} from '../../models/deed-request';
+import {DeedService} from '../../services/deed.service';
+import {UserService} from '../../services/user.service';
+import {Participation} from '../../models/participation';
 import {Router} from '@angular/router';
 import {NgxSpinnerService} from 'ngx-spinner';
 
