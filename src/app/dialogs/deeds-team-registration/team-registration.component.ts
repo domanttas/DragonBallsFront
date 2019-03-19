@@ -1,10 +1,10 @@
 import {Component, ElementRef, Inject, OnInit, ViewChild} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
 import {FormControl, Validators} from '@angular/forms';
-import {Deed} from '../models/deed';
-import {UserService} from '../user.service';
-import {DeedService} from '../deed.service';
-import {User} from '../models/user';
+import {Deed} from '../../models/deed';
+import {UserService} from '../../services/user.service';
+import {DeedService} from '../../services/deed.service';
+import {User} from '../../models/user';
 
 @Component({
   selector: 'app-team-registration',

@@ -1,9 +1,9 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
-import {Deed} from '../models/deed';
-import {Participation} from '../models/participation';
-import {DeedService} from '../deed.service';
-import {User} from '../models/user';
+import {Deed} from '../../models/deed';
+import {Participation} from '../../models/participation';
+import {DeedService} from '../../services/deed.service';
+import {User} from '../../models/user';
 
 @Component({
   selector: 'app-confirmation-dialog',

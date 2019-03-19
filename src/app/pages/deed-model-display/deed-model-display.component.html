@@ -1,0 +1,77 @@
+<mat-accordion class="container">
+  <mat-expansion-panel>
+  <mat-expansion-panel-header class="deeds-page--title--header">
+    <mat-panel-title class="deeds-page--title--header--item">
+      {{deed.name}}
+    </mat-panel-title>
+    <mat-panel-description class="deeds-page--title--header--location">
+      <mat-icon>place</mat-icon>
+      {{deed.location}}
+    </mat-panel-description>
+    <mat-panel-description class="deeds-page--title--header--icon">
+      <mat-icon *ngIf="deed.category.name === this.deedTypes.HELP_FOR_ELDERLY">supervised_user_circle</mat-icon>
+      <mat-icon *ngIf="deed.category.name === this.deedTypes.HELP_FOR_KIDS">child_care</mat-icon>
+      <mat-icon *ngIf="deed.category.name === this.deedTypes.HELP_FOR_ANIMALS">pets</mat-icon>
+      <mat-icon *ngIf="deed.category.name === this.deedTypes.HELP_FOR_ENVIRONMENT">nature_people</mat-icon>
+      <mat-icon *ngIf="deed.category.name === this.deedTypes.OTHER">more-horiz</mat-icon>
+    </mat-panel-description>
+  </mat-expansion-panel-header>
+  <mat-list>
+    <mat-list-item class="deeds-page--contact--header">
+      <mat-icon>description</mat-icon>
+      Description:
+    </mat-list-item>
+    <mat-list-item class="deeds--page--deed--field">
+      {{deed.description}}
+    </mat-list-item>
+    <mat-divider></mat-divider>
+    <mat-list-item class="deeds-page--contact--header">
+      <mat-icon>place</mat-icon>
+      Location:
+    </mat-list-item>
+    <mat-list-item class="deeds--page--deed--field">
+      {{deed.location}}
+    </mat-list-item>
+    <mat-divider></mat-divider>
+    <mat-list-item class="deeds-page--contact--header">
+      <mat-icon>call</mat-icon>
+      Contact information:
+    </mat-list-item>
+    <mat-list-item class="deeds--page--deed--field">Name: {{deed.contact.name}}</mat-list-item>
+    <mat-list-item class="deeds--page--deed--field">Email: {{deed.contact.email}}</mat-list-item>
+    <mat-list-item class="deeds--page--deed--field">Phone number: {{deed.contact.phone}}</mat-list-item>
+
+    <mat-divider></mat-divider>
+
+    <mat-list-item class="deeds-page--contact--header">
+      <mat-icon>people</mat-icon>
+      Participants:
+    </mat-list-item>
+    <mat-list-item *ngFor="let user of deed.users"
+                   class="deeds--page--deed--field">
+      {{user.username}}
+    </mat-list-item>
+    <mat-list-item class="deeds-page--contact--header" *ngIf="deed.teamLeadId !== null">
+      <mat-icon>stars</mat-icon>
+      Team lead: &nbsp;
+      <div *ngFor="let user of deed.users">
+        <div *ngIf="user.id === deed.teamLeadId"
+             [ngStyle]="{'color' : deed.teamLeadId === user.id ? '#3f51b5' : 'black'}">
+          {{user.username}}
+        </div>
+      </div>
+    </mat-list-item>
+    <div class="deeds--page--participate--btn-wrapper">
+      <button mat-raised-button class="deeds--page--deed--btn" (click)="registerSolo(deed)"
+              *ngIf="!deed.closed">Participate as solo
+      </button>
+      <button mat-raised-button class="deeds--page--deed--btn" (click)="openTeamRegistration(deed)"
+              *ngIf="!deed.closed && deed.participation !== 'PARTICIPATE_AS_SOLO'">Participate as
+        team
+      </button>
+      <label *ngIf="deed.closed">Deed is closed for registration</label>
+    </div>
+  </mat-list>
+  </mat-expansion-panel>
+</mat-accordion>
+

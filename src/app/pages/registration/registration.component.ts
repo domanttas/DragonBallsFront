@@ -1,11 +1,11 @@
 import {Component, OnInit} from '@angular/core';
 import {FormControl, Validators} from '@angular/forms';
-import {User} from '../models/user';
-import {UserService} from '../user.service';
+import {User} from '../../models/user';
+import {UserService} from '../../services/user.service';
 import {Router} from '@angular/router';
-import {DialogService} from '../dialog.service';
+import {DialogService} from '../../services/dialog.service';
 import {MatDialogConfig} from '@angular/material';
-import {ErrorDialogComponent} from '../error-dialog/error-dialog.component';
+import {ErrorDialogComponent} from '../../dialogs/error-dialog/error-dialog.component';
 
 @Component({
   selector: 'app-registration',

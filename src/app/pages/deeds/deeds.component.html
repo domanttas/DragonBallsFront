@@ -1,0 +1,16 @@
+<button mat-raised-button class="deeds-page--add-deed--btn" (click)="addNewDeed()">Register New Deed</button>
+<ngx-spinner type="square-jelly-box"></ngx-spinner>
+<div class="tab-good-deeds">
+  <mat-tab-group mat-align-tabs="center">
+    <mat-tab label="All good deeds">
+      <span *ngFor="let deed of deeds">
+        <span app-deed-model-display [deed]="deed" (registerSoloEvent)="registerSolo($event)" (registerTeamEvent)="openTeamRegistration($event)"></span>
+      </span>
+    </mat-tab>
+    <mat-tab label="Active good deeds">
+      <span *ngFor="let deed of deeds">
+        <span app-deed-model-display [deed]="deed" *ngIf="!deed.closed" (registerSoloEvent)="registerSolo($event)" (registerTeamEvent)="openTeamRegistration($event)"></span>
+      </span>
+    </mat-tab>
+  </mat-tab-group>
+</div>
