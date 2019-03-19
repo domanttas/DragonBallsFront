@@ -2,6 +2,9 @@
   <mat-expansion-panel>
   <mat-expansion-panel-header class="deeds-page--title--header">
     <mat-panel-title class="deeds-page--title--header--item">
+      <!-- TODO: ngIf user is already registered to deed -> show icon-->
+      <mat-icon class="mat-panel-header-title-icon" *ngIf="checkIfUserISRegisteredToDeed()" >check_circle_outline</mat-icon>
+      <span class="mat-panel-header-title-margin" *ngIf="!checkIfUserISRegisteredToDeed()"></span>
       {{deed.name}}
     </mat-panel-title>
     <mat-panel-description class="deeds-page--title--header--location">
@@ -47,13 +50,12 @@
       <mat-icon>people</mat-icon>
       Participants:
     </mat-list-item>
-    <mat-list-item *ngFor="let user of deed.users"
-                   class="deeds--page--deed--field">
+    <mat-list-item *ngFor="let user of deed.users" class="deeds--page--deed--field">
       {{user.username}}
     </mat-list-item>
     <mat-list-item class="deeds-page--contact--header" *ngIf="deed.teamLeadId !== null">
       <mat-icon>stars</mat-icon>
-      Team lead: &nbsp;
+      Team captain: &nbsp;
       <div *ngFor="let user of deed.users">
         <div *ngIf="user.id === deed.teamLeadId"
              [ngStyle]="{'color' : deed.teamLeadId === user.id ? '#3f51b5' : 'black'}">

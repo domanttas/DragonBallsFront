@@ -1,5 +1,5 @@
 <div class="col">
-    <h2 mat-dialog-title class="deed-registration-dialog--header--title col-center">Register a good deed!</h2>
+    <h2 mat-dialog-title class="deed-registration-dialog--header--title col-center">Register a good deed</h2>
     <mat-dialog-content>
       <mat-form-field class="col">
         <input matInput placeholder="Name *" [formControl]="name">
@@ -38,21 +38,22 @@
         <mat-error *ngIf="contactEmail.invalid">{{getContactEmailErrorMessage()}}</mat-error>
       </mat-form-field>
       <mat-form-field class="col-md-4">
-        <span matPrefix>+370 &nbsp;</span>
-        <input matInput placeholder="Mobile phone *" [formControl]="contactTelephoneNo">
+<!--        <span matPrefix>+370 &nbsp;</span>-->
+        <input matInput placeholder="Mobile phone *" [formControl]="contactTelephoneNo" [(ngModel)]="phoneNoCode">
+        <mat-label>Mobile phone *</mat-label>
         <mat-error *ngIf="contactTelephoneNo.invalid">{{getContactTelephoneNoErrorMessage()}}</mat-error>
       </mat-form-field>
       <br>
       <mat-form-field class="col-md-6">
         <mat-select placeholder="Participation" required [formControl]="selectedParticipationType">
-          <mat-option matInput *ngFor="let part of participationChoices" [value]="part.value">
+          <mat-option matInput *ngFor="let part of participationChoices" [value]="part.value" (click)="setIsCaptainFalse()">
             {{part.viewValue}}
           </mat-option>
         </mat-select>
         <mat-error *ngIf="selectedParticipationType.hasError('required')">{{getDropdownErrorMessage()}}</mat-error>
       </mat-form-field>
       <br>
-      <mat-checkbox class="col" *ngIf="selectedParticipationType.value === '1'" (click)="assignCaptainToggle($event)">Assign me as a captain</mat-checkbox>
+      <mat-checkbox class="col" *ngIf="selectedParticipationType.value === '1'" (change)="assignCaptainToggle($event)">Assign me as a captain</mat-checkbox>
       <div *ngIf="selectedParticipationType.value === '2'">
         <span *ngFor="let form of usernameFormControlList">
           <mat-form-field class="col-md-6" appearance="outline">

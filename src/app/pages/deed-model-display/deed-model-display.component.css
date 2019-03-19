@@ -2,7 +2,8 @@
   --landing-page-btn-bg-color: #CFD8DC;
   --landing-page-btn-bg-hover-color: #B0BEC5;
   --reg-font-size: 1.125rem;
-  --deeds-page--mat-divider-color: #3f51b5;
+  --deeds-page-mat-divider-color: #3f51b5;
+  --deeds-page-mat-expansion-panel-header-expanded-color: #6bbaff;
 }
 
 .col-center {
@@ -93,3 +94,18 @@
   flex-basis: 0;
 }
 
+.mat-expansion-panel-header.mat-expanded {
+  background-color: var(--deeds-page-mat-expansion-panel-header-expanded-color) !important;
+}
+
+.mat-panel-header-title-icon {
+  margin-right: 1rem;
+}
+
+.mat-panel-header-title-margin {
+  margin-right: 2.5rem;
+}
+
+.mat-expansion-panel-header-title {
+  margin-left: 0;
+}

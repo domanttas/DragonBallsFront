@@ -10,6 +10,7 @@ import {ErrorDialogComponent} from '../../dialogs/error-dialog/error-dialog.comp
 import {GoodDeedRegistrationComponent} from '../../dialogs/good-deed-registration/good-deed-registration.component';
 import {TeamRegistrationComponent} from '../../dialogs/deeds-team-registration/team-registration.component';
 import {ConfirmationDialogComponent} from '../../dialogs/confirmation-dialog/confirmation-dialog.component';
+import {Participation} from '../../models/participation';
 
 @Component({
   selector: 'app-deeds',
@@ -29,7 +30,12 @@ export class DeedsComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.getAllDeeds();
+    this.userService.getUserByToken().toPromise().then(
+      res => {
+        if (res) {
+          this.user = res;
+          this.getAllDeeds();
+        }});
   }
 
   getAllDeeds() {
@@ -84,7 +90,7 @@ export class DeedsComponent implements OnInit {
     }
   }
 
-  registerSolo(deed: Deed) {
+  async registerSolo(deed: Deed) {
     if (!this.userService.isLoggedIn) {
       this.dialogService.openDialog(ErrorDialogComponent, {description: 'Please log in!'});
 
@@ -105,18 +111,34 @@ export class DeedsComponent implements OnInit {
             }
           }
 
-          const dialogRef = this.dialogService.openDialog(ConfirmationDialogComponent, {goodDeed: deed, registeredUser: this.user});
-          dialogRef.afterClosed().subscribe(async result => {
-              this.spinner.show();
-              await this.deedService.getAllDeeds().toPromise().then(
-                response => {
-                  this.deeds = response;
-                  this.deeds = this.deeds.reverse();
-                  this.hideSpinner();
+          if (deed.teamLeadId) {
+            this.deedService.addUserToDeed(this.user, deed.id).toPromise().then(
+              async response => {
+                await this.deedService.getAllDeeds().toPromise().then(
+                  result => {
+                    this.deeds = result;
+                    this.deeds = this.deeds.reverse();
+                    this.hideSpinner();
+                  }
+                );
+              },
+              error => {
+              }
+            );
+          } else {
+              const dialogRef = this.dialogService.openDialog(ConfirmationDialogComponent, {goodDeed: deed, registeredUser: this.user});
+              dialogRef.afterClosed().subscribe(async result => {
+                  this.spinner.show();
+                  await this.deedService.getAllDeeds().toPromise().then(
+                    response => {
+                      this.deeds = response;
+                      this.deeds = this.deeds.reverse();
+                      this.hideSpinner();
+                    }
+                  );
                 }
               );
-            }
-          );
+          }
         }
       },
       error => {

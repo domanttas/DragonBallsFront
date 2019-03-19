@@ -30,8 +30,8 @@ export class GoodDeedRegistrationComponent implements OnInit {
   location = new FormControl('', [Validators.required, Validators.maxLength(50)]);
   contactName = new FormControl('', [Validators.required, Validators.maxLength(40)]);
   contactEmail = new FormControl('', [Validators.required, Validators.email]);
-  contactTelephoneNo = new FormControl('', [Validators.required, Validators.minLength(8), Validators.maxLength(8),
-    Validators.pattern('[0-9]{8}')]);
+  contactTelephoneNo = new FormControl('', [Validators.required, Validators.pattern('^(\\+370|8){1}[0-9]{8}$')]);
+
   selectedCategory = new FormControl('');
   selectedParticipationType = new FormControl('');
 
@@ -48,6 +48,8 @@ export class GoodDeedRegistrationComponent implements OnInit {
 
   isErrorPresent: boolean;
   errorMessage: string;
+
+  phoneNoCode = '+370';
 
   categories: CategoryChoice[] = [
     {value: 'Help for animals', viewValue: 'Help for animals'},
@@ -96,7 +98,7 @@ export class GoodDeedRegistrationComponent implements OnInit {
 
   getNameErrorMessage() {
     return this.name.hasError('required') ? 'You must enter a value' :
-      this.name.hasError('maxlength') ? 'Maximum of 75 characters are allowed' :
+      this.name.hasError('maxlength') ? 'Maximum of 50 characters are allowed' :
         '';
   }
 
@@ -130,9 +132,7 @@ export class GoodDeedRegistrationComponent implements OnInit {
 
   getContactTelephoneNoErrorMessage() {
     return this.contactTelephoneNo.hasError('required') ? 'You must enter a value' :
-      this.contactTelephoneNo.hasError('minlength') ? 'You must enter exactly 8 digits' :
-        this.contactTelephoneNo.hasError('maxlength') ? 'You must enter exactly 8 digits' :
-          this.contactTelephoneNo.hasError('pattern') ? 'All characters must be digits' :
+          this.contactTelephoneNo.hasError('pattern') ? 'Invalid phone number' :
             '';
   }
 
@@ -153,7 +153,7 @@ export class GoodDeedRegistrationComponent implements OnInit {
         contact: {
           name: this.contactName.value,
           email: this.contactEmail.value,
-          phone: '+370' + this.contactTelephoneNo.value
+          phone: this.contactTelephoneNo.value
         },
         participation: this.parseSelectedParticipation(this.selectedParticipationType.value),
         teamUsernames: this.getUsernamesFromDeed()
@@ -199,7 +199,11 @@ export class GoodDeedRegistrationComponent implements OnInit {
       });
   }
 
-  assignCaptainToggle(event) {
+  setIsCaptainFalse() {
+    this.isCaptain = false;
+  }
+
+  assignCaptainToggle() {
     if (!this.isCaptain) {
       this.isCaptain = true;
     } else {
@@ -209,6 +213,7 @@ export class GoodDeedRegistrationComponent implements OnInit {
 
   getUsernamesFromDeed(): any {
     if (this.parseSelectedParticipation(this.selectedParticipationType.value) === Participation.NOT_INTERESTED.toString()) {
+      this.isCaptain = false;
       return [];
     } else if (this.parseSelectedParticipation(this.selectedParticipationType.value) === Participation.PARTICIPATE_AS_SOLO.toString()) {
       let tempUsername = [];
