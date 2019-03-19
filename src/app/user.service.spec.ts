@@ -10,7 +10,7 @@ import {HomeComponent} from './home/home.component';
 import {DialogComponent} from './dialog/dialog.component';
 import {LoginComponent} from './login/login.component';
 import {RegistrationComponent} from './registration/registration.component';
-import {LayoutComponent} from './layout/layout.component';
+import {NavbarComponent} from './navbar/navbar.component';
 
 describe('UserService', () => {
   beforeEach(() => TestBed.configureTestingModule({

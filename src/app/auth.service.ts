@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {User} from './models/user';
 import {Observable} from 'rxjs';
@@ -9,44 +9,46 @@ import {Observable} from 'rxjs';
 
 export class AuthService {
 
-  private loggedInStatus = false;
   authToken: any;
 
-  constructor(private http: HttpClient) { }
+  public loggedInStatus: boolean;
 
-  setLoggedIn(value: boolean) {
-    this.loggedInStatus = value;
+  constructor(private http: HttpClient) {
   }
 
-  getUserDetails(user: User): Observable<any> {
-    return this.http.post(`https://limitless-eyrie-83209.herokuapp.com/api/user/auth`, user);
+  authenticateUser(user: User): Promise<any> {
+    return this.http.post(`https://limitless-eyrie-83209.herokuapp.com/api/user/auth`, user).toPromise().then(
+      result => {
+        return result;
+      },
+      error => {
+        return error;
+      }
+    );
   }
 
-  isLoggedIn(): Observable<any> {
+  refreshUserToken(): Observable<any> {
     const headers = new HttpHeaders({
       Authorization: 'Bearer ' + localStorage.getItem('token')
     });
 
     return this.http.get(`https://limitless-eyrie-83209.herokuapp.com/api/user/refresh`, {
-      // tslint:disable-next-line:object-literal-shorthand
       headers: headers
     });
   }
 
-  isUserTokenValid(): Promise<boolean> {
-    return this.isLoggedIn().toPromise().then(
+  isUserLoggedIn(): Promise<any> {
+    return this.refreshUserToken().toPromise().then(
       res => {
         this.authToken = res.token;
 
         localStorage.removeItem('token');
         localStorage.setItem('token', this.authToken);
 
-        console.log(this.authToken);
-        return true;
+        this.loggedInStatus = true;
       },
       error => {
-        console.log(error.error.message);
-        return false;
+        this.loggedInStatus = false;
       }
     );
   }

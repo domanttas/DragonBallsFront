@@ -1,12 +1,16 @@
 import {Component, Inject, OnInit} from '@angular/core';
-import {DialogComponent} from '../dialog/dialog.component';
 import {AuthService} from '../auth.service';
 import {DeedService} from '../deed.service';
 import {Deed} from '../models/deed';
 import {UserService} from '../user.service';
 import {NgxSpinnerService} from 'ngx-spinner';
 import {User} from '../models/user';
-import {MAT_DIALOG_DATA} from '@angular/material';
+import {MAT_DIALOG_DATA, MatDialogConfig} from '@angular/material';
+import {DialogService} from '../dialog.service';
+import {ErrorDialogComponent} from '../error-dialog/error-dialog.component';
+import {GoodDeedRegistrationComponent} from '../good-deed-registration/good-deed-registration.component';
+import {TeamRegistrationComponent} from '../deeds-team-registration/team-registration.component';
+import {ConfirmationDialogComponent} from '../confirmation-dialog/confirmation-dialog.component';
 
 @Component({
   selector: 'app-deeds',
@@ -14,20 +18,19 @@ import {MAT_DIALOG_DATA} from '@angular/material';
   styleUrls: ['./deeds.component.css']
 })
 export class DeedsComponent implements OnInit {
-  isLoggedIn: boolean;
+
   deeds: any;
   user: any;
 
-  constructor(private dialog: DialogComponent,
-              private authService: AuthService,
+  constructor(private authService: AuthService,
               private deedService: DeedService,
+              private dialogService: DialogService,
               private userService: UserService,
               private spinner: NgxSpinnerService,
               @Inject(MAT_DIALOG_DATA) data) {
   }
 
   ngOnInit() {
-    this.isUserLoggedIn();
     this.getAllDeeds();
   }
 
@@ -46,8 +49,8 @@ export class DeedsComponent implements OnInit {
   }
 
   openTeamRegistration(deed: Deed) {
-    if (this.isLoggedIn) {
-      const dialogRef = this.dialog.openTeamDialog(deed);
+    if (this.userService.isLoggedIn) {
+      const dialogRef = this.dialogService.openDialog(TeamRegistrationComponent, {goodDeed: deed});
       dialogRef.afterClosed().subscribe(async result => {
           this.spinner.show();
           await this.deedService.getAllDeeds().toPromise().then(
@@ -60,13 +63,13 @@ export class DeedsComponent implements OnInit {
         }
       );
     } else {
-      this.dialog.openDialog('Please log in!');
+      this.dialogService.openDialog(ErrorDialogComponent, {description: 'Please log in!'});
     }
   }
 
   addNewDeed() {
-    if (this.isLoggedIn) {
-      const dialogRef = this.dialog.openDeedRegistrationDialog(this.deeds);
+    if (this.userService.isLoggedIn) {
+      const dialogRef = this.dialogService.openDialog(GoodDeedRegistrationComponent, {deedList: this.deeds});
       dialogRef.afterClosed().subscribe(async result => {
           this.spinner.show();
           await this.deedService.getAllDeeds().toPromise().then(
@@ -79,24 +82,14 @@ export class DeedsComponent implements OnInit {
         }
       );
     } else {
-      this.dialog.openDialog('Please log in!');
+      this.dialogService.openDialog(ErrorDialogComponent, {description: 'Please log in!'});
     }
   }
 
-  isUserLoggedIn(): any {
-    this.authService.isUserTokenValid()
-      .then(result => {
-        if (result) {
-          this.isLoggedIn = true;
-        } else {
-          this.isLoggedIn = false;
-        }
-      });
-  }
-
   registerSolo(deed: Deed) {
-    if (!this.isLoggedIn) {
-      this.dialog.openDialog('Please log in!');
+    if (!this.userService.isLoggedIn) {
+      this.dialogService.openDialog(ErrorDialogComponent, {description: 'Please log in!'});
+
       return;
     }
     this.spinner.show();
@@ -107,12 +100,14 @@ export class DeedsComponent implements OnInit {
           for (let user of deed.users) {
             if ((user as User).username === this.user.username) {
               this.hideSpinner();
-              this.dialog.openDialog('You are already registered to this deed!');
+
+              this.dialogService.openDialog(ErrorDialogComponent, {description: 'You are already registered to this deed!'});
+
               return;
             }
           }
 
-          const dialogRef = this.dialog.openSoloRegisterConfirmationDialog(deed, this.user);
+          const dialogRef = this.dialogService.openDialog(ConfirmationDialogComponent, {goodDeed: deed, registeredUser: this.user});
           dialogRef.afterClosed().subscribe(async result => {
               this.spinner.show();
               await this.deedService.getAllDeeds().toPromise().then(
@@ -127,7 +122,7 @@ export class DeedsComponent implements OnInit {
         }
       },
       error => {
-        this.dialog.openDialog(error.error.message);
+        this.dialogService.openDialog(ErrorDialogComponent, {description: error.error.message});
       }
     );
     this.hideSpinner();

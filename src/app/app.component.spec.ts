@@ -1,7 +1,7 @@
 import { TestBed, async } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { AppComponent } from './app.component';
-import {LayoutComponent} from './layout/layout.component';
+import {NavbarComponent} from './navbar/navbar.component';
 import {MaterialModule} from './material/material.module';
 import {HttpClientModule} from '@angular/common/http';
 
@@ -15,7 +15,7 @@ describe('AppComponent', () => {
       ],
       declarations: [
         AppComponent,
-        LayoutComponent
+        NavbarComponent
       ],
     }).compileComponents();
   }));

@@ -5,7 +5,7 @@ import { MaterialModule } from './material/material.module';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { LayoutComponent } from './layout/layout.component';
+import { NavbarComponent } from './navbar/navbar.component';
 import { HomeComponent } from './home/home.component';
 import { RegistrationComponent } from './registration/registration.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -13,8 +13,6 @@ import {MatFormFieldModule, MatIconModule, MatInputModule, MatListModule} from '
 import { HttpClientModule } from '@angular/common/http';
 import { LoginComponent } from './login/login.component';
 import { ErrorDialogComponent } from './error-dialog/error-dialog.component';
-import { DialogComponent } from './dialog/dialog.component';
-import { ErrorCheckComponent } from './error-check/error-check.component';
 import { GoodDeedRegistrationComponent } from './good-deed-registration/good-deed-registration.component';
 import { DeedsComponent } from './deeds/deeds.component';
 import {MatExpansionModule} from '@angular/material/expansion';
@@ -25,17 +23,14 @@ import { ConfirmationDialogComponent } from './confirmation-dialog/confirmation-
 @NgModule({
   declarations: [
     AppComponent,
-    LayoutComponent,
+    NavbarComponent,
     HomeComponent,
     RegistrationComponent,
     HomeComponent,
     LoginComponent,
     ErrorDialogComponent,
-    DialogComponent,
-    ErrorCheckComponent,
     DeedsComponent,
     TeamRegistrationComponent,
-    ErrorCheckComponent,
     GoodDeedRegistrationComponent,
     ConfirmationDialogComponent
   ],
@@ -55,7 +50,7 @@ import { ConfirmationDialogComponent } from './confirmation-dialog/confirmation-
     MatListModule,
     NgxSpinnerModule
   ],
-  providers: [DialogComponent, ErrorCheckComponent],
+  providers: [],
   bootstrap: [AppComponent],
   entryComponents: [ErrorDialogComponent, TeamRegistrationComponent, GoodDeedRegistrationComponent, ConfirmationDialogComponent]
 })

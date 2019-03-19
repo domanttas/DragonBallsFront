@@ -9,17 +9,19 @@
       </a>
     </div>
     <div>
-      <a href="">Home</a>
+      <a href="" routerLink="/home">Home</a>
       <a href="" routerLink="/deeds">Deeds</a>
       <a href="">Blog</a>
     </div>
     <span class="fill-remaining-space"></span>
     <div>
-      <a *ngIf="!isUserLoggedIn" routerLink="/login">Log In</a>
-      <a *ngIf="!isUserLoggedIn" class = "get-started" routerLink="/registration">Get Started</a>
-      <div *ngIf="isUserLoggedIn" class="layout-user">
+      <div *ngIf="!userService.user">
+        <a routerLink="/login">Log In</a>
+        <a class = "get-started" routerLink="/registration">Get Started</a>
+      </div>
+      <div *ngIf="userService.user" class="layout-user">
         <mat-icon class="--layout--user-icon">person_outline</mat-icon>
-        <p class="--layout--username">{{user.username}}</p>
+        <p class="--layout--username">{{userService.user.username}}</p>
         <a class="--layout--log-out" routerLink="/home" (click)="logOut()">Log out</a>
       </div>
     </div>

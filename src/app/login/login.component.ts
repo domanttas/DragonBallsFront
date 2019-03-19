@@ -1,11 +1,11 @@
 import {Component, OnInit} from '@angular/core';
-import {AuthService} from '../auth.service';
 import {Router} from '@angular/router';
 import {FormControl} from '@angular/forms';
 import {User} from '../models/user';
-import {AuthGuard} from '../auth.guard';
-import {DialogComponent} from '../dialog/dialog.component';
-import {ErrorCheckComponent} from '../error-check/error-check.component';
+import {UserService} from '../user.service';
+import {ErrorDialogComponent} from '../error-dialog/error-dialog.component';
+import {MatDialogConfig} from '@angular/material';
+import {DialogService} from '../dialog.service';
 
 @Component({
   selector: 'app-login',
@@ -21,21 +21,21 @@ export class LoginComponent implements OnInit {
 
   authToken: any;
 
-  constructor(private authService: AuthService,
-              private router: Router,
-              private authGuard: AuthGuard,
-              private dialog: DialogComponent,
-              private errorCheck: ErrorCheckComponent) {
+  constructor(private userService: UserService,
+              private dialogService: DialogService,
+              private router: Router) {
   }
 
-  ngOnInit() { }
+  ngOnInit() {
+  }
 
-  loginUser() {
+  async loginUser() {
     const fetchedUsername = this.username.value;
     const fetchedPassword = this.password.value;
 
     if (fetchedUsername === '' && fetchedPassword === '') {
-      this.dialog.openDialog('Input fields are empty, use your username and password to log in');
+      this.dialogService.openDialog(ErrorDialogComponent,
+        {description: 'Input fields are empty, use your username and password to log in'});
       return;
     }
 
@@ -45,18 +45,28 @@ export class LoginComponent implements OnInit {
       teamLead: false
     };
 
-    this.authService.getUserDetails(this.user).subscribe(
-      response => {
+    this.userService.authenticateUser(this.user).then(
+      async response => {
         this.authToken = response.token;
         localStorage.setItem('token', this.authToken);
 
-        this.authService.setLoggedIn(true);
+        await this.getUserDetails();
+        await this.isUserLoggedIn();
 
         this.router.navigate(['home']);
       },
       error => {
-        this.dialog.openDialog(this.errorCheck.checkForError(error.error.message));
+        this.dialogService.openDialog(ErrorDialogComponent,
+          {description: this.dialogService.checkForError(error.error.message)});
       }
     );
+  }
+
+  async getUserDetails() {
+    await this.userService.getUserDetails();
+  }
+
+  async isUserLoggedIn() {
+    await this.userService.isUserLoggedIn();
   }
 }
