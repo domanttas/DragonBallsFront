@@ -1,5 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {BlogService} from '../../services/blog.service';
+import {DialogService} from '../../services/dialog.service';
+import {BlogRegistrationComponent} from '../../dialogs/blog-registration/blog-registration.component';
 
 @Component({
   selector: 'app-blog',
@@ -10,7 +12,7 @@ export class BlogComponent implements OnInit {
 
   blogPosts: any[];
 
-  constructor(private blogService: BlogService) {
+  constructor(private blogService: BlogService, private dialogService: DialogService) {
   }
 
   ngOnInit() {
@@ -78,5 +80,9 @@ export class BlogComponent implements OnInit {
 
   imageBytesToString(post): string {
     return this.blogService.imageBytesToString(post.imageBytes);
+  }
+
+  addPost() {
+    this.dialogService.openDialog(BlogRegistrationComponent, {});
   }
 }

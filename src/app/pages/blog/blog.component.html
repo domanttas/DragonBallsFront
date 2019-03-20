@@ -1,4 +1,4 @@
-<button mat-raised-button class="blog-page-add-btn">New Post</button>
+<button mat-raised-button class="blog-page-add-btn" (click)="addPost()">New Post</button>
 <div class="blog-page-wrapper">
   <mat-card class="blog-page-card" *ngFor="let post of blogPosts">
     <mat-card-header>

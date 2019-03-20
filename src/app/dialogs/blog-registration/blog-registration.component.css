@@ -1,3 +1,7 @@
+::ng-deep :root {
+  --register-btn-color: #3899ec;
+}
+
 mat-form-field {
   margin-right: 12px;
 }
@@ -10,16 +14,29 @@ mat-form-field {
   min-width: 400px;
   flex-direction: column;
 }
-
+.blog-registration-btn {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  margin-top: 2rem;
+}
 .create-blog-post-btn {
-  width: 3rem;
-  margin-top: 1rem;
+  min-width: 5.625rem;
+  margin-right: 1rem;
+  color: var(--register-btn-color);
+  box-shadow: inset 0 0 0 0.0625rem var(--register-btn-color);
+}
+
+.cancel-blog-post-btn {
+  min-width: 5.625rem;
+  margin-right: 1rem;
 }
 
 .blog-page--blog-post-registration {
   display: flex;
   flex-direction: column;
-  width: 20%;
+  min-height: 18rem;
+  min-width: 30rem;
 }
 
 .upload-btn-wrapper {
@@ -27,10 +44,7 @@ mat-form-field {
   overflow: hidden;
   display: inline-block;
   width: 6rem;
-}
-
-.btn {
-  cursor: pointer;
+  justify-content: flex-end;
 }
 
 .upload-btn-wrapper input[type=file] {

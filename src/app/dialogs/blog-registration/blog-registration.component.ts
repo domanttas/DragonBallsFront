@@ -1,7 +1,8 @@
-import {Component, NgZone, OnInit, ViewChild} from '@angular/core';
+import {Component, Inject, NgZone, OnInit, ViewChild} from '@angular/core';
 import {CdkTextareaAutosize} from '@angular/cdk/text-field';
 import {take} from 'rxjs/operators';
 import {FormControl, Validators} from '@angular/forms';
+import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
 
 @Component({
   selector: 'app-blog-registration',
@@ -12,7 +13,8 @@ export class BlogRegistrationComponent implements OnInit {
 
   @ViewChild('autosize') autosize: CdkTextareaAutosize;
 
-  constructor(private ngZone: NgZone) {
+  constructor(private dialogRef: MatDialogRef<BlogRegistrationComponent>,
+              @Inject(MAT_DIALOG_DATA) data, private ngZone: NgZone ) {
   }
 
   duration = new FormControl('', [Validators.required, Validators.max(24), Validators.pattern('[0-9]{1,2}')]);
@@ -34,5 +36,9 @@ export class BlogRegistrationComponent implements OnInit {
 
   createBlog() {
 
+  }
+
+  cancelBlogPost() {
+    this.dialogRef.close();
   }
 }

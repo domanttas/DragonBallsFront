@@ -18,8 +18,11 @@
     <div class="upload-btn-wrapper">
       <mat-label>Upload photo</mat-label>
       <input type="file" name="myFile" #postPhoto />
-    </div>
-    <button mat-raised-button class="create-blog-post-btn" (click)="createBlog()">Post</button>
+    </div >
+    <mat-dialog-actions class="blog-registration-btn">
+      <button mat-raised-button class="create-blog-post-btn"(click)="createBlog()">Post</button>
+      <button mat-raised-button class="cancel-blog-post-btn" (click)="cancelBlogPost()">Close</button>
+    </mat-dialog-actions>
   </mat-dialog-content>
 </div>
 
