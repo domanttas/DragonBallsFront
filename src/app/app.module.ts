@@ -21,6 +21,7 @@ import {NgxSpinnerModule} from 'ngx-spinner';
 import { ConfirmationDialogComponent } from './dialogs/confirmation-dialog/confirmation-dialog.component';
 import { DeedModelDisplayComponent } from './pages/deed-model-display/deed-model-display.component';
 import { BlogComponent } from './pages/blog/blog.component';
+import { BlogRegistrationComponent } from './dialogs/blog-registration/blog-registration.component';
 
 @NgModule({
   declarations: [
@@ -36,7 +37,9 @@ import { BlogComponent } from './pages/blog/blog.component';
     GoodDeedRegistrationComponent,
     ConfirmationDialogComponent,
     DeedModelDisplayComponent,
-    BlogComponent
+    BlogComponent,
+    DeedModelDisplayComponent,
+    BlogRegistrationComponent
   ],
   imports: [
     BrowserModule,
