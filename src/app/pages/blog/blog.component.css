@@ -1,0 +1,29 @@
+.blog-page-card {
+  max-width: 700px;
+  margin-top: 8rem;
+  justify-content: center;
+  justify-self: center;
+}
+
+.blog-page-avatar {
+  background-size: cover;
+  margin-bottom: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+.blog-page-wrapper {
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.blog-page-title {
+  margin-top: 0.5rem;
+}
+
+.blog-page-text {
+  word-wrap: normal;
+  white-space: pre-wrap;
+}

@@ -5,11 +5,13 @@ import {LoginComponent} from './pages/login/login.component';
 import {RegistrationComponent} from './pages/registration/registration.component';
 import {AuthGuard} from './auth/auth.guard';
 import {DeedsComponent} from './pages/deeds/deeds.component';
+import {BlogComponent} from './pages/blog/blog.component';
 
 const routes: Routes = [
   {path: 'home', component: HomeComponent},
   {path: 'login', component: LoginComponent, canActivate: [AuthGuard]},
   {path: 'deeds', component: DeedsComponent},
+  {path: 'blog', component: BlogComponent},
   {path: 'registration', component: RegistrationComponent, pathMatch: 'full'},
   {path: '', redirectTo: '/home', pathMatch: 'full'},
   {path: '**', component: HomeComponent}

@@ -7,7 +7,7 @@ import {
   MatIconModule,
   MatInputModule,
   MatDialogRef,
-  MAT_DIALOG_DATA, MatProgressSpinnerModule
+  MAT_DIALOG_DATA, MatProgressSpinnerModule, MatCardModule
 } from '@angular/material';
 import { MatButtonModule } from '@angular/material/button';
 import { MatMenuModule } from '@angular/material/menu';
@@ -26,7 +26,8 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
     MatIconModule,
     MatInputModule,
     MatCheckboxModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    MatCardModule
   ],
   exports: [
     MatTabsModule,
@@ -39,7 +40,8 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
     MatIconModule,
     MatInputModule,
     MatCheckboxModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    MatCardModule
   ],
   providers: [{ provide: MatDialogRef, useValue: {} }, { provide: MAT_DIALOG_DATA, useValue: '' }]
 })
