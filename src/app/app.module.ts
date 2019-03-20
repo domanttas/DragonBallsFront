@@ -20,6 +20,7 @@ import { TeamRegistrationComponent } from './dialogs/deeds-team-registration/tea
 import {NgxSpinnerModule} from 'ngx-spinner';
 import { ConfirmationDialogComponent } from './dialogs/confirmation-dialog/confirmation-dialog.component';
 import { DeedModelDisplayComponent } from './pages/deed-model-display/deed-model-display.component';
+import { BlogRegistrationComponent } from './dialogs/blog-registration/blog-registration.component';
 
 @NgModule({
   declarations: [
@@ -34,7 +35,8 @@ import { DeedModelDisplayComponent } from './pages/deed-model-display/deed-model
     TeamRegistrationComponent,
     GoodDeedRegistrationComponent,
     ConfirmationDialogComponent,
-    DeedModelDisplayComponent
+    DeedModelDisplayComponent,
+    BlogRegistrationComponent
   ],
   imports: [
     BrowserModule,
@@ -50,7 +52,7 @@ import { DeedModelDisplayComponent } from './pages/deed-model-display/deed-model
     HttpClientModule,
     MatExpansionModule,
     MatListModule,
-    NgxSpinnerModule
+    NgxSpinnerModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

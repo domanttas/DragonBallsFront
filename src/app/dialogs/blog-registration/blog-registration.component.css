@@ -1,0 +1,43 @@
+mat-form-field {
+  margin-right: 12px;
+}
+
+.blog-page-registration {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-width: 400px;
+  flex-direction: column;
+}
+
+.create-blog-post-btn {
+  width: 3rem;
+  margin-top: 1rem;
+}
+
+.blog-page--blog-post-registration {
+  display: flex;
+  flex-direction: column;
+  width: 20%;
+}
+
+.upload-btn-wrapper {
+  position: relative;
+  overflow: hidden;
+  display: inline-block;
+  width: 6rem;
+}
+
+.btn {
+  cursor: pointer;
+}
+
+.upload-btn-wrapper input[type=file] {
+  font-size: 100px;
+  position: absolute;
+  left: 0;
+  top: 0;
+  opacity: 0;
+  cursor: pointer;
+}

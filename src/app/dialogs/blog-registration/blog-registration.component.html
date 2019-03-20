@@ -1,0 +1,25 @@
+<div class="col">
+  <h2 mat-dialog-title>Create blog post</h2>
+  <mat-dialog-content class="blog-page--blog-post-registration">
+    <mat-form-field>
+      <input matInput placeholder="Duration" [formControl]="duration">
+      <mat-error *ngIf="duration.invalid">{{getDurationErrorMessage()}}</mat-error>
+      <mat-hint>In hours</mat-hint>
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>Description</mat-label>
+      <textarea matInput
+                cdkTextareaAutosize
+                #autosize="cdkTextareaAutosize"
+                cdkAutosizeMinRows="2"
+                cdkAutosizeMaxRows="5" #message maxlength="256" placeholder="Message"></textarea>
+      <mat-hint align="end">{{message.value.length}} / 256</mat-hint>
+    </mat-form-field>
+    <div class="upload-btn-wrapper">
+      <mat-label>Upload photo</mat-label>
+      <input type="file" name="myFile" #postPhoto />
+    </div>
+    <button mat-raised-button class="create-blog-post-btn" (click)="createBlog()">Post</button>
+  </mat-dialog-content>
+</div>
+
