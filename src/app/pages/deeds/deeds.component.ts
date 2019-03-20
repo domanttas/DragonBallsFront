@@ -21,6 +21,8 @@ export class DeedsComponent implements OnInit {
 
   deeds: any;
   user: any;
+  username: string;
+  userId: number;
 
   constructor(private deedService: DeedService,
               private dialogService: DialogService,
@@ -31,11 +33,16 @@ export class DeedsComponent implements OnInit {
 
   ngOnInit() {
     this.userService.getUserByToken().toPromise().then(
-      res => {
-        if (res) {
-          this.user = res;
+      response => {
+          this.user = response;
+          this.username = this.user.username;
+          this.userId = this.user.id;
           this.getAllDeeds();
-        }});
+        }, error => {
+        this.username = '';
+        this.userId = null;
+        this.getAllDeeds();
+      });
   }
 
   getAllDeeds() {
@@ -73,7 +80,7 @@ export class DeedsComponent implements OnInit {
 
   addNewDeed() {
     if (this.userService.isLoggedIn) {
-      const dialogRef = this.dialogService.openDialog(GoodDeedRegistrationComponent, {deedList: this.deeds});
+      const dialogRef = this.dialogService.openDialog(GoodDeedRegistrationComponent, {});
       dialogRef.afterClosed().subscribe(async result => {
           this.spinner.show();
           await this.deedService.getAllDeeds().toPromise().then(
@@ -152,5 +159,20 @@ export class DeedsComponent implements OnInit {
     setTimeout(() => {
       this.spinner.hide();
     }, 500);
+  }
+
+  async editDeed(deed: Deed) {
+      const dialogRef = this.dialogService.openDialog(GoodDeedRegistrationComponent, {goodDeed: deed, editMode: true});
+      dialogRef.afterClosed().subscribe(async result => {
+          this.spinner.show();
+          await this.deedService.getAllDeeds().toPromise().then(
+            response => {
+              this.deeds = response;
+              this.deeds = this.deeds.reverse();
+              this.hideSpinner();
+            }
+          );
+        }
+      );
   }
 }

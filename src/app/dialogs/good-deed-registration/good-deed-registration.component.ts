@@ -7,6 +7,7 @@ import {UserService} from '../../services/user.service';
 import {Participation} from '../../models/participation';
 import {Router} from '@angular/router';
 import {NgxSpinnerService} from 'ngx-spinner';
+import {Deed} from '../../models/deed';
 
 export interface CategoryChoice {
   value: string;
@@ -36,6 +37,9 @@ export class GoodDeedRegistrationComponent implements OnInit {
   selectedParticipationType = new FormControl('');
 
   deed: DeedRequest;
+
+  deedUpdate: Deed;
+  editMode: boolean;
 
   username: string;
 
@@ -74,9 +78,22 @@ export class GoodDeedRegistrationComponent implements OnInit {
               private spinner: NgxSpinnerService,
               private dialogRef: MatDialogRef<GoodDeedRegistrationComponent>,
               @Inject(MAT_DIALOG_DATA) data) {
+    this.deedUpdate = data.goodDeed;
+    this.editMode = data.editMode;
   }
 
   ngOnInit() {
+/*    this.deedUpdate = {
+      creatorId: 2,
+      name: 'dads',
+      description: 'dads',
+      category: {name: 'Help for animals'},
+      location: 'sdad',
+      isClosed: null,
+      contact: {name: 'dasd', email: 'das', phone: 'sada'},
+      participation: null,
+      users: []
+    };*/
     this.usernameFormControl = new FormControl('', Validators.required);
     this.usernamesFormControl = [];
     this.usernameFormControlList = [];
@@ -132,8 +149,8 @@ export class GoodDeedRegistrationComponent implements OnInit {
 
   getContactTelephoneNoErrorMessage() {
     return this.contactTelephoneNo.hasError('required') ? 'You must enter a value' :
-          this.contactTelephoneNo.hasError('pattern') ? 'Invalid phone number' :
-            '';
+      this.contactTelephoneNo.hasError('pattern') ? 'Invalid phone number' :
+        '';
   }
 
   save() {
@@ -141,6 +158,7 @@ export class GoodDeedRegistrationComponent implements OnInit {
       && this.location.valid && this.contactName.valid && this.contactEmail.valid && this.contactTelephoneNo.valid) {
 
       this.deed = {
+        creatorId: this.teamLeadId,
         name: this.name.value,
         description: this.description.value,
         location: this.location.value,
@@ -167,6 +185,7 @@ export class GoodDeedRegistrationComponent implements OnInit {
 
       this.spinner.show();
 
+      console.log(this.deed);
       this.deedService.createDeed(this.deed).subscribe(
         response => {
           this.isCaptain = false;
@@ -256,5 +275,44 @@ export class GoodDeedRegistrationComponent implements OnInit {
 
   parseErrorUsernames(usernames) {
     return usernames.join(', ');
+  }
+
+  edit() {
+    if (this.selectedCategory.valid && this.name.valid && this.description.valid && this.location.valid &&
+      this.contactName.valid && this.contactEmail.valid && this.contactTelephoneNo.valid) {
+
+      this.deedUpdate = {
+        id: this.deedUpdate.id,
+        creatorId: this.deedUpdate.creatorId,
+        name: this.name.value,
+        description: this.description.value,
+        location: this.location.value,
+        isClosed: this.deedUpdate.isClosed,
+        teamLeadId: this.deedUpdate.teamLeadId,
+        category: {
+          id: this.deedUpdate.category.id,
+          name: this.selectedCategory.value
+        },
+        contact: {
+          name: this.contactName.value,
+          email: this.contactEmail.value,
+          phone: this.contactTelephoneNo.value
+        },
+        participation: this.deedUpdate.participation,
+        users: this.deedUpdate.users
+      };
+
+      this.deedService.updateDeed(this.deedUpdate).toPromise().then(
+        response => {
+            this.editMode = false;
+            this.close();
+        },
+        deedUpdateError => {
+
+        }
+      );
+    } else {
+      return;
+    }
   }
 }

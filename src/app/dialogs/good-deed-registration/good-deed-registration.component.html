@@ -2,7 +2,8 @@
     <h2 mat-dialog-title class="deed-registration-dialog--header--title col-center">Register a good deed</h2>
     <mat-dialog-content>
       <mat-form-field class="col">
-        <input matInput placeholder="Name *" [formControl]="name">
+        <input matInput placeholder="Name *" *ngIf="!editMode" [formControl]="name">
+        <input matInput placeholder="Name *" *ngIf="editMode" [formControl]="name" [(ngModel)]="deedUpdate.name">
         <mat-error *ngIf="name.invalid">{{getNameErrorMessage()}}</mat-error>
       </mat-form-field>
       <br>
@@ -11,12 +12,21 @@
         <textarea matInput
                   cdkTextareaAutosize
                   cdkAutosizeMinRows="2"
-                  cdkAutosizeMaxRows="5" [formControl]="description"></textarea>
+                  cdkAutosizeMaxRows="5" *ngIf="!editMode" [formControl]="description"></textarea>
+        <textarea matInput
+                  cdkTextareaAutosize
+                  cdkAutosizeMinRows="2"
+                  cdkAutosizeMaxRows="5" *ngIf="editMode" [formControl]="description" [(ngModel)]="deedUpdate.description"></textarea>
         <mat-error *ngIf="description.invalid">{{getDescriptionErrorMessage()}}</mat-error>
       </mat-form-field>
       <br>
       <mat-form-field class="col-md-6">
-        <mat-select placeholder="Category" required [formControl]="selectedCategory">
+        <mat-select placeholder="Category" required *ngIf="!editMode" [formControl]="selectedCategory">
+          <mat-option matInput *ngFor="let cat of categories" [value]="cat.value">
+            {{cat.viewValue}}
+          </mat-option>
+        </mat-select>
+        <mat-select placeholder="Category" required *ngIf="editMode" [formControl]="selectedCategory" [(ngModel)]="deedUpdate.category.name">
           <mat-option matInput *ngFor="let cat of categories" [value]="cat.value">
             {{cat.viewValue}}
           </mat-option>
@@ -24,27 +34,30 @@
         <mat-error *ngIf="selectedCategory.hasError('required')">{{getDropdownErrorMessage()}}</mat-error>
       </mat-form-field>
       <mat-form-field class="col-md-6">
-        <input matInput placeholder="Location *" [formControl]="location">
+        <input matInput placeholder="Location *" *ngIf="!editMode" [formControl]="location">
+        <input matInput placeholder="Location *" *ngIf="editMode" [formControl]="location" [(ngModel)]="deedUpdate.location">
         <mat-error *ngIf="location.invalid">{{getLocationErrorMessage()}}</mat-error>
       </mat-form-field>
       <br>
       <h2 mat-dialog-title class="col">Contact information:</h2>
       <mat-form-field class="col-md-4">
-        <input matInput placeholder="Name *" [formControl]="contactName">
+        <input matInput placeholder="Name *" *ngIf="!editMode" [formControl]="contactName">
+        <input matInput placeholder="Name *" *ngIf="editMode" [formControl]="contactName" [(ngModel)]="deedUpdate.contact.name">
         <mat-error *ngIf="contactName.invalid">{{getContactNameErrorMessage()}}</mat-error>
       </mat-form-field>
       <mat-form-field class="col-md-4">
-        <input matInput placeholder="Email *" [formControl]="contactEmail">
+        <input matInput placeholder="Email *" *ngIf="!editMode" [formControl]="contactEmail">
+        <input matInput placeholder="Email *" *ngIf="editMode" [formControl]="contactEmail" [(ngModel)]="deedUpdate.contact.email">
         <mat-error *ngIf="contactEmail.invalid">{{getContactEmailErrorMessage()}}</mat-error>
       </mat-form-field>
       <mat-form-field class="col-md-4">
-<!--        <span matPrefix>+370 &nbsp;</span>-->
-        <input matInput placeholder="Mobile phone *" [formControl]="contactTelephoneNo" [(ngModel)]="phoneNoCode">
+        <input matInput placeholder="Mobile phone *" *ngIf="!editMode" [formControl]="contactTelephoneNo" [(ngModel)]="phoneNoCode">
+        <input matInput placeholder="Mobile phone *" *ngIf="editMode" [formControl]="contactTelephoneNo" [(ngModel)]="deedUpdate.contact.phone">
         <mat-label>Mobile phone *</mat-label>
         <mat-error *ngIf="contactTelephoneNo.invalid">{{getContactTelephoneNoErrorMessage()}}</mat-error>
       </mat-form-field>
       <br>
-      <mat-form-field class="col-md-6">
+      <mat-form-field class="col-md-6" *ngIf="!editMode">
         <mat-select placeholder="Participation" required [formControl]="selectedParticipationType">
           <mat-option matInput *ngFor="let part of participationChoices" [value]="part.value" (click)="setIsCaptainFalse()">
             {{part.viewValue}}
@@ -69,11 +82,11 @@
       <section #error>
         <label class="col deeds-registration-dialog-error-message" *ngIf="isErrorPresent">{{errorMessage}}</label>
       </section>
-      <!--<label class="col deeds-registration-dialog-error-message" *ngIf="isErrorPresent">{{errorMessage}}</label>-->
     </mat-dialog-content>
     <mat-dialog-actions>
       <button class="mat-raised-button" (click)="close()">Close</button>
-      <button mat-raised-button class="deed-registration-dialog--register--btn col-center"(click)="save()">Register</button>
+      <button mat-raised-button *ngIf="!editMode" class="deed-registration-dialog--register--btn col-center"(click)="save()">Register</button>
+      <button mat-raised-button *ngIf="editMode" class="deed-registration-dialog--register--btn col-center"(click)="edit()">Save</button>
     </mat-dialog-actions>
 </div>
 

@@ -5,6 +5,7 @@ import {Deed} from '../../models/deed';
 import {UserService} from '../../services/user.service';
 import {DeedService} from '../../services/deed.service';
 import {User} from '../../models/user';
+import {Participation} from '../../models/participation';
 
 @Component({
   selector: 'app-team-registration',
@@ -160,6 +161,7 @@ export class TeamRegistrationComponent implements OnInit {
     }
 
     (deed as any).closed = true;
+    (deed as any).participation = Participation.PARTICIPATE_AS_TEAM.toString();
 
     await this.deedService.updateDeed(deed).toPromise().then(
       response => {

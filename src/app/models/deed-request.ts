@@ -3,6 +3,7 @@ import {Contact} from './contact';
 
 export interface DeedRequest {
   id?: number;
+  creatorId?: number;
   name: string;
   description: string;
   location: string;

@@ -2,9 +2,10 @@
   <mat-expansion-panel>
   <mat-expansion-panel-header class="deeds-page--title--header">
     <mat-panel-title class="deeds-page--title--header--item">
-      <!-- TODO: ngIf user is already registered to deed -> show icon-->
-      <mat-icon class="mat-panel-header-title-icon" *ngIf="checkIfUserISRegisteredToDeed()" >check_circle_outline</mat-icon>
-      <span class="mat-panel-header-title-margin" *ngIf="!checkIfUserISRegisteredToDeed()"></span>
+      <mat-icon *ngIf="checkIfUserIsDeedCreator()" class="mat-panel-header-title-icon">face</mat-icon>
+      <span class="mat-panel-header-title-margin" *ngIf="!checkIfUserIsDeedCreator()"></span>
+      <mat-icon class="mat-panel-header-title-icon" *ngIf="checkIfUserIsRegisteredToDeed()" >check_circle_outline</mat-icon>
+      <span class="mat-panel-header-title-margin" *ngIf="!checkIfUserIsRegisteredToDeed()"></span>
       {{deed.name}}
     </mat-panel-title>
     <mat-panel-description class="deeds-page--title--header--location">
@@ -20,6 +21,9 @@
     </mat-panel-description>
   </mat-expansion-panel-header>
   <mat-list>
+    <mat-list-item class="deeds-page--contact--header" *ngIf="checkIfUserIsDeedCreator()">
+      <button mat-raised-button (click)="editDeed(deed)"><mat-icon>edit</mat-icon> &nbsp; Edit deed</button>
+    </mat-list-item>
     <mat-list-item class="deeds-page--contact--header">
       <mat-icon>description</mat-icon>
       Description:
