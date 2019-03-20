@@ -28,9 +28,9 @@ export class GoodDeedRegistrationComponent implements OnInit {
 
   name = new FormControl('', [Validators.required, Validators.maxLength(50)]);
   description = new FormControl('', [Validators.required, Validators.maxLength(1000)]);
-  location = new FormControl('', [Validators.required, Validators.maxLength(50)]);
-  contactName = new FormControl('', [Validators.required, Validators.maxLength(40)]);
-  contactEmail = new FormControl('', [Validators.required, Validators.email]);
+  location = new FormControl('', [Validators.required, Validators.maxLength(25)]);
+  contactName = new FormControl('', [Validators.required, Validators.maxLength(50)]);
+  contactEmail = new FormControl('', [Validators.required, Validators.email, Validators.maxLength(100)]);
   contactTelephoneNo = new FormControl('', [Validators.required, Validators.pattern('^(\\+370|8){1}[0-9]{8}$')]);
 
   selectedCategory = new FormControl('');
@@ -83,17 +83,6 @@ export class GoodDeedRegistrationComponent implements OnInit {
   }
 
   ngOnInit() {
-/*    this.deedUpdate = {
-      creatorId: 2,
-      name: 'dads',
-      description: 'dads',
-      category: {name: 'Help for animals'},
-      location: 'sdad',
-      isClosed: null,
-      contact: {name: 'dasd', email: 'das', phone: 'sada'},
-      participation: null,
-      users: []
-    };*/
     this.usernameFormControl = new FormControl('', Validators.required);
     this.usernamesFormControl = [];
     this.usernameFormControlList = [];
@@ -127,7 +116,7 @@ export class GoodDeedRegistrationComponent implements OnInit {
 
   getLocationErrorMessage() {
     return this.location.hasError('required') ? 'You must enter a value' :
-      this.location.hasError('maxlength') ? 'Maximum of 50 characters are allowed' :
+      this.location.hasError('maxlength') ? 'Maximum of 25 characters are allowed' :
         '';
   }
 
@@ -138,12 +127,13 @@ export class GoodDeedRegistrationComponent implements OnInit {
   getContactEmailErrorMessage() {
     return this.contactEmail.hasError('required') ? 'You must enter a value' :
       this.contactEmail.hasError('email') ? 'Not a valid email' :
+        this.contactEmail.hasError('maxlength') ? 'Maximum of 100 characters are allowed' :
         '';
   }
 
   getContactNameErrorMessage() {
     return this.contactName.hasError('required') ? 'You must enter a value' :
-      this.contactName.hasError('maxlength') ? 'Maximum of 40 characters are allowed' :
+      this.contactName.hasError('maxlength') ? 'Maximum of 50 characters are allowed' :
         '';
   }
 
@@ -301,6 +291,10 @@ export class GoodDeedRegistrationComponent implements OnInit {
         participation: this.deedUpdate.participation,
         users: this.deedUpdate.users
       };
+
+      if (this.deedUpdate.participation === 'PARTICIPATE_AS_TEAM') {
+        (this.deedUpdate as any).closed = true;
+      }
 
       this.deedService.updateDeed(this.deedUpdate).toPromise().then(
         response => {

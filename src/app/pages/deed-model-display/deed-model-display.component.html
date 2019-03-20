@@ -8,7 +8,7 @@
       <span class="mat-panel-header-title-margin" *ngIf="!checkIfUserIsRegisteredToDeed()"></span>
       {{deed.name}}
     </mat-panel-title>
-    <mat-panel-description class="deeds-page--title--header--location">
+    <mat-panel-description class="deeds-page--title--header--deed-registration-status">
       <span *ngIf="!deed.closed" title="Registration is open">
         <mat-icon>lock_open</mat-icon>
         Open
@@ -32,9 +32,9 @@
       <span title="Other"><mat-icon *ngIf="deed.category.name === this.deedTypes.OTHER">more-horiz</mat-icon></span>
     </mat-panel-description>
   </mat-expansion-panel-header>
-  <mat-list>
+  <mat-list class="mat-list-items-container">
     <mat-list-item class="deeds-page--contact--header" *ngIf="checkIfUserIsDeedCreator()">
-      <button mat-raised-button (click)="editDeed(deed)"><mat-icon>edit</mat-icon> &nbsp; Edit deed</button>
+      <button mat-raised-button (click)="editDeed(deed)" class="mat-button-edit-deed"><mat-icon>edit</mat-icon> &nbsp; Edit deed</button>
     </mat-list-item>
     <mat-list-item class="deeds-page--contact--header">
       <mat-icon>description</mat-icon>
