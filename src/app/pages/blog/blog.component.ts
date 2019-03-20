@@ -1,4 +1,5 @@
 import {Component, OnInit} from '@angular/core';
+import {BlogService} from '../../services/blog.service';
 
 @Component({
   selector: 'app-blog',
@@ -9,7 +10,7 @@ export class BlogComponent implements OnInit {
 
   blogPosts: any[];
 
-  constructor() {
+  constructor(private blogService: BlogService) {
   }
 
   ngOnInit() {
@@ -64,5 +65,18 @@ export class BlogComponent implements OnInit {
   }
 
   deletePost(post) {
+  }
+
+  getAllBlogPosts() {
+  }
+
+  postBlogPost() {
+  }
+
+  updateBlogPost() {
+  }
+
+  imageBytesToString(post): string {
+    return this.blogService.imageBytesToString(post.imageBytes);
   }
 }

@@ -10,22 +10,54 @@ export class BlogService {
 
   constructor(private http: HttpClient) { }
 
-  createBlogPost(post) {
-    return this.this.http.post(this.baseUri + `api/blog`, post);
+  createBlogPost(post): Promise<any> {
+    return this.http.post(this.baseUri + `api/blog`, post).toPromise().then(
+      result => {
+        return Promise.resolve();
+      },
+      error => {
+        return Promise.reject(error);
+      }
+    );
   }
 
-  getAllBlogPosts() {
-    return this.http.get(this.baseUri + `api/blog`);
+  getAllBlogPosts(): Promise<any> {
+    return this.http.get(this.baseUri + `api/blog`).toPromise().then(
+      result => {
+        return Promise.resolve(result);
+      },
+      error => {
+        return Promise.reject();
+      }
+    );
   }
 
-  updateBlogPost(post) {
-    return this.http.post(this.baseUri + `api/blog`, post);
+  updateBlogPost(post): Promise<any> {
+    return this.http.post(this.baseUri + `api/blog`, post).toPromise().then(
+      result => {
+        return Promise.resolve(result);
+      },
+      error => {
+        return Promise.reject();
+      }
+    );
   }
 
   imageBytesToString(imageBytes) {
     let uints = new Uint8Array(imageBytes);
-    let baseString = btoa(String.fromCharCode(null, uints));
+    let baseString = btoa(String.fromCharCode.apply(null, uints));
 
     return 'data:image/jpeg;base64,' + baseString;
+  }
+
+  stringToImageBytes(imageString) {
+    let binaryString = atob(imageString);
+    let bytes = new Uint8Array(binaryString.length);
+
+    for(let i = 0; i < binaryString.length; i++) {
+      bytes[i] = binaryString.charCodeAt(i);
+    }
+
+    return bytes;
   }
 }
