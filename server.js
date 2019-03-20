@@ -3,10 +3,10 @@ const path = require('path');
 
 const app = express();
 
-app.use(express.static('./dist/DragonBallsFront'));
+app.use(express.static(path.join(__dirname + './dist/DragonBallsFront')));
 
 app.get('/*', function (req, res) {
-  res.sendFile('./dist/DragonBallsFront/index.html');
+  res.sendFile(path.join(__dirname + './dist/DragonBallsFront'));
 });
 
 app.listen(process.env.PORT || 8080);
