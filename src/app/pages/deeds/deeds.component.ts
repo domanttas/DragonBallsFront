@@ -11,6 +11,7 @@ import {GoodDeedRegistrationComponent} from '../../dialogs/good-deed-registratio
 import {TeamRegistrationComponent} from '../../dialogs/deeds-team-registration/team-registration.component';
 import {ConfirmationDialogComponent} from '../../dialogs/confirmation-dialog/confirmation-dialog.component';
 import {Participation} from '../../models/participation';
+import {DeedRequest} from '../../models/deed-request';
 
 @Component({
   selector: 'app-deeds',
@@ -23,6 +24,7 @@ export class DeedsComponent implements OnInit {
   user: any;
   username: string;
   userId: number;
+  deedDuplicate: DeedRequest;
 
   constructor(private deedService: DeedService,
               private dialogService: DialogService,
@@ -118,33 +120,30 @@ export class DeedsComponent implements OnInit {
             }
           }
 
-          if (deed.teamLeadId) {
-            this.deedService.addUserToDeed(this.user, deed.id).toPromise().then(
-              async response => {
-                await this.deedService.getAllDeeds().toPromise().then(
-                  result => {
-                    this.deeds = result;
-                    this.deeds = this.deeds.reverse();
-                    this.hideSpinner();
-                  }
-                );
+          if (deed.participation === 'NOT_INTERESTED') {
+            this.deedDuplicate = {
+              creatorId: deed.creatorId,
+              name: deed.name,
+              description: deed.description,
+              location: deed.location,
+              isClosed: deed.isClosed,
+              teamLeadId: null,
+              category: {
+                id: null,
+                name: deed.category.name
               },
-              error => {
-              }
-            );
+              contact: {
+                name: deed.contact.name,
+                email: deed.contact.email,
+                phone: deed.contact.phone
+              },
+              participation: Participation.NOT_INTERESTED.toString(),
+              teamUsernames: []
+            };
+            this.deedService.createDeed(this.deedDuplicate).subscribe();
+            await this.registerUserToDeed(deed);
           } else {
-              const dialogRef = this.dialogService.openDialog(ConfirmationDialogComponent, {goodDeed: deed, registeredUser: this.user});
-              dialogRef.afterClosed().subscribe(async result => {
-                  this.spinner.show();
-                  await this.deedService.getAllDeeds().toPromise().then(
-                    response => {
-                      this.deeds = response;
-                      this.deeds = this.deeds.reverse();
-                      this.hideSpinner();
-                    }
-                  );
-                }
-              );
+            await this.registerUserToDeed(deed);
           }
         }
       },
@@ -174,5 +173,36 @@ export class DeedsComponent implements OnInit {
           );
         }
       );
+  }
+
+  async registerUserToDeed(deed: Deed) {
+    if (deed.teamLeadId) {
+      this.deedService.addUserToDeed(this.user, deed.id).toPromise().then(
+        async response => {
+          await this.deedService.getAllDeeds().toPromise().then(
+            result => {
+              this.deeds = result;
+              this.deeds = this.deeds.reverse();
+              this.hideSpinner();
+            }
+          );
+        },
+        error => {
+        }
+      );
+    } else {
+      const dialogRef = this.dialogService.openDialog(ConfirmationDialogComponent, {goodDeed: deed, registeredUser: this.user});
+      dialogRef.afterClosed().subscribe(async result => {
+          this.spinner.show();
+          await this.deedService.getAllDeeds().toPromise().then(
+            response => {
+              this.deeds = response;
+              this.deeds = this.deeds.reverse();
+              this.hideSpinner();
+            }
+          );
+        }
+      );
+    }
   }
 }
