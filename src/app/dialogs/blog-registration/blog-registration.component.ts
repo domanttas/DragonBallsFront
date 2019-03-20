@@ -3,6 +3,7 @@ import {CdkTextareaAutosize} from '@angular/cdk/text-field';
 import {take} from 'rxjs/operators';
 import {FormControl, Validators} from '@angular/forms';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
+import {DomSanitizer} from '@angular/platform-browser';
 
 @Component({
   selector: 'app-blog-registration',
@@ -13,8 +14,13 @@ export class BlogRegistrationComponent implements OnInit {
 
   @ViewChild('autosize') autosize: CdkTextareaAutosize;
 
+  postPhoto: any;
+  displayPhotoUri: any;
+
   constructor(private dialogRef: MatDialogRef<BlogRegistrationComponent>,
-              @Inject(MAT_DIALOG_DATA) data, private ngZone: NgZone ) {
+              @Inject(MAT_DIALOG_DATA) data,
+              private ngZone: NgZone,
+              private sanitizer: DomSanitizer) {
   }
 
   duration = new FormControl('', [Validators.required, Validators.max(24), Validators.pattern('[0-9]{1,2}')]);
@@ -28,6 +34,7 @@ export class BlogRegistrationComponent implements OnInit {
         this.duration.hasError('pattern') ? 'All characters must be digits' :
           '';
   }
+
   triggerResize() {
     // Wait for changes to be applied, then trigger textarea resize.
     this.ngZone.onStable.pipe(take(1))
@@ -35,10 +42,21 @@ export class BlogRegistrationComponent implements OnInit {
   }
 
   createBlog() {
-
   }
 
   cancelBlogPost() {
     this.dialogRef.close();
+  }
+
+  photoPicker(postPhoto) {
+    let file = postPhoto.target.files[0];
+    let fileReader = new FileReader();
+
+    fileReader.onloadend = () => {
+      this.postPhoto = fileReader.result;
+      this.displayPhotoUri = this.sanitizer.bypassSecurityTrustResourceUrl(this.postPhoto);
+    };
+
+    fileReader.readAsDataURL(file);
   }
 }

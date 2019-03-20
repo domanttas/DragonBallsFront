@@ -18,7 +18,7 @@ mat-form-field {
   display: flex;
   justify-content: flex-end;
   align-items: center;
-  margin-top: 2rem;
+  margin-top: 12rem;
 }
 .create-blog-post-btn {
   min-width: 5.625rem;
@@ -35,8 +35,8 @@ mat-form-field {
 .blog-page--blog-post-registration {
   display: flex;
   flex-direction: column;
-  min-height: 18rem;
-  min-width: 30rem;
+  min-height: 28rem;
+  min-width: 40rem;
 }
 
 .upload-btn-wrapper {
@@ -54,4 +54,13 @@ mat-form-field {
   top: 0;
   opacity: 0;
   cursor: pointer;
+}
+
+.blog-page--blog-photo {
+  max-width: 20rem;
+  max-height: 20rem;
+}
+
+.blog-page--blog-photo-wrapper {
+  margin-top: 3rem;
 }

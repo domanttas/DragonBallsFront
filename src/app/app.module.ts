@@ -37,7 +37,6 @@ import {BlogComponent} from './pages/blog/blog.component';
     GoodDeedRegistrationComponent,
     ConfirmationDialogComponent,
     DeedModelDisplayComponent,
-    DeedModelDisplayComponent,
     BlogRegistrationComponent,
     BlogComponent
   ],

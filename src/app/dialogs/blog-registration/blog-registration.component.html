@@ -17,8 +17,11 @@
     </mat-form-field>
     <div class="upload-btn-wrapper">
       <mat-label>Upload photo</mat-label>
-      <input type="file" name="myFile" #postPhoto />
-    </div >
+      <input type="file" name="myFile" #postPhoto (change)="photoPicker($event)"/>
+    </div>
+    <div class="blog-page--blog-photo-wrapper">
+      <img mat-card-image class="blog-page--blog-photo" [src]=this.displayPhotoUri>
+    </div>
     <mat-dialog-actions class="blog-registration-btn">
       <button mat-raised-button class="create-blog-post-btn"(click)="createBlog()">Post</button>
       <button mat-raised-button class="cancel-blog-post-btn" (click)="cancelBlogPost()">Close</button>
