@@ -52,7 +52,8 @@ export class BlogService {
 
   stringToImageBytes(imageString) {
     let binaryString = atob(imageString);
-    let bytes = new Uint8Array(binaryString.length);
+    // let bytes = new Uint8Array(binaryString.length);
+    let bytes = new Int8Array(binaryString.length);
 
     for(let i = 0; i < binaryString.length; i++) {
       bytes[i] = binaryString.charCodeAt(i);

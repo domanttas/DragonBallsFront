@@ -2,7 +2,7 @@ import {User} from './user';
 
 export interface Blog {
   id?: number;
-  imageBytes: [];
+  imageBytes: any;
   blogText: string;
   date: string;
   user: User;

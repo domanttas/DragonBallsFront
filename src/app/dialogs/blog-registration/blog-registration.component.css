@@ -18,7 +18,7 @@ mat-form-field {
   display: flex;
   justify-content: flex-end;
   align-items: center;
-  margin-top: 12rem;
+  margin-top: 4rem;
 }
 .create-blog-post-btn {
   min-width: 5.625rem;
@@ -35,7 +35,7 @@ mat-form-field {
 .blog-page--blog-post-registration {
   display: flex;
   flex-direction: column;
-  min-height: 28rem;
+  min-height: 20rem;
   min-width: 40rem;
 }
 
@@ -62,5 +62,5 @@ mat-form-field {
 }
 
 .blog-page--blog-photo-wrapper {
-  margin-top: 3rem;
+  /*margin-top: 3rem;*/
 }

@@ -12,16 +12,15 @@
                 cdkTextareaAutosize
                 #autosize="cdkTextareaAutosize"
                 cdkAutosizeMinRows="2"
-                cdkAutosizeMaxRows="5" #message maxlength="256" placeholder="Message"></textarea>
+                cdkAutosizeMaxRows="5" #message maxlength="256" placeholder="Message" [formControl]="description"></textarea>
       <mat-hint align="end">{{message.value.length}} / 256</mat-hint>
     </mat-form-field>
     <div class="upload-btn-wrapper">
       <mat-label>Upload photo</mat-label>
       <input type="file" name="myFile" #postPhoto (change)="photoPicker($event)"/>
     </div>
-    <div class="blog-page--blog-photo-wrapper">
-      <img mat-card-image class="blog-page--blog-photo" [src]=this.displayPhotoUri>
-    </div>
+    <mat-label *ngIf="this.postPhoto">Photo was uploaded</mat-label>
+    <mat-label *ngIf="this.isErrorPresent">{{this.errorMessage}}</mat-label>
     <mat-dialog-actions class="blog-registration-btn">
       <button mat-raised-button class="create-blog-post-btn"(click)="createBlog()">Post</button>
       <button mat-raised-button class="cancel-blog-post-btn" (click)="cancelBlogPost()">Close</button>
