@@ -20,6 +20,8 @@ export class LoginComponent implements OnInit {
 
   authToken: any;
 
+  hide2 = false;
+
   constructor(private userService: UserService,
               private dialogService: DialogService,
               private router: Router) {

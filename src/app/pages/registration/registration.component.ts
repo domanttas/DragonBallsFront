@@ -20,6 +20,9 @@ export class RegistrationComponent implements OnInit {
   passwordConfirm = new FormControl('', [Validators.required, Validators.email]);
   person: User;
 
+  hide = false;
+  hide1 = false;
+
   constructor(private service: UserService,
               private router: Router,
               private dialogService: DialogService) {
