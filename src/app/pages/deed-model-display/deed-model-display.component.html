@@ -2,21 +2,40 @@
   <mat-expansion-panel>
   <mat-expansion-panel-header class="deeds-page--title--header">
     <mat-panel-title class="deeds-page--title--header--item">
+      <span title="You have created this deed"><mat-icon *ngIf="checkIfUserIsDeedCreator()" class="mat-panel-header-title-icon">loyalty</mat-icon></span>
+      <span class="mat-panel-header-title-margin" *ngIf="!checkIfUserIsDeedCreator()"></span>
+      <span title="You are registered to this deed"><mat-icon class="mat-panel-header-title-icon" *ngIf="checkIfUserIsRegisteredToDeed()" >check_circle_outline</mat-icon></span>
+      <span class="mat-panel-header-title-margin" *ngIf="!checkIfUserIsRegisteredToDeed()"></span>
       {{deed.name}}
     </mat-panel-title>
+    <mat-panel-description class="deeds-page--title--header--deed-registration-status">
+      <span *ngIf="!deed.closed" title="Registration is open">
+        <mat-icon>lock_open</mat-icon>
+        Open
+      </span>
+      <span *ngIf="deed.closed" title="Registration is closed">
+        <mat-icon>lock</mat-icon>
+        Closed
+      </span>
+    </mat-panel-description>
     <mat-panel-description class="deeds-page--title--header--location">
-      <mat-icon>place</mat-icon>
-      {{deed.location}}
+      <span title="Location">
+        <mat-icon>place</mat-icon>
+        {{deed.location}}
+      </span>
     </mat-panel-description>
     <mat-panel-description class="deeds-page--title--header--icon">
-      <mat-icon *ngIf="deed.category.name === this.deedTypes.HELP_FOR_ELDERLY">supervised_user_circle</mat-icon>
-      <mat-icon *ngIf="deed.category.name === this.deedTypes.HELP_FOR_KIDS">child_care</mat-icon>
-      <mat-icon *ngIf="deed.category.name === this.deedTypes.HELP_FOR_ANIMALS">pets</mat-icon>
-      <mat-icon *ngIf="deed.category.name === this.deedTypes.HELP_FOR_ENVIRONMENT">nature_people</mat-icon>
-      <mat-icon *ngIf="deed.category.name === this.deedTypes.OTHER">more-horiz</mat-icon>
+      <span title="Help for elderly"><mat-icon *ngIf="deed.category.name === this.deedTypes.HELP_FOR_ELDERLY">supervised_user_circle</mat-icon></span>
+      <span title="Help for kids"><mat-icon *ngIf="deed.category.name === this.deedTypes.HELP_FOR_KIDS">child_care</mat-icon></span>
+      <span title="Help for animals"><mat-icon *ngIf="deed.category.name === this.deedTypes.HELP_FOR_ANIMALS">pets</mat-icon></span>
+      <span title="Help for environment"><mat-icon *ngIf="deed.category.name === this.deedTypes.HELP_FOR_ENVIRONMENT">nature_people</mat-icon></span>
+      <span title="Other"><mat-icon *ngIf="deed.category.name === this.deedTypes.OTHER">more-horiz</mat-icon></span>
     </mat-panel-description>
   </mat-expansion-panel-header>
-  <mat-list>
+  <mat-list class="mat-list-items-container">
+    <mat-list-item class="deeds-page--contact--header" *ngIf="checkIfUserIsDeedCreator()">
+      <button mat-raised-button (click)="editDeed(deed)" class="mat-button-edit-deed"><mat-icon>edit</mat-icon> &nbsp; Edit deed</button>
+    </mat-list-item>
     <mat-list-item class="deeds-page--contact--header">
       <mat-icon>description</mat-icon>
       Description:
@@ -47,13 +66,12 @@
       <mat-icon>people</mat-icon>
       Participants:
     </mat-list-item>
-    <mat-list-item *ngFor="let user of deed.users"
-                   class="deeds--page--deed--field">
+    <mat-list-item *ngFor="let user of deed.users" class="deeds--page--deed--field">
       {{user.username}}
     </mat-list-item>
     <mat-list-item class="deeds-page--contact--header" *ngIf="deed.teamLeadId !== null">
       <mat-icon>stars</mat-icon>
-      Team lead: &nbsp;
+      Team captain: &nbsp;
       <div *ngFor="let user of deed.users">
         <div *ngIf="user.id === deed.teamLeadId"
              [ngStyle]="{'color' : deed.teamLeadId === user.id ? '#3f51b5' : 'black'}">

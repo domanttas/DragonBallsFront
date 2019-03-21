@@ -2,14 +2,14 @@
 <ngx-spinner type="square-jelly-box"></ngx-spinner>
 <div class="tab-good-deeds">
   <mat-tab-group mat-align-tabs="center">
-    <mat-tab label="All good deeds">
+    <mat-tab label="Register for good deed">
       <span *ngFor="let deed of deeds">
-        <span app-deed-model-display [deed]="deed" (registerSoloEvent)="registerSolo($event)" (registerTeamEvent)="openTeamRegistration($event)"></span>
+        <span app-deed-model-display [deed]="deed" [username]='username' [userId]="userId" *ngIf="deed.participation === 'NOT_INTERESTED'" (registerSoloEvent)="registerSolo($event)" (registerTeamEvent)="openTeamRegistration($event)" (editDeedEvent)="editDeed($event)"></span>
       </span>
     </mat-tab>
-    <mat-tab label="Active good deeds">
+    <mat-tab label="Deeds happening soon...">
       <span *ngFor="let deed of deeds">
-        <span app-deed-model-display [deed]="deed" *ngIf="!deed.closed" (registerSoloEvent)="registerSolo($event)" (registerTeamEvent)="openTeamRegistration($event)"></span>
+        <span app-deed-model-display [deed]="deed" [username]='username' [userId]="userId" *ngIf="deed.participation === 'PARTICIPATE_AS_SOLO' || deed.participation === 'PARTICIPATE_AS_TEAM'" (registerSoloEvent)="registerSolo($event)" (registerTeamEvent)="openTeamRegistration($event)" (editDeedEvent)="editDeed($event)"></span>
       </span>
     </mat-tab>
   </mat-tab-group>

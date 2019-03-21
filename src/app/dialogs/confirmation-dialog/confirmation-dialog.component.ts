@@ -26,17 +26,25 @@ export class ConfirmationDialogComponent implements OnInit {
   }
 
   async confirm() {
-    await this.updateDeedParticipationType(this.deed);
+    this.deed.teamLeadId = this.user.id;
     this.deedService.addUserToDeed(this.user, this.deed.id).toPromise().then(
-      response => {
+       response => {
       },
       error => {
       }
     );
-    this.close();
+    await this.updateDeedParticipationType(this.deed);
+    this.dialogRef.close();
   }
 
-  close() {
+  async close() {
+    this.deedService.addUserToDeed(this.user, this.deed.id).toPromise().then(
+      async response => {
+      },
+      error => {
+      }
+    );
+    await this.updateDeedParticipationType(this.deed);
     this.dialogRef.close();
   }
 

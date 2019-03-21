@@ -7,6 +7,7 @@ import {UserService} from '../../services/user.service';
 import {Participation} from '../../models/participation';
 import {Router} from '@angular/router';
 import {NgxSpinnerService} from 'ngx-spinner';
+import {Deed} from '../../models/deed';
 
 export interface CategoryChoice {
   value: string;
@@ -27,15 +28,18 @@ export class GoodDeedRegistrationComponent implements OnInit {
 
   name = new FormControl('', [Validators.required, Validators.maxLength(50)]);
   description = new FormControl('', [Validators.required, Validators.maxLength(1000)]);
-  location = new FormControl('', [Validators.required, Validators.maxLength(50)]);
-  contactName = new FormControl('', [Validators.required, Validators.maxLength(40)]);
-  contactEmail = new FormControl('', [Validators.required, Validators.email]);
-  contactTelephoneNo = new FormControl('', [Validators.required, Validators.minLength(8), Validators.maxLength(8),
-    Validators.pattern('[0-9]{8}')]);
+  location = new FormControl('', [Validators.required, Validators.maxLength(25)]);
+  contactName = new FormControl('', [Validators.required, Validators.maxLength(50)]);
+  contactEmail = new FormControl('', [Validators.required, Validators.email, Validators.maxLength(100)]);
+  contactTelephoneNo = new FormControl('', [Validators.required, Validators.pattern('^(\\+370|8){1}[0-9]{8}$')]);
+
   selectedCategory = new FormControl('');
   selectedParticipationType = new FormControl('');
 
   deed: DeedRequest;
+
+  deedUpdate: Deed;
+  editMode: boolean;
 
   username: string;
 
@@ -48,6 +52,8 @@ export class GoodDeedRegistrationComponent implements OnInit {
 
   isErrorPresent: boolean;
   errorMessage: string;
+
+  phoneNoCode = '+370';
 
   categories: CategoryChoice[] = [
     {value: 'Help for animals', viewValue: 'Help for animals'},
@@ -72,6 +78,8 @@ export class GoodDeedRegistrationComponent implements OnInit {
               private spinner: NgxSpinnerService,
               private dialogRef: MatDialogRef<GoodDeedRegistrationComponent>,
               @Inject(MAT_DIALOG_DATA) data) {
+    this.deedUpdate = data.goodDeed;
+    this.editMode = data.editMode;
   }
 
   ngOnInit() {
@@ -96,7 +104,7 @@ export class GoodDeedRegistrationComponent implements OnInit {
 
   getNameErrorMessage() {
     return this.name.hasError('required') ? 'You must enter a value' :
-      this.name.hasError('maxlength') ? 'Maximum of 75 characters are allowed' :
+      this.name.hasError('maxlength') ? 'Maximum of 50 characters are allowed' :
         '';
   }
 
@@ -108,7 +116,7 @@ export class GoodDeedRegistrationComponent implements OnInit {
 
   getLocationErrorMessage() {
     return this.location.hasError('required') ? 'You must enter a value' :
-      this.location.hasError('maxlength') ? 'Maximum of 50 characters are allowed' :
+      this.location.hasError('maxlength') ? 'Maximum of 25 characters are allowed' :
         '';
   }
 
@@ -119,21 +127,20 @@ export class GoodDeedRegistrationComponent implements OnInit {
   getContactEmailErrorMessage() {
     return this.contactEmail.hasError('required') ? 'You must enter a value' :
       this.contactEmail.hasError('email') ? 'Not a valid email' :
+        this.contactEmail.hasError('maxlength') ? 'Maximum of 100 characters are allowed' :
         '';
   }
 
   getContactNameErrorMessage() {
     return this.contactName.hasError('required') ? 'You must enter a value' :
-      this.contactName.hasError('maxlength') ? 'Maximum of 40 characters are allowed' :
+      this.contactName.hasError('maxlength') ? 'Maximum of 50 characters are allowed' :
         '';
   }
 
   getContactTelephoneNoErrorMessage() {
     return this.contactTelephoneNo.hasError('required') ? 'You must enter a value' :
-      this.contactTelephoneNo.hasError('minlength') ? 'You must enter exactly 8 digits' :
-        this.contactTelephoneNo.hasError('maxlength') ? 'You must enter exactly 8 digits' :
-          this.contactTelephoneNo.hasError('pattern') ? 'All characters must be digits' :
-            '';
+      this.contactTelephoneNo.hasError('pattern') ? 'Invalid phone number' :
+        '';
   }
 
   save() {
@@ -141,6 +148,7 @@ export class GoodDeedRegistrationComponent implements OnInit {
       && this.location.valid && this.contactName.valid && this.contactEmail.valid && this.contactTelephoneNo.valid) {
 
       this.deed = {
+        creatorId: this.teamLeadId,
         name: this.name.value,
         description: this.description.value,
         location: this.location.value,
@@ -153,7 +161,7 @@ export class GoodDeedRegistrationComponent implements OnInit {
         contact: {
           name: this.contactName.value,
           email: this.contactEmail.value,
-          phone: '+370' + this.contactTelephoneNo.value
+          phone: this.contactTelephoneNo.value
         },
         participation: this.parseSelectedParticipation(this.selectedParticipationType.value),
         teamUsernames: this.getUsernamesFromDeed()
@@ -167,6 +175,7 @@ export class GoodDeedRegistrationComponent implements OnInit {
 
       this.spinner.show();
 
+      console.log(this.deed);
       this.deedService.createDeed(this.deed).subscribe(
         response => {
           this.isCaptain = false;
@@ -199,7 +208,11 @@ export class GoodDeedRegistrationComponent implements OnInit {
       });
   }
 
-  assignCaptainToggle(event) {
+  setIsCaptainFalse() {
+    this.isCaptain = false;
+  }
+
+  assignCaptainToggle() {
     if (!this.isCaptain) {
       this.isCaptain = true;
     } else {
@@ -209,6 +222,7 @@ export class GoodDeedRegistrationComponent implements OnInit {
 
   getUsernamesFromDeed(): any {
     if (this.parseSelectedParticipation(this.selectedParticipationType.value) === Participation.NOT_INTERESTED.toString()) {
+      this.isCaptain = false;
       return [];
     } else if (this.parseSelectedParticipation(this.selectedParticipationType.value) === Participation.PARTICIPATE_AS_SOLO.toString()) {
       let tempUsername = [];
@@ -251,5 +265,48 @@ export class GoodDeedRegistrationComponent implements OnInit {
 
   parseErrorUsernames(usernames) {
     return usernames.join(', ');
+  }
+
+  edit() {
+    if (this.selectedCategory.valid && this.name.valid && this.description.valid && this.location.valid &&
+      this.contactName.valid && this.contactEmail.valid && this.contactTelephoneNo.valid) {
+
+      this.deedUpdate = {
+        id: this.deedUpdate.id,
+        creatorId: this.deedUpdate.creatorId,
+        name: this.name.value,
+        description: this.description.value,
+        location: this.location.value,
+        isClosed: this.deedUpdate.isClosed,
+        teamLeadId: this.deedUpdate.teamLeadId,
+        category: {
+          id: this.deedUpdate.category.id,
+          name: this.selectedCategory.value
+        },
+        contact: {
+          name: this.contactName.value,
+          email: this.contactEmail.value,
+          phone: this.contactTelephoneNo.value
+        },
+        participation: this.deedUpdate.participation,
+        users: this.deedUpdate.users
+      };
+
+      if (this.deedUpdate.participation === 'PARTICIPATE_AS_TEAM') {
+        (this.deedUpdate as any).closed = true;
+      }
+
+      this.deedService.updateDeed(this.deedUpdate).toPromise().then(
+        response => {
+            this.editMode = false;
+            this.close();
+        },
+        deedUpdateError => {
+
+        }
+      );
+    } else {
+      return;
+    }
   }
 }

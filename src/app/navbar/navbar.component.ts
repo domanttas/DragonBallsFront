@@ -24,6 +24,6 @@ export class NavbarComponent implements OnInit {
 
   logOut() {
     localStorage.removeItem('token');
-    window.location.reload();
+    this.userService.isUserLoggedIn();
   }
 }
