@@ -23,7 +23,7 @@ export class BlogRegistrationComponent implements OnInit {
   user: any;
 
   errorMessage: string;
-  errorPresent: boolean = false;
+  isErrorPresent: boolean = false;
 
   constructor(private dialogRef: MatDialogRef<BlogRegistrationComponent>,
               @Inject(MAT_DIALOG_DATA) data,
@@ -73,7 +73,7 @@ export class BlogRegistrationComponent implements OnInit {
         this.cancelBlogPost();
       },
       error => {
-        this.errorPresent = true;
+        this.isErrorPresent = true;
         this.errorMessage = error.error.message;
       }
     );
