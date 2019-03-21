@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 
 @Injectable({
@@ -8,7 +8,8 @@ export class BlogService {
 
   private baseUri: string = `https://limitless-eyrie-83209.herokuapp.com/`;
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {
+  }
 
   createBlogPost(post): Promise<any> {
     return this.http.post(this.baseUri + `api/blog`, post).toPromise().then(
@@ -43,6 +44,17 @@ export class BlogService {
     );
   }
 
+  deleteBlogPost(id): Promise<any> {
+    return this.http.get(this.baseUri + `api/blog/` + id).toPromise().then(
+      result => {
+        return Promise.resolve(result);
+      },
+      error => {
+        return Promise.reject();
+      }
+    );
+  }
+
   imageBytesToString(imageBytes) {
     let uints = new Uint8Array(imageBytes);
     let imageString = '';
@@ -62,7 +74,7 @@ export class BlogService {
     // let bytes = new Int8Array(binaryString.length);
     let bytes = [];
 
-    for(let i = 0; i < binaryString.length; i++) {
+    for (let i = 0; i < binaryString.length; i++) {
       bytes[i] = binaryString.charCodeAt(i);
     }
 

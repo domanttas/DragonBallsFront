@@ -8,7 +8,7 @@
       <mat-card-title class="blog-page-title">{{post.user.username}}</mat-card-title>
     </mat-card-header>
     <!--<img class="blog-page-image" [src]="photoUrls[0]">-->
-    <img class="blog-page-image" [src]="post.imageString">
+    <img mat-card-image class="blog-page-image" [src]="post.imageString">
     <mat-card-content>
       <p class="blog-page-text">{{post.blogText}}</p>
     </mat-card-content>

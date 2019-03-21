@@ -63,7 +63,8 @@ export class BlogRegistrationComponent implements OnInit {
       blogText: this.description.value,
       user: this.user,
       date: Date.now().toString(),
-      imageBytes: this.blogService.stringToImageBytes(this.postPhoto.replace('data:image/png;base64,', ''))
+      imageBytes: this.blogService.stringToImageBytes(this.postPhoto)
+      // imageBytes: this.blogService.stringToImageBytes(this.postPhoto.replace('data:image/png;base64,', ''))
     };
     console.log(this.blogPost);
 
@@ -89,10 +90,17 @@ export class BlogRegistrationComponent implements OnInit {
     fileReader.onloadend = () => {
       this.postPhoto = fileReader.result;
       console.log(this.postPhoto);
+      this.replaceBasePrefix();
       // this.displayPhotoUri = this.sanitizer.bypassSecurityTrustResourceUrl(this.postPhoto);
       // console.log(this.displayPhotoUri);
     };
 
     fileReader.readAsDataURL(file);
+  }
+
+  replaceBasePrefix() {
+    this.postPhoto = this.postPhoto.replace('data:image/jpeg;base64,', '');
+    this.postPhoto = this.postPhoto.replace('data:image/png;base64,', '');
+    this.postPhoto = this.postPhoto.replace('data:image/jpg;base64,', '');
   }
 }

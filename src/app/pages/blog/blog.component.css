@@ -1,6 +1,6 @@
 .blog-page-card {
   max-width: 700px;
-  margin-top: 8rem;
+  margin-top:  3rem;
   justify-content: center;
   justify-self: center;
 }
@@ -40,15 +40,6 @@
 }
 
 .blog-page-image {
-  /*position: relative;*/
-  /*float: left;*/
-  /*width:  100px;*/
-  /*height: 100px;*/
-  /*background-position: 50% 50%;*/
-  /*background-repeat:   no-repeat;*/
   background-size: cover;
-  /*max-width: 400px;*/
-  /*max-height: 400px;*/
-  object-fit: cover;
 }
 
