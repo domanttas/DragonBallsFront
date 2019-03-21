@@ -4,7 +4,6 @@ import {User} from '../../models/user';
 import {UserService} from '../../services/user.service';
 import {Router} from '@angular/router';
 import {DialogService} from '../../services/dialog.service';
-import {MatDialogConfig} from '@angular/material';
 import {ErrorDialogComponent} from '../../dialogs/error-dialog/error-dialog.component';
 
 @Component({
@@ -17,7 +16,7 @@ export class RegistrationComponent implements OnInit {
   email = new FormControl('', [Validators.required, Validators.email]);
   username = new FormControl('', [Validators.required, Validators.minLength(5), Validators.maxLength(20)]);
   password = new FormControl('', [Validators.required, Validators.minLength(7), Validators.maxLength(12)]);
-  passwordConfirm = new FormControl('', [Validators.required, Validators.email]);
+  passwordConfirm = new FormControl('', [Validators.required]);
   person: User;
 
   constructor(private service: UserService,
@@ -50,13 +49,23 @@ export class RegistrationComponent implements OnInit {
 
   getPasswordMatchErrorMessage() {
     if (this.passwordConfirm.value !== this.password.value) {
-      return 'Passwords must match';
+      this.passwordConfirm.setValidators([Validators.required, Validators.email]);
+      this.passwordConfirm.updateValueAndValidity();
+      return true;
     } else {
-      return '';
+      this.passwordConfirm.clearValidators();
+      this.passwordConfirm.updateValueAndValidity();
+      return false;
     }
   }
 
   signUp() {
+    if (this.username.value  === '' || this.email.value === '' || this.password.value === '' || this.passwordConfirm.value === '') {
+      this.dialogService.openDialog(ErrorDialogComponent,
+        {description: 'Please fill all fields'});
+      return;
+    }
+
     if (!this.username.valid || !this.password.valid || !this.email.valid || this.password.value !== this.passwordConfirm.value) {
       return;
     }

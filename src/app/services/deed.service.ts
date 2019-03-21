@@ -27,7 +27,14 @@ export class DeedService {
   }
 
   addUserToDeed(user: User, id: number) {
-    return this.http.post(this.baseUri + `api/deed/add/` + id, user);
+    return this.http.post(this.baseUri + `api/deed/add/` + id, user).toPromise().then(
+      response => {
+        return Promise.resolve(response);
+      },
+      error => {
+        return Promise.reject(error);
+      }
+    );
   }
 
   getAllDeeds() {

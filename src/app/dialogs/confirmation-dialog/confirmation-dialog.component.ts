@@ -26,33 +26,34 @@ export class ConfirmationDialogComponent implements OnInit {
   }
 
   async confirm() {
-    this.deed.teamLeadId = this.user.id;
-    this.deedService.addUserToDeed(this.user, this.deed.id).toPromise().then(
-       response => {
+    await this.deedService.addUserToDeed(this.user, this.deed.id).then(
+       async response => {
+         (this.deed as any) = response;
+         this.deed.teamLeadId = this.user.id;
+         await this.updateDeedParticipationType();
+         this.dialogRef.close();
       },
       error => {
       }
     );
-    await this.updateDeedParticipationType(this.deed);
-    this.dialogRef.close();
   }
 
   async close() {
-    this.deedService.addUserToDeed(this.user, this.deed.id).toPromise().then(
+    await this.deedService.addUserToDeed(this.user, this.deed.id).then(
       async response => {
+        (this.deed as any) = response;
+        await this.updateDeedParticipationType();
+        this.dialogRef.close();
       },
       error => {
       }
     );
-    await this.updateDeedParticipationType(this.deed);
-    this.dialogRef.close();
   }
 
-  async updateDeedParticipationType(deed: Deed) {
-    let deedUpdate = (deed as Deed);
-    deedUpdate.participation = Participation.PARTICIPATE_AS_SOLO.toString();
+  async updateDeedParticipationType() {
+    this.deed.participation = Participation.PARTICIPATE_AS_SOLO.toString();
 
-    await this.deedService.updateDeed(deedUpdate).toPromise().then(
+    await this.deedService.updateDeed(this.deed).toPromise().then(
       response => {
 
       },

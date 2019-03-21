@@ -1,7 +1,7 @@
 ::ng-deep :root {
   --link--sign-up-page--text-color: #459fed;
   --log-in-btn-color: #3899ec;
-  --reg-font-size-const: 1.125rem;
+  --reg-font-size: 1.125rem;
 }
 
 a {
@@ -20,7 +20,7 @@ a {
 }
 
 .log-in-page--header--registration-paragraph {
-  font-size: var(--reg-font-size-const);
+  font-size: var(--reg-font-size);
 }
 
 .col-center {

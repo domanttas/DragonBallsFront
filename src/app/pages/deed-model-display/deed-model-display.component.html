@@ -34,7 +34,7 @@
   </mat-expansion-panel-header>
   <mat-list class="mat-list-items-container">
     <mat-list-item class="deeds-page--contact--header" *ngIf="checkIfUserIsDeedCreator()">
-      <button mat-raised-button (click)="editDeed(deed)" class="mat-button-edit-deed"><mat-icon>edit</mat-icon> &nbsp; Edit deed</button>
+      <button mat-raised-button (click)="editDeed(deed)" class="btn mat-button-edit-deed"><mat-icon>edit</mat-icon> &nbsp; Edit deed</button>
     </mat-list-item>
     <mat-list-item class="deeds-page--contact--header">
       <mat-icon>description</mat-icon>
@@ -80,10 +80,10 @@
       </div>
     </mat-list-item>
     <div class="deeds--page--participate--btn-wrapper">
-      <button mat-raised-button class="deeds--page--deed--btn" (click)="registerSolo(deed)"
+      <button mat-raised-button class="btn deeds--page--deed--btn" (click)="registerSolo(deed)"
               *ngIf="!deed.closed">Participate as solo
       </button>
-      <button mat-raised-button class="deeds--page--deed--btn" (click)="openTeamRegistration(deed)"
+      <button mat-raised-button class="btn deeds--page--deed--btn" (click)="openTeamRegistration(deed)"
               *ngIf="!deed.closed && deed.participation !== 'PARTICIPATE_AS_SOLO'">Participate as
         team
       </button>
