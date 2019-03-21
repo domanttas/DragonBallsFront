@@ -18,7 +18,7 @@ mat-form-field {
   display: flex;
   justify-content: flex-end;
   align-items: center;
-  margin-top: 4rem;
+  margin-top: 1rem;
 }
 .create-blog-post-btn {
   min-width: 5.625rem;
@@ -52,12 +52,13 @@ mat-form-field {
 
 .upload-btn-wrapper input[type=file] {
   font-size: 100px;
-  position: absolute;
+  /*position: absolute;*/
   left: 0;
   top: 0;
   opacity: 0;
   overflow: hidden;
-  /*position: relative;*/
+  position: relative;
+  max-height: 1rem;
   /*cursor: pointer;*/
   /*height: 2rem;*/
 }
@@ -80,4 +81,8 @@ mat-form-field {
 
 .blog-post-upload-message {
   color: green;
+}
+
+.blog-post-error {
+  color: red;
 }

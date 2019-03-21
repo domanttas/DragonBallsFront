@@ -36,11 +36,11 @@ export class DeedsComponent implements OnInit {
   ngOnInit() {
     this.userService.getUserByToken().toPromise().then(
       response => {
-          this.user = response;
-          this.username = this.user.username;
-          this.userId = this.user.id;
-          this.getAllDeeds();
-        }, error => {
+        this.user = response;
+        this.username = this.user.username;
+        this.userId = this.user.id;
+        this.getAllDeeds();
+      }, error => {
         this.username = '';
         this.userId = null;
         this.getAllDeeds();
@@ -161,18 +161,18 @@ export class DeedsComponent implements OnInit {
   }
 
   async editDeed(deed: Deed) {
-      const dialogRef = this.dialogService.openDialog(GoodDeedRegistrationComponent, {goodDeed: deed, editMode: true});
-      dialogRef.afterClosed().subscribe(async result => {
-          this.spinner.show();
-          await this.deedService.getAllDeeds().toPromise().then(
-            response => {
-              this.deeds = response;
-              this.deeds = this.deeds.reverse();
-              this.hideSpinner();
-            }
-          );
-        }
-      );
+    const dialogRef = this.dialogService.openDialog(GoodDeedRegistrationComponent, {goodDeed: deed, editMode: true});
+    dialogRef.afterClosed().subscribe(async result => {
+        this.spinner.show();
+        await this.deedService.getAllDeeds().toPromise().then(
+          response => {
+            this.deeds = response;
+            this.deeds = this.deeds.reverse();
+            this.hideSpinner();
+          }
+        );
+      }
+    );
   }
 
   async registerUserToDeed(deed: Deed) {

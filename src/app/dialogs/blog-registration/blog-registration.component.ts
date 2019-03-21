@@ -7,6 +7,7 @@ import {DomSanitizer} from '@angular/platform-browser';
 import {BlogService} from '../../services/blog.service';
 import {UserService} from '../../services/user.service';
 import {Blog} from '../../models/blog';
+import {NgxSpinnerService} from 'ngx-spinner';
 
 @Component({
   selector: 'app-blog-registration',
@@ -25,13 +26,18 @@ export class BlogRegistrationComponent implements OnInit {
   errorMessage: string;
   isErrorPresent: boolean = false;
   uploadPhoto: boolean = false;
+  editMode: boolean;
+  blogPostUpdate: Blog;
 
   constructor(private dialogRef: MatDialogRef<BlogRegistrationComponent>,
               @Inject(MAT_DIALOG_DATA) data,
               private ngZone: NgZone,
               private sanitizer: DomSanitizer,
               private blogService: BlogService,
-              private userService: UserService) {
+              private userService: UserService,
+              private spinner: NgxSpinnerService) {
+    this.blogPost = data.blogPost;
+    this.editMode = data.editMode;
   }
 
   duration = new FormControl('', [Validators.required, Validators.max(24), Validators.pattern('[0-9]{1,2}')]);
@@ -48,6 +54,11 @@ export class BlogRegistrationComponent implements OnInit {
           '';
   }
 
+  getDescriptionErrorMessage() {
+    return this.description.hasError('required') ? 'You must enter a value' :
+      '';
+  }
+
   triggerResize() {
     // Wait for changes to be applied, then trigger textarea resize.
     this.ngZone.onStable.pipe(take(1))
@@ -55,9 +66,18 @@ export class BlogRegistrationComponent implements OnInit {
   }
 
   async createBlog() {
-    if (!this.duration.valid && !this.description.valid && this.postPhoto === undefined) {
+    if (!this.duration.valid || !this.description.valid) {
       return;
     }
+
+    if (this.postPhoto === undefined || this.postPhoto === null) {
+      this.errorMessage = 'Please upload photo';
+      this.isErrorPresent = true;
+
+      return;
+    }
+
+    this.spinner.show();
 
     this.blogPost = {
       duration: this.duration.value,
@@ -67,13 +87,14 @@ export class BlogRegistrationComponent implements OnInit {
       imageBytes: this.blogService.stringToImageBytes(this.postPhoto)
       // imageBytes: this.blogService.stringToImageBytes(this.postPhoto.replace('data:image/png;base64,', ''))
     };
-    console.log(this.blogPost);
 
     await this.blogService.createBlogPost(this.blogPost).then(
       result => {
+        this.spinner.hide();
         this.cancelBlogPost();
       },
       error => {
+        this.spinner.hide();
         this.isErrorPresent = true;
         this.errorMessage = error.error.message;
       }
@@ -90,6 +111,7 @@ export class BlogRegistrationComponent implements OnInit {
 
     fileReader.onloadend = () => {
       this.postPhoto = fileReader.result;
+      this.isErrorPresent = false;
       console.log(this.postPhoto);
       this.replaceBasePrefix();
       // this.displayPhotoUri = this.sanitizer.bypassSecurityTrustResourceUrl(this.postPhoto);
@@ -104,5 +126,33 @@ export class BlogRegistrationComponent implements OnInit {
     this.postPhoto = this.postPhoto.replace('data:image/jpeg;base64,', '');
     this.postPhoto = this.postPhoto.replace('data:image/png;base64,', '');
     this.postPhoto = this.postPhoto.replace('data:image/jpg;base64,', '');
+  }
+
+  async editPost() {
+    if (!this.duration.valid || !this.description.valid) {
+      return;
+    }
+
+    this.spinner.show();
+
+    this.blogPostUpdate = {
+      duration: this.duration.value,
+      blogText: this.description.value,
+      user: this.blogPost.user,
+      date: this.blogPost.date,
+      imageBytes: this.blogPost.imageBytes
+    };
+
+    await this.blogService.createBlogPost(this.blogPostUpdate).then(
+      result => {
+        this.spinner.hide();
+        this.cancelBlogPost();
+      },
+      error => {
+        this.spinner.hide();
+        this.isErrorPresent = true;
+        this.errorMessage = error.error.message;
+      }
+    );
   }
 }

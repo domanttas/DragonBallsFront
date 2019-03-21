@@ -2,7 +2,8 @@
   <h2 mat-dialog-title>Create blog post</h2>
   <mat-dialog-content class="blog-page--blog-post-registration">
     <mat-form-field class="blog-post-duration">
-      <input matInput placeholder="Duration" [formControl]="duration">
+      <input matInput placeholder="Duration" *ngIf="!editMode" [formControl]="duration">
+      <input matInput placeholder="Duration" *ngIf="editMode" [formControl]="duration" [(ngModel)]="blogPost.duration">
       <mat-error *ngIf="duration.invalid">{{getDurationErrorMessage()}}</mat-error>
       <mat-hint>In hours</mat-hint>
     </mat-form-field>
@@ -12,20 +13,31 @@
                 cdkTextareaAutosize
                 #autosize="cdkTextareaAutosize"
                 cdkAutosizeMinRows="2"
-                cdkAutosizeMaxRows="5" #message maxlength="256" placeholder="Message" [formControl]="description"></textarea>
-      <mat-hint align="end">{{message.value.length}} / 256</mat-hint>
+                cdkAutosizeMaxRows="5" #message maxlength="2000" placeholder="Message" [formControl]="description" *ngIf="!editMode"></textarea>
+      <!--<mat-hint align="end" *ngIf="!editMode">{{message.value.length}} / 2000</mat-hint>-->
+      <textarea matInput
+                cdkTextareaAutosize
+                #autosize="cdkTextareaAutosize"
+                cdkAutosizeMinRows="2"
+                cdkAutosizeMaxRows="5" #messageEdit maxlength="2000" placeholder="Message" [formControl]="description" *ngIf="editMode" [(ngModel)]="blogPost.blogText"></textarea>
+      <!--<mat-hint align="end" *ngIf="editMode">{{messageEdit.value.length}} / 2000</mat-hint>-->
+      <mat-error *ngIf="description.invalid">{{getDescriptionErrorMessage()}}</mat-error>
     </mat-form-field>
-    <div class="upload-btn-wrapper">
-      <mat-icon class="upload-image-icon">add_photo_alternate</mat-icon>
-      <mat-label>Upload photo</mat-label>
+    <div class="upload-btn-wrapper" *ngIf="!editMode">
+      <mat-icon class="upload-image-icon" (click)="postPhoto.click()">add_photo_alternate</mat-icon>
+      <mat-label (click)="postPhoto.click()">Upload photo</mat-label>
       <input type="file" name="myFile" #postPhoto (change)="photoPicker($event)"/>
     </div>
-    <mat-label class="blog-post-upload-message" *ngIf="this.uploadPhoto">Photo was uploaded</mat-label>
-    <mat-label *ngIf="this.isErrorPresent">{{this.errorMessage}}</mat-label>
+    <span *ngIf="!editMode">
+      <mat-label class="blog-post-upload-message" *ngIf="this.uploadPhoto">Photo was uploaded</mat-label>
+    </span>
+    <mat-label *ngIf="this.isErrorPresent" class="blog-post-error">{{this.errorMessage}}</mat-label>
     <mat-dialog-actions class="blog-registration-btn">
-      <button mat-raised-button class="create-blog-post-btn"(click)="createBlog()">Post</button>
+      <button mat-raised-button class="create-blog-post-btn"(click)="createBlog()" *ngIf="!editMode">Post</button>
+      <button mat-raised-button class="create-blog-post-btn"(click)="editPost()" *ngIf="editMode">Edit</button>
       <button mat-raised-button class="cancel-blog-post-btn" (click)="cancelBlogPost()">Close</button>
     </mat-dialog-actions>
   </mat-dialog-content>
 </div>
+<ngx-spinner type="square-jelly-box"></ngx-spinner>
 
