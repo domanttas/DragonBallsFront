@@ -23,8 +23,8 @@
     <br>
     <mat-form-field>
       <input matInput placeholder="Re-enter your password" [type]="!hide1 ? 'password' : 'text'" [formControl]="passwordConfirm"
-             required>
-      <mat-error *ngIf="passwordConfirm.invalid">{{getPasswordMatchErrorMessage()}}</mat-error>
+             required [ngClass]="{'custom-invalid': !getPasswordMatchErrorMessage()}">
+      <mat-error *ngIf="getPasswordMatchErrorMessage()">Passwords must match</mat-error>
       <mat-icon matSuffix (click)="hide1 = !hide1">{{!hide1 ? 'visibility_off' : 'visibility'}}</mat-icon>
     </mat-form-field>
     <br>

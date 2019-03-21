@@ -177,7 +177,7 @@ export class DeedsComponent implements OnInit {
 
   async registerUserToDeed(deed: Deed) {
     if (deed.teamLeadId) {
-      this.deedService.addUserToDeed(this.user, deed.id).toPromise().then(
+      this.deedService.addUserToDeed(this.user, deed.id).then(
         async response => {
           await this.deedService.getAllDeeds().toPromise().then(
             result => {
