@@ -6,6 +6,8 @@ import {UserService} from '../../services/user.service';
 import {DeedService} from '../../services/deed.service';
 import {User} from '../../models/user';
 import {Participation} from '../../models/participation';
+import {DeedRequest} from '../../models/deed-request';
+import {NgxSpinnerService} from 'ngx-spinner';
 
 @Component({
   selector: 'app-team-registration',
@@ -16,7 +18,7 @@ export class TeamRegistrationComponent implements OnInit {
 
   userName: FormControl;
   formControlList: FormControl[];
-  userNames: string[];
+  teamUsernames: any[];
   deed: any;
   user: any;
   users: User[];
@@ -30,27 +32,30 @@ export class TeamRegistrationComponent implements OnInit {
 
   teamUsers: User[];
 
+  deedRequest: DeedRequest;
+
   @ViewChild('error') prop: ElementRef;
 
   constructor(private dialogRef: MatDialogRef<TeamRegistrationComponent>,
               @Inject(MAT_DIALOG_DATA) data,
               private userService: UserService,
-              private deedService: DeedService) {
+              private deedService: DeedService,
+              private spinner: NgxSpinnerService) {
     this.deed = data.goodDeed;
   }
 
   ngOnInit() {
     this.userName = new FormControl('', [Validators.required]);
-    this.userNames = [];
+    this.teamUsernames = [];
     this.formControlList = [];
     this.users = [];
     this.teamUsers = [];
     this.formControlList.push(this.userName);
-
-    this.getUserByToken();
+    this.currentUserUsername = this.userService.user.username;
+    this.currentUserId = this.userService.user.id;
   }
 
-  cancel() {
+  close() {
     this.dialogRef.close();
   }
 
@@ -62,7 +67,7 @@ export class TeamRegistrationComponent implements OnInit {
         return;
       }
     }
-    this.userNames.push(this.userName.value.toString());
+    this.teamUsernames.push(this.userName.value.toString());
     this.formControlList.forEach(form => form.disable());
     this.userName = new FormControl('', [Validators.required]);
     this.formControlList.push(this.userName);
@@ -70,104 +75,61 @@ export class TeamRegistrationComponent implements OnInit {
 
   deleteUsername(form: FormControl) {
     this.formControlList = this.formControlList.filter(existingForm => existingForm.value !== form.value);
-    this.userNames = this.userNames.filter(existingUsername => existingUsername !== form.value);
+    this.teamUsernames = this.teamUsernames.filter(existingUsername => existingUsername !== form.value);
   }
 
-  async registerTeam() {
-    this.isUserRegistrationErrorPresent = false;
+  registerTeam() {
+    this.teamUsernames.push(this.currentUserUsername);
+    this.teamUsernames = Array.from(new Set(this.teamUsernames));
+    this.teamUsernames = this.teamUsernames.filter(existingUsername => existingUsername !== '');
 
-    this.userNames.push(this.currentUserUsername);
-    this.userNames = Array.from(new Set(this.userNames));
-
-    for (let username of this.userNames) {
-      await this.getUserByUsername(username);
-
-      if (this.isUserRegistrationErrorPresent) {
-        break;
-      }
-
-      await this.addUserToDeed(this.user, this.deed.id);
-
-      if (this.isUserRegistrationErrorPresent) {
-        break;
-      }
-
-      await this.deactivateDeed(this.deed.id);
+    if (this.teamUsernames.length <= 1) {
+      this.isUserRegistrationErrorPresent = true;
+      this.userRegistrationErrorMessage = 'Please choose your team members';
+      return;
     }
 
-    if (!this.isUserRegistrationErrorPresent) {
-      await this.updateDeed();
-      this.close();
-    }
-  }
-
-  close() {
-    this.dialogRef.close();
-  }
-
-  getUserByToken() {
-    this.userService.getUserByToken().toPromise()
-      .then(result => {
-        if (result) {
-          this.currentUserUsername = result.username;
-          this.currentUserId = result.id;
-        }
-      });
-  }
-
-  async getUserByUsername(username) {
-    await this.userService.getUserByUsername(username).toPromise().then(
-      response => {
-        this.user = response;
-        this.teamUsers.push(this.user);
+    this.deedRequest = {
+      creatorId: this.deed.creatorId,
+      name: this.deed.name,
+      description: this.deed.description,
+      location: this.deed.location,
+      isClosed: true,
+      teamLeadId: this.currentUserId,
+      category: {
+        id: null,
+        name: this.deed.category.name
       },
-      userError => {
-        this.userRegistrationErrorMessage = username + ' - ' + userError.error.message;
-        this.isUserRegistrationErrorPresent = true;
+      contact: {
+        name: this.deed.contact.name,
+        email: this.deed.contact.email,
+        phone: this.deed.contact.phone
+      },
+      participation: Participation.PARTICIPATE_AS_TEAM.toString(),
+      teamUsernames: this.teamUsernames
+    };
+
+    this.spinner.show();
+    this.deedService.createDeed(this.deedRequest).subscribe(
+      result => {
+        this.spinner.hide();
+        this.close();
+      },
+      error => {
+        this.spinner.hide();
+        this.setErrorMessage('Incorrect usernames: ' + this.parseErrorUsernames(error.error));
         this.prop.nativeElement.scrollIntoView({behavior: 'smooth', block: 'start', alignToTop: true});
       }
     );
   }
 
-  async addUserToDeed(user, id) {
-    await this.deedService.addUserToDeed(user, id).toPromise().then(
-      response => {
+  setErrorMessage(errorMessage: string) {
+    this.isUserRegistrationErrorPresent = true;
+    this.userRegistrationErrorMessage = errorMessage;
 
-      },
-      deedError => {
-        this.userRegistrationErrorMessage = deedError.error.message;
-        this.isUserRegistrationErrorPresent = true;
-        this.prop.nativeElement.scrollIntoView({behavior: 'smooth', block: 'start', alignToTop: true});
-      }
-    );
   }
 
-  async deactivateDeed(id) {
-    await this.deedService.deactivateDeed(id).toPromise().then(
-      response => {
-      },
-      deactivateError => {
-      }
-    );
-  }
-
-  async updateDeed() {
-    let deed = (this.deed as Deed);
-    deed.teamLeadId = this.currentUserId;
-    deed.isClosed = true;
-
-    for (let user of this.teamUsers) {
-      (deed.users as User[]).push(user);
-    }
-
-    (deed as any).closed = true;
-    (deed as any).participation = Participation.PARTICIPATE_AS_TEAM.toString();
-
-    await this.deedService.updateDeed(deed).toPromise().then(
-      response => {
-      },
-      deedUpdateError => {
-      }
-    );
+  parseErrorUsernames(usernames) {
+    return usernames.join(', ');
   }
 }

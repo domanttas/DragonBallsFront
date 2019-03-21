@@ -12,5 +12,6 @@ export interface DeedRequest {
   category: Category;
   contact: Contact;
   participation: string;
-  teamUsernames: [];
+  // In case of normal registration bugs blame any
+  teamUsernames: any[];
 }
