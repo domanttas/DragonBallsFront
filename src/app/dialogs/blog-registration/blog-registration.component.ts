@@ -24,6 +24,7 @@ export class BlogRegistrationComponent implements OnInit {
 
   errorMessage: string;
   isErrorPresent: boolean = false;
+  uploadPhoto: boolean = false;
 
   constructor(private dialogRef: MatDialogRef<BlogRegistrationComponent>,
               @Inject(MAT_DIALOG_DATA) data,
@@ -93,6 +94,7 @@ export class BlogRegistrationComponent implements OnInit {
       this.replaceBasePrefix();
       // this.displayPhotoUri = this.sanitizer.bypassSecurityTrustResourceUrl(this.postPhoto);
       // console.log(this.displayPhotoUri);
+      this.uploadPhoto = true;
     };
 
     fileReader.readAsDataURL(file);

@@ -35,16 +35,19 @@ mat-form-field {
 .blog-page--blog-post-registration {
   display: flex;
   flex-direction: column;
-  min-height: 20rem;
+  min-height: 22rem;
   min-width: 40rem;
 }
 
 .upload-btn-wrapper {
-  position: relative;
+  /*position: relative;*/
   overflow: hidden;
   display: inline-block;
-  width: 6rem;
+  width: 8rem;
   justify-content: flex-end;
+  cursor: pointer;
+
+
 }
 
 .upload-btn-wrapper input[type=file] {
@@ -53,7 +56,10 @@ mat-form-field {
   left: 0;
   top: 0;
   opacity: 0;
-  cursor: pointer;
+  overflow: hidden;
+  /*position: relative;*/
+  /*cursor: pointer;*/
+  /*height: 2rem;*/
 }
 
 .blog-page--blog-photo {
@@ -62,5 +68,16 @@ mat-form-field {
 }
 
 .blog-page--blog-photo-wrapper {
-  /*margin-top: 3rem;*/
+}
+
+.upload-image-icon {
+  margin-right: 0.5rem;
+}
+
+.blog-post-duration {
+  margin-bottom: 1rem;
+}
+
+.blog-post-upload-message {
+  color: green;
 }
