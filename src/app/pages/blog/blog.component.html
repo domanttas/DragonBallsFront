@@ -6,9 +6,9 @@
         <mat-icon>face</mat-icon>
       </div>
       <mat-card-title class="blog-page-title">{{post.user.username}}</mat-card-title>
-      <!--<mat-card-subtitle>Dog Breed</mat-card-subtitle>-->
     </mat-card-header>
-    <img mat-card-image [src]="post.imageBytes" alt="Photo of a Shiba Inu">
+    <!--<img class="blog-page-image" [src]="photoUrls[0]">-->
+    <img class="blog-page-image" [src]="post.imageString">
     <mat-card-content>
       <p class="blog-page-text">{{post.blogText}}</p>
     </mat-card-content>

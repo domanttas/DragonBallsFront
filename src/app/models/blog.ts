@@ -7,4 +7,5 @@ export interface Blog {
   date: string;
   user: User;
   duration: number;
+  imageString?: string;
 }

@@ -63,7 +63,7 @@ export class BlogRegistrationComponent implements OnInit {
       blogText: this.description.value,
       user: this.user,
       date: Date.now().toString(),
-      imageBytes: this.blogService.stringToImageBytes(this.postPhoto.replace('data:image/jpeg;base64,', ''))
+      imageBytes: this.blogService.stringToImageBytes(this.postPhoto.replace('data:image/png;base64,', ''))
     };
     console.log(this.blogPost);
 

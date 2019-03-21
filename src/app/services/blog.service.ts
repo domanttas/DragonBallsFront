@@ -45,15 +45,22 @@ export class BlogService {
 
   imageBytesToString(imageBytes) {
     let uints = new Uint8Array(imageBytes);
-    let baseString = btoa(String.fromCharCode.apply(null, uints));
+    let imageString = '';
+    // let baseString = btoa(String.fromCharCode.apply(null, uints));
 
-    return 'data:image/jpeg;base64,' + baseString;
+    for (let i = 0; i < uints.length; i++) {
+      imageString += String.fromCharCode(uints[i]);
+    }
+
+    // return 'data:image/png;base64,' + baseString;
+    return 'data:image/png;base64,' + window.btoa(imageString);
   }
 
   stringToImageBytes(imageString) {
     let binaryString = atob(imageString);
     // let bytes = new Uint8Array(binaryString.length);
-    let bytes = new Int8Array(binaryString.length);
+    // let bytes = new Int8Array(binaryString.length);
+    let bytes = [];
 
     for(let i = 0; i < binaryString.length; i++) {
       bytes[i] = binaryString.charCodeAt(i);

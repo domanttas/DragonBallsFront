@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {BlogService} from '../../services/blog.service';
 import {DialogService} from '../../services/dialog.service';
 import {BlogRegistrationComponent} from '../../dialogs/blog-registration/blog-registration.component';
-import {DomSanitizer} from '@angular/platform-browser';
+import {DomSanitizer, SafeResourceUrl} from '@angular/platform-browser';
 
 @Component({
   selector: 'app-blog',
@@ -12,6 +12,7 @@ import {DomSanitizer} from '@angular/platform-browser';
 export class BlogComponent implements OnInit {
 
   blogPosts: any[];
+  photoUrls: SafeResourceUrl[];
 
   constructor(private blogService: BlogService,
               private dialogService: DialogService,
@@ -19,52 +20,8 @@ export class BlogComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.blogPosts = [];
+    this.photoUrls = [];
     this.getAllBlogPosts();
-    // this.blogPosts.push({
-    //   id: 1,
-    //   imageBytes: 'http://cdn.akc.org/content/hero/pug-breed-header.jpg',
-    //   blogText: 'aaaaaaaaaaaaaa aaaaaaaaaaaaaaaaa aaaaaaaaaa aaaaaaaaaaaa' +
-    //     'aaaaa aaaaaaaaaaa aaaaaaaaaaaaa aaaaaaaaaaaaa aaaa aaaaaa aaaaa aaaaa' +
-    //     'aaa aaaaaaaaaaa aaaaaaaaa aaaaaaaaaaaaaa aaaaaaaaa aaaa aaaaaaa',
-    //   date: '2018-10-10',
-    //   user: {
-    //     id: 1,
-    //     username: 'bbbbbbbbb',
-    //     passwordHash: 'bbbbbbbbbb',
-    //     emaiL: 'bbbbbbbbbb'
-    //   }
-    // });
-    //
-    // this.blogPosts.push({
-    //   id: 1,
-    //   imageBytes: 'http://cdn.akc.org/content/hero/pug-breed-header.jpg',
-    //   blogText: 'aaaaaaaaaaaaaa aaaaaaaaaaaaaaaaa aaaaaaaaaa aaaaaaaaaaaa' +
-    //     'aaaaa aaaaaaaaaaa aaaaaaaaaaaaa aaaaaaaaaaaaa aaaa aaaaaa aaaaa aaaaa' +
-    //     'aaa aaaaaaaaaaa aaaaaaaaa aaaaaaaaaaaaaa aaaaaaaaa aaaa aaaaaaa',
-    //   date: '2018-10-10',
-    //   user: {
-    //     id: 1,
-    //     username: 'bbbbbbbbb',
-    //     passwordHash: 'bbbbbbbbbb',
-    //     emaiL: 'bbbbbbbbbb'
-    //   }
-    // });
-    //
-    // this.blogPosts.push({
-    //   id: 1,
-    //   imageBytes: 'http://cdn.akc.org/content/hero/pug-breed-header.jpg',
-    //   blogText: 'aaaaaaaaaaaaaa aaaaaaaaaaaaaaaaa aaaaaaaaaa aaaaaaaaaaaa' +
-    //     'aaaaa aaaaaaaaaaa aaaaaaaaaaaaa aaaaaaaaaaaaa aaaa aaaaaa aaaaa aaaaa' +
-    //     'aaa aaaaaaaaaaa aaaaaaaaa aaaaaaaaaaaaaa aaaaaaaaa aaaa aaaaaaa',
-    //   date: '2018-10-10',
-    //   user: {
-    //     id: 1,
-    //     username: 'bbbbbbbbb',
-    //     passwordHash: 'bbbbbbbbbb',
-    //     emaiL: 'bbbbbbbbbb'
-    //   }
-    // });
   }
 
   editPost(post) {
@@ -73,14 +30,14 @@ export class BlogComponent implements OnInit {
   deletePost(post) {
   }
 
-  getAllBlogPosts() {
+  async getAllBlogPosts() {
     this.blogService.getAllBlogPosts().then(
-      result => {
+      async result => {
         this.blogPosts = result;
-        console.log(this.blogPosts);
-        this.blogPosts.forEach(blogPost =>
-          blogPost.imageBytes = this.sanitizer.bypassSecurityTrustUrl(this.imageBytesToString(blogPost)));
-        console.log(this.blogPosts);
+        for (let blogPost of this.blogPosts) {
+          // await this.photoUrls.push(this.sanitizer.bypassSecurityTrustUrl(this.imageBytesToString(blogPost)));
+          blogPost.imageString = this.sanitizer.bypassSecurityTrustUrl(this.imageBytesToString(blogPost));
+        }
       },
       error => {
 
