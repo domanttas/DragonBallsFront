@@ -22,6 +22,7 @@ export class DialogService {
   checkForError(error): string {
     const ErrorMessages = ['User does not exist',
       'Password is incorrect',
+      'User email is not valid',
       'User with this username already exists',
       'User with this email already exists',
       'No team members provided',

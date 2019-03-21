@@ -3,6 +3,8 @@ import {BlogService} from '../../services/blog.service';
 import {DialogService} from '../../services/dialog.service';
 import {BlogRegistrationComponent} from '../../dialogs/blog-registration/blog-registration.component';
 import {DomSanitizer, SafeResourceUrl} from '@angular/platform-browser';
+import {UserService} from '../../services/user.service';
+import {ErrorDialogComponent} from '../../dialogs/error-dialog/error-dialog.component';
 
 @Component({
   selector: 'app-blog',
@@ -16,7 +18,8 @@ export class BlogComponent implements OnInit {
 
   constructor(private blogService: BlogService,
               private dialogService: DialogService,
-              private sanitizer: DomSanitizer) {
+              private sanitizer: DomSanitizer,
+              private userService: UserService) {
   }
 
   ngOnInit() {
@@ -25,9 +28,29 @@ export class BlogComponent implements OnInit {
   }
 
   editPost(post) {
+
   }
 
-  deletePost(post) {
+  async deletePost(post) {
+    console.log('labas');
+    console.log(this.userService.user);
+    if (this.userService.user === undefined) {
+      console.log('kassss');
+      this.dialogService.openDialog(ErrorDialogComponent, {description: 'Please log in'});
+      return;
+    }
+
+    if (post.user.id !== this.userService.user.id) {
+      console.log('kassss');
+      this.dialogService.openDialog(ErrorDialogComponent, {description: 'You can only delete your own posts'});
+      return;
+    }
+    this.blogService.deleteBlogPost(post.id).then(
+      async result => {
+        await this.getAllBlogPosts();
+      },
+      error => {
+      });
   }
 
   async getAllBlogPosts() {
@@ -56,6 +79,12 @@ export class BlogComponent implements OnInit {
   }
 
   addPost() {
+    if (this.userService.user === undefined) {
+      console.log('kassss');
+      this.dialogService.openDialog(ErrorDialogComponent, {description: 'Please log in'});
+      return;
+    }
+
     const dialogRef = this.dialogService.openDialog(BlogRegistrationComponent, {});
     dialogRef.afterClosed().subscribe(result => {
         this.getAllBlogPosts();

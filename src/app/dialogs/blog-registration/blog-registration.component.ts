@@ -23,7 +23,8 @@ export class BlogRegistrationComponent implements OnInit {
   user: any;
 
   errorMessage: string;
-  errorPresent: boolean = false;
+  isErrorPresent: boolean = false;
+  uploadPhoto: boolean = false;
 
   constructor(private dialogRef: MatDialogRef<BlogRegistrationComponent>,
               @Inject(MAT_DIALOG_DATA) data,
@@ -63,7 +64,8 @@ export class BlogRegistrationComponent implements OnInit {
       blogText: this.description.value,
       user: this.user,
       date: Date.now().toString(),
-      imageBytes: this.blogService.stringToImageBytes(this.postPhoto.replace('data:image/png;base64,', ''))
+      imageBytes: this.blogService.stringToImageBytes(this.postPhoto)
+      // imageBytes: this.blogService.stringToImageBytes(this.postPhoto.replace('data:image/png;base64,', ''))
     };
     console.log(this.blogPost);
 
@@ -72,7 +74,7 @@ export class BlogRegistrationComponent implements OnInit {
         this.cancelBlogPost();
       },
       error => {
-        this.errorPresent = true;
+        this.isErrorPresent = true;
         this.errorMessage = error.error.message;
       }
     );
@@ -89,10 +91,18 @@ export class BlogRegistrationComponent implements OnInit {
     fileReader.onloadend = () => {
       this.postPhoto = fileReader.result;
       console.log(this.postPhoto);
+      this.replaceBasePrefix();
       // this.displayPhotoUri = this.sanitizer.bypassSecurityTrustResourceUrl(this.postPhoto);
       // console.log(this.displayPhotoUri);
+      this.uploadPhoto = true;
     };
 
     fileReader.readAsDataURL(file);
+  }
+
+  replaceBasePrefix() {
+    this.postPhoto = this.postPhoto.replace('data:image/jpeg;base64,', '');
+    this.postPhoto = this.postPhoto.replace('data:image/png;base64,', '');
+    this.postPhoto = this.postPhoto.replace('data:image/jpg;base64,', '');
   }
 }

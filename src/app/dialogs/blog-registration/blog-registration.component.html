@@ -1,7 +1,7 @@
 <div class="col">
   <h2 mat-dialog-title>Create blog post</h2>
   <mat-dialog-content class="blog-page--blog-post-registration">
-    <mat-form-field>
+    <mat-form-field class="blog-post-duration">
       <input matInput placeholder="Duration" [formControl]="duration">
       <mat-error *ngIf="duration.invalid">{{getDurationErrorMessage()}}</mat-error>
       <mat-hint>In hours</mat-hint>
@@ -16,10 +16,11 @@
       <mat-hint align="end">{{message.value.length}} / 256</mat-hint>
     </mat-form-field>
     <div class="upload-btn-wrapper">
+      <mat-icon class="upload-image-icon">add_photo_alternate</mat-icon>
       <mat-label>Upload photo</mat-label>
       <input type="file" name="myFile" #postPhoto (change)="photoPicker($event)"/>
     </div>
-    <mat-label *ngIf="this.postPhoto">Photo was uploaded</mat-label>
+    <mat-label class="blog-post-upload-message" *ngIf="this.uploadPhoto">Photo was uploaded</mat-label>
     <mat-label *ngIf="this.isErrorPresent">{{this.errorMessage}}</mat-label>
     <mat-dialog-actions class="blog-registration-btn">
       <button mat-raised-button class="create-blog-post-btn"(click)="createBlog()">Post</button>
