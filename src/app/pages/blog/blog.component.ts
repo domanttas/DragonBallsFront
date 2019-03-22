@@ -30,6 +30,11 @@ export class BlogComponent implements OnInit {
   }
 
   editPost(post) {
+    if (post.user.id !== this.userService.user.id) {
+      this.dialogService.openDialog(ErrorDialogComponent, {description: 'You can only delete your own posts'});
+      return;
+    }
+
     const dialogRef = this.dialogService.openDialog(BlogRegistrationComponent, {blogPost: post, editMode: true});
     dialogRef.afterClosed().subscribe(result => {
         this.getAllBlogPosts();
