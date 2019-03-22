@@ -12,9 +12,9 @@
     <mat-card-content>
       <p class="blog-page-text">{{post.blogText}}</p>
     </mat-card-content>
-    <mat-card-actions>
-      <button mat-button (click)="editPost(post)" *ngIf="post.user.id === currentUserId">EDIT</button>
-      <button mat-button (click)="deletePost(post)" *ngIf="post.user.id === currentUserId">DELETE</button>
+    <mat-card-actions *ngIf="userService.user">
+      <button mat-button (click)="editPost(post)" *ngIf="post.user.id === userService.user.id">EDIT</button>
+      <button mat-button (click)="deletePost(post)" *ngIf="post.user.id === userService.user.id">DELETE</button>
     </mat-card-actions>
   </mat-card>
 </div>
