@@ -136,6 +136,7 @@ export class BlogRegistrationComponent implements OnInit {
     this.spinner.show();
 
     this.blogPostUpdate = {
+      id: this.blogPost.id,
       duration: this.duration.value,
       blogText: this.description.value,
       user: this.blogPost.user,
