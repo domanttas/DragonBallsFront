@@ -17,6 +17,8 @@ export class BlogComponent implements OnInit {
   blogPosts: any[];
   photoUrls: SafeResourceUrl[];
 
+  currentUserId: number;
+
   constructor(private blogService: BlogService,
               private dialogService: DialogService,
               private sanitizer: DomSanitizer,
@@ -27,6 +29,11 @@ export class BlogComponent implements OnInit {
   ngOnInit() {
     this.photoUrls = [];
     this.getAllBlogPosts();
+    if (this.userService.user !== undefined) {
+      this.currentUserId = this.userService.user.id;
+    } else {
+      this.currentUserId = 0;
+    }
   }
 
   editPost(post) {
