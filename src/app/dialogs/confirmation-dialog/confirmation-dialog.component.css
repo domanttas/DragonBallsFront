@@ -1,0 +1,14 @@
+::ng-deep :root {
+  --confirmation-btn-color: #3899ec;
+}
+
+.mat-raised-button {
+  float: none;
+  margin: 0 auto;
+}
+
+.confirmation-btn {
+  width: 3.125rem;
+  color: var(--confirmation-btn-color);
+  box-shadow: inset 0 0 0 0.0625rem var(--confirmation-btn-color);
+}

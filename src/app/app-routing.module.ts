@@ -1,14 +1,17 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import {HomeComponent} from './home/home.component';
-import {LoginComponent} from './login/login.component';
-import {AuthService} from './auth.service';
-import {RegistrationComponent} from './registration/registration.component';
-import {AuthGuard} from './auth.guard';
+import {HomeComponent} from './pages/home/home.component';
+import {LoginComponent} from './pages/login/login.component';
+import {RegistrationComponent} from './pages/registration/registration.component';
+import {AuthGuard} from './auth/auth.guard';
+import {DeedsComponent} from './pages/deeds/deeds.component';
+import {BlogComponent} from './pages/blog/blog.component';
 
 const routes: Routes = [
   {path: 'home', component: HomeComponent},
   {path: 'login', component: LoginComponent, canActivate: [AuthGuard]},
+  {path: 'deeds', component: DeedsComponent},
+  {path: 'blog', component: BlogComponent},
   {path: 'registration', component: RegistrationComponent, pathMatch: 'full'},
   {path: '', redirectTo: '/home', pathMatch: 'full'},
   {path: '**', component: HomeComponent}
@@ -17,6 +20,6 @@ const routes: Routes = [
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule],
-  providers: [AuthService]
+  providers: []
 })
 export class AppRoutingModule { }

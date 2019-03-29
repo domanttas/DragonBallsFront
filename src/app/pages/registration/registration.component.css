@@ -1,0 +1,43 @@
+::ng-deep :root {
+  --link--log-in-page--text-color: #459fed;
+  --btn-color: #3899ec;
+  --reg-font-size: 1.125rem;
+}
+
+a {
+  color: var(--link--log-in-page--text-color);
+  text-decoration: none;
+}
+
+.registration-page--container {
+  display: block;
+  text-align: center;
+  font-size: 2.2rem;
+}
+
+.registration-page--header--title {
+  padding-top: 6.25rem;
+}
+
+.registration-page--header--log-in-paragraph {
+  font-size: var(--reg-font-size);
+}
+
+.col-center {
+  float: none;
+  margin: 0 auto;
+}
+
+.mat-form-field {
+  width: 100%;
+}
+
+.registration-page--sign-up--btn {
+  width: 3.125rem;
+  color: var(--btn-color);
+  box-shadow: inset 0 0 0 0.0625rem var(--btn-color);
+}
+
+.mat-raised-button {
+  min-width: 5.625rem;
+}

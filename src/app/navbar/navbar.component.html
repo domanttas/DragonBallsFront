@@ -1,0 +1,29 @@
+<div fxLayout="row wrap" fxLayoutAlign="center center" class="layout-wrapper">
+  <div fxFlex="100%" fxFlex.lt-md="100%" class="flex-wrapper">
+    <ng-content></ng-content>
+  </div>
+  <mat-toolbar color="primary">
+    <div class="logo">
+      <a class="navbar-item" href="">
+        <img src="assets/img/logo3.png">
+      </a>
+    </div>
+    <div>
+      <a href="" routerLink="/home">Home</a>
+      <a href="" routerLink="/deeds">Deeds</a>
+      <a href="" routerLink="/blog">Blog</a>
+    </div>
+    <span class="fill-remaining-space"></span>
+    <div>
+      <div *ngIf="!userService.user">
+        <a routerLink="/login">Log In</a>
+        <a class = "get-started" routerLink="/registration">Get Started</a>
+      </div>
+      <div *ngIf="userService.user" class="layout-user">
+        <mat-icon class="--layout--user-icon">person_outline</mat-icon>
+        <p class="--layout--username">{{userService.user.username}}</p>
+        <a class="--layout--log-out" routerLink="/home" (click)="logOut()">Log out</a>
+      </div>
+    </div>
+  </mat-toolbar>
+</div>

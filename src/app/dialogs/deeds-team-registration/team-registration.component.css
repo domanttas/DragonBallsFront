@@ -1,0 +1,10 @@
+.--deeds-page--team-registration-content {
+  display: flex;
+  flex-direction: column;
+}
+
+.deeds-registration-dialog-error-message {
+  color: red;
+  display: flex;
+  float: bottom;
+}

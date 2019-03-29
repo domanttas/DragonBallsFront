@@ -1,0 +1,132 @@
+::ng-deep :root {
+  --landing-page-btn-bg-color: #CFD8DC;
+  --landing-page-btn-bg-hover-color: #B0BEC5;
+  --reg-font-size: 1.125rem;
+  --deeds-page-mat-divider-color: #3f51b5;
+  --deeds-page-mat-expansion-panel-header-expanded-color: #6bbaff;
+  --btn-color: #3899ec;
+}
+
+.col-center {
+  float: none;
+  margin: 0 auto;
+}
+
+.mat-expansion-panel-header-title {
+  margin-left: 6rem;
+}
+
+.mat-divider {
+  border-color: var(--deeds-page--mat-divider-color);
+  border-top-width: 0.09rem;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+
+.deeds-page--contact--header {
+  font-size: large;
+}
+
+.deeds-page--title--header {
+  font-size: large;
+}
+
+.mat-expansion-panel-header-title {
+  flex-basis: 0;
+}
+
+.deeds-page--title--header--item {
+  flex-basis: 0;
+}
+
+.deeds-page--title--header--location {
+  flex-basis: 0;
+  max-width: 27%;
+}
+
+.deeds-page--title--header--deed-registration-status {
+  flex-basis: 0;
+  max-width: 10%;
+}
+
+.mat-expansion-panel-header-description, .mat-expansion-panel-header-title {
+  flex-basis: 0;
+}
+
+.deeds-page--title--header--icon {
+  flex-basis: 0;
+  position: static;
+  justify-content: flex-end;
+  max-width: 1.5rem;
+}
+
+.deeds--page--deed--field {
+  margin-left: 2rem;
+  word-break: break-all;
+  width: 80%;
+}
+
+.deeds--page--deed--btn {
+  margin: 0.5rem;
+  min-width: 10rem;
+  display: flex;
+  flex-direction: column;
+  color: black;
+  border: none;
+  border-radius: 0.375rem;
+}
+
+.deeds--page--participate--btn-wrapper {
+  display: flex;
+  float: right;
+}
+
+.mat-tab-label-content {
+  font-size: large;
+}
+
+.mat-expansion-panel-header {
+  background-color: var(--landing-page-btn-bg-color);
+}
+
+.deeds-page-title--status {
+  width: 4rem;
+}
+
+.deeds-page--header {
+  flex-basis: 0;
+}
+
+.mat-expansion-panel-header.mat-expanded {
+  background-color: var(--deeds-page-mat-expansion-panel-header-expanded-color) !important;
+}
+
+.mat-panel-header-title-icon {
+  margin-right: 1rem;
+}
+
+.mat-panel-header-title-margin {
+  margin-right: 2.5rem;
+}
+
+.mat-expansion-panel-header-title {
+  margin-left: 0;
+}
+
+.mat-list-items-container .mat-list-item {
+  height: auto;
+}
+
+.mat-button-edit-deed {
+  margin-bottom: 1rem;
+}
+
+.custom-invalid {
+  background-color: lightblue;
+}
+
+.btn {
+  width: auto;
+  color: var(--btn-color);
+  box-shadow: inset 0 0 0 0.0625rem var(--btn-color);
+}

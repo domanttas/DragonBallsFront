@@ -1,0 +1,24 @@
+<button mat-raised-button class="blog-page-add-btn" (click)="addPost()">New Post</button>
+<div class="blog-page-wrapper">
+  <mat-card class="blog-page-card" *ngFor="let post of blogPosts">
+    <mat-card-header>
+      <div mat-card-avatar class="blog-page-avatar">
+        <mat-icon>face</mat-icon>
+      </div>
+      <mat-card-title class="blog-page-title">{{post.user.username}}</mat-card-title>
+    </mat-card-header>
+    <!--<img class="blog-page-image" [src]="photoUrls[0]">-->
+    <img mat-card-image class="blog-page-image" [src]="post.imageString">
+    <mat-card-content>
+      <p class="blog-page-text">{{post.blogText}}</p>
+    </mat-card-content>
+    <mat-card-content>
+      <p class="blog-page-text-duration">Duration:&nbsp;{{post.duration}}&nbsp;hours</p>
+    </mat-card-content>
+    <mat-card-actions *ngIf="userService.user">
+      <button mat-button class="blog-btn" (click)="editPost(post)" *ngIf="post.user.id === userService.user.id">EDIT</button>
+      <button mat-button class="blog-btn" (click)="deletePost(post)" *ngIf="post.user.id === userService.user.id">DELETE</button>
+    </mat-card-actions>
+  </mat-card>
+</div>
+<ngx-spinner type="square-jelly-box"></ngx-spinner>
