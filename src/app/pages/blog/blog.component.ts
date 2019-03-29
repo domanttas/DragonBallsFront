@@ -17,6 +17,8 @@ export class BlogComponent implements OnInit {
   blogPosts: any[];
   photoUrls: SafeResourceUrl[];
 
+  currentUserId: number;
+
   constructor(private blogService: BlogService,
               private dialogService: DialogService,
               private sanitizer: DomSanitizer,
@@ -27,6 +29,11 @@ export class BlogComponent implements OnInit {
   ngOnInit() {
     this.photoUrls = [];
     this.getAllBlogPosts();
+    if (this.userService.user !== undefined) {
+      this.currentUserId = this.userService.user.id;
+    } else {
+      this.currentUserId = 0;
+    }
   }
 
   editPost(post) {
@@ -68,7 +75,7 @@ export class BlogComponent implements OnInit {
     this.spinner.show();
     this.blogService.getAllBlogPosts().then(
       async result => {
-        this.blogPosts = result;
+        this.blogPosts = result.reverse();
         for (let blogPost of this.blogPosts) {
           // await this.photoUrls.push(this.sanitizer.bypassSecurityTrustUrl(this.imageBytesToString(blogPost)));
           blogPost.imageString = this.sanitizer.bypassSecurityTrustUrl(this.imageBytesToString(blogPost));
@@ -100,7 +107,6 @@ export class BlogComponent implements OnInit {
     const dialogRef = this.dialogService.openDialog(BlogRegistrationComponent, {editMode: false});
     dialogRef.afterClosed().subscribe(result => {
         this.getAllBlogPosts();
-        this.blogPosts = this.blogPosts.reverse();
       }
     );
   }

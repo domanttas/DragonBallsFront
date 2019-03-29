@@ -112,7 +112,6 @@ export class BlogRegistrationComponent implements OnInit {
     fileReader.onloadend = () => {
       this.postPhoto = fileReader.result;
       this.isErrorPresent = false;
-      console.log(this.postPhoto);
       this.replaceBasePrefix();
       // this.displayPhotoUri = this.sanitizer.bypassSecurityTrustResourceUrl(this.postPhoto);
       // console.log(this.displayPhotoUri);
@@ -136,6 +135,7 @@ export class BlogRegistrationComponent implements OnInit {
     this.spinner.show();
 
     this.blogPostUpdate = {
+      id: this.blogPost.id,
       duration: this.duration.value,
       blogText: this.description.value,
       user: this.blogPost.user,

@@ -82,9 +82,13 @@ export class RegistrationComponent implements OnInit {
 
     this.service.createUser(this.person).subscribe(
       response => {
-        this.router.navigate(['home']);
-        this.dialogService.openDialog(ErrorDialogComponent,
+        const dialogRef = this.dialogService.openDialog(ErrorDialogComponent,
           {description: 'Registration successful'});
+        dialogRef.afterClosed().subscribe(
+          res => {
+            this.router.navigate(['home']);
+          }
+        );
       },
       error => {
         this.dialogService.openDialog(ErrorDialogComponent,

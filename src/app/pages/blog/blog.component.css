@@ -48,3 +48,13 @@
   background-size: cover;
 }
 
+.blog-page-text-duration {
+  word-wrap: normal;
+  white-space: pre-wrap;
+  font-size: large;
+}
+
+.blog-btn {
+  color: var(--blog-page-btn-color);
+  box-shadow: inset 0 0 0 0.0625rem var(--blog-page-btn-color);
+}
